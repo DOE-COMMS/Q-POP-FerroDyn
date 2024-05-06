@@ -49,7 +49,6 @@ public:
 	double F11, F12, F44;
 
 	/*electromagnetic parameters*/
-	bool if_PEC;
 	double r_permittivity;
 	double conductivity;
 	double comp_n1, omega_plasma_n1, tao_e_n1;

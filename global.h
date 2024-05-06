@@ -117,7 +117,6 @@ public:
 	unsigned long num_strain_cycles;
 
 	bool if_FM_all, if_FE_all, if_AFM_all;
-	bool if_PEC_all;
 	bool if_periodic_allsurface;
 
 	bool if_1D_ABC, if_1D_ABC_ELAST_onlytop, if_1D_ABC_EM_onlytop, if_PEC_XY, if_PEC_Z;
@@ -164,7 +163,7 @@ public:
 	unsigned long Jfin_xi, Jfin_yi, Jfin_zi;
 	unsigned long Jfin_xf, Jfin_yf, Jfin_zf;
 	char Jf_input_component;
-	double Jf_input_amp, Jf_input_freq, Jf_input_sigma;
+	double Jf_input_amp, Jf_input_freq;
 	unsigned long num_Jf_cycles;
 
 	bool if_prescribed_m;

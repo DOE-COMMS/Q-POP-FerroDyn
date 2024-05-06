@@ -82,9 +82,8 @@ void global_parameters::set_global() {
 	}
 	//---------END Designate Material Type for each cell-----------//
 
-	//-------Determine if there is FM(E), AFM and PEC in system------//
+	//-------Determine if there is FM(E) and AFM in system------//
 	if_FM_all = false; if_FE_all = false; if_AFM_all = false;
-	if_PEC_all = false;
 	for (long int i = 0; i < num_materials; i++) {
 		if (material_parameters[i].if_FM == true) {
 			if_FM_all = true;
@@ -94,9 +93,6 @@ void global_parameters::set_global() {
 		}
 		if (material_parameters[i].if_AFM == true) {
 			if_AFM_all = true;
-		}
-		if (material_parameters[i].if_PEC == true) {
-			if_PEC_all = true;
 		}
 	}
 
