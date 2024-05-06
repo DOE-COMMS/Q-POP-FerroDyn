@@ -1,0 +1,90 @@
+1 1 200			//nx_system,ny_system,nz_system
+1.e-9 1.e-9 1.e-9		//dx,dy,dz
+true true false		//if periodic along x, y, and z
+false				//If read 'struct.in'
+1 1				//nx_work,ny_work,nz_work
+
+2				//Number of layers
+1 1 1				//Number of periods, id of first layer and last layer of the repetitive unit
+40 120				//nz of each layer
+
+135000				//Total number of steps
+2.e-18				//dt
+
+3				//number of material types
+1 2				//Material type for each layer
+
+false				//If coordinate orientation
+1.	0.	0.		//transformation matrix
+0.	1.	0.
+0.	0.	1.
+
+0.	0.			//Theta and phi angle for initial uniform magnetization if not input m.in
+0.	0.	0.		//Initial px, py, pz
+
+false				//if read non-uniform Hext from "Hext_nonuni.in"
+0.	0.	0		//External static magnetic field in A/m
+0.	0.	0		//External alternating magnetic field amplitude in A/m
+0.	0.	0		//Alternating magnetic field frequency in Hz
+false	0			//If read 'Hext.in' as prescribed external H field, number of time points
+
+0.	0.	0.		//External static electric field in V/m
+0.	0.	0.		//External alternating electric field amplitude in V/m
+0.	0.	0.		//Alternating electric field frequency in Hz
+false	12001			//If read 'Eext.in' as prescribed external E field, number of time points
+
+false	false			//If consider magnetostatics, if calculating demag field in 1D model
+false	1.	1.	1.		//If calculating demag field with demag factor, demag factor xx, yy, zz
+true	false			//If calculate depolarizing field in 1D model, If Ed=0 for electrostatics in 1D
+true	false			//If calculate electro-magnetic dynamics, if inject continuous plane EM wave from bottom
+0.	0.	0.		//Electric component of incident EM wave amplitude in A/m
+0.	0.	0.		//Electric component of incident EM wave frequency in Hz
+true	true               	//If consider EM wave from P and from M
+true	true               	//If consider EM backaction on P and on M;
+1	2	0.		//Surface free charge density on surfaces between cell i and j, and density
+1.	300	1.e-6		//Scaling, max iteration steps and tolerance for electro-static solver
+
+true true true		//If calculate elasto-dynamics, if consider backaction from p or m, if consider elastic wave on p or m
+false 3 64                    	//If inject strain pulse, strain type: 1 for gaussian, 2 for sin CW, source position z-1
+z 1.2e-12 3.e9 0			//Input strain(displacement) direction component, sigma paramter for gaussian (or frequency for CW), pulse amplitide,num of cycles for CW
+false false			//If elastostatics, if elastostatics 1D
+false false			//If read 'strain_ext.in', if add strain_ext manually to solution?
+1 1 0. 0. 0.			//External strain between cell i and j, exx, eyy, exy
+1.	300	1.e-6		//Scaling, max iteration steps and tolerance for elasto-static solver
+
+false	false	false	0.5	//If 1D ABC, if 1D ABC only for top - elasto and EM, Weighting factor for fourth-order Liao's binomial
+false   false			//If PEC on x and y surfaces, if PEC on z surfaces
+
+false				//If consider flexoelectrics
+false				//If consider spin pumping
+
+false false false		//If input FM m, if input AFM m, if input Hstat
+false false			//If input p and dp/dt, if input Estat
+false false			//If input EM wave in Yee grid, if input Jp (Drude model)
+false false false		//If input displacement u and velocity v, if input (static) strain at t=0, if input eigenstrain
+false				//If input elastoforce
+
+true 	25			//if output average m or p, steps for average
+
+false 	40000	false	100	//If output FM m, output step for FM magnetization; if output magnetic cells only, output step
+false 	200000					//If output AFM m, output step for AFM magnetization
+false  	25					//If output p, output step for polarization
+true 	25	true	25 60	//If output EM wave, output step for magnetic and electric field; If output EandH in one cell, output step, index(line)of the cell
+true  	1000000					//If output strain, output step for strain
+
+false   5000000				//If output Hstat at t = 0, output step
+true    1000000					//If output Estat at t = 0, output step
+true   	1000000 			//If output eigenstrain at t= 0, output step
+false   25						//If output dp/dt, output step
+false   1000000				//If output displacement u and velocity v, output step
+false   50000000				//If output elastoforce, output step
+false   50000000				//If output EM wave in Yee grid, output step
+false   40000				//If output Jp(Drude model), output step
+false   40000				//If output Inverse spin Hall effect induced charge current, output step
+
+true				//If input free charge current
+0 0 19				//Index x y z for free charge current distribution
+0 0 19 				//Index x y z for free charge current distribution	
+0 x 5.e13 7.e14 0.		//Type, 0-2 sinusoial periodic, spatial profile: 0(uniform),1(sin),2(cos); 3 for single gaussian, 4 for double gaussian. Amplitude, frequency (or sigma) 
+0.                           //J rotate angle in xy plain(only works for type=0, direction=x, now)
+false 5. 100.e9                  //If prescribe precession of m in first layer? Precession: angle from axis, frequency in Hz

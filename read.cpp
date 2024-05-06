@@ -97,7 +97,7 @@ void global_parameters::read_global() {
 		file >> std::boolalpha >> if_Jf_input;													file.ignore(1000, '\n');
 		file >> Jfin_xi >> Jfin_yi >> Jfin_zi;													file.ignore(1000, '\n');
 		file >> Jfin_xf >> Jfin_yf >> Jfin_zf;													file.ignore(1000, '\n');
-		file >> Jf_input_type >> Jf_input_component >> Jf_input_amp >> Jf_input_freq >> Jf_input_sigma >> num_Jf_cycles;			file.ignore(1000, '\n');
+		file >> Jf_input_type >> Jf_input_component >> Jf_input_amp >> Jf_input_freq >> num_Jf_cycles;			file.ignore(1000, '\n');
 		file >> std::boolalpha >> if_prescribed_m >> precess_angle >> precess_frequency;		file.ignore(1000, '\n');
 	}
 	file.close();
@@ -197,7 +197,6 @@ void global_parameters::read_materials() {
 				2. * mat.c12 * (mat.F12 * mat.F12 + 2. * mat.F11 * mat.F12);
 			mat.tv8 = mat.c44 * mat.F44 * mat.F44;
 
-			file >> std::boolalpha >> mat.if_PEC; file.ignore(1000, '\n');
 			file >> mat.r_permittivity; file.ignore(1000, '\n');
 			file >> mat.conductivity; file.ignore(1000, '\n');
 			file >> mat.comp_n1 >> mat.omega_plasma_n1 >> mat.tao_e_n1; file.ignore(1000, '\n');

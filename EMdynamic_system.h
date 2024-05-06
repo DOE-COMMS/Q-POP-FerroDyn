@@ -25,14 +25,6 @@ public:
 	unsigned long planeEM_source_z;
 	double sqrt_er_top, sqrt_er_bot;
 
-	double coeff_top_half, coeff_bot_half; //For Mur ABC
-	double coeff_x_half, coeff_y_half; //For Mur in-plane ABC 
-
-	double coeff_top, coeff_bot; //For Mur ABC
-	double coeff_x, coeff_y; //For Mur in-plane ABC 
-
-	double w; //For Liao ABC
-
 	//unsigned int Jf_z1, Jf_z2;
 	//double Jf_thickness;
 	unsigned long Jf_nx, Jf_ny, Jf_nz, Jf_n;
@@ -44,8 +36,6 @@ public:
 
 	matrix3d<double> DHx_em, DHy_em, DHz_em; // in global coordinate
 	matrix3d<double> DEx_em, DEy_em, DEz_em; // in global coordinate
-
-	matrix3d<bool> DEx_ifPEC, DEy_ifPEC, DEz_ifPEC;
 
 	//matrix3d<double> dDHx_em, dDHy_em, dDHz_em; // in global coordinate
 	//matrix3d<double> dDEx_em, dDEy_em, dDEz_em; // in global coordinate
@@ -70,13 +60,10 @@ public:
 	//friend class inoutput;
 private:
 	void transfer_pointer();
-	void initialize_PEC_edges();
 
 	void update_DE_Boundary_half();
 	void update_DE_Boundary_full();
 	void update_DE_Boundary();
-
-	void update_DE_PEC();
 
 #pragma acc routine gang// nohost
 	void update_planeEM_half();

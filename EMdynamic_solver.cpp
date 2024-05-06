@@ -3615,9 +3615,6 @@ void EMdynamic_system::update_DE_RK1()
 	if (pt_glb->if_periodic_allsurface == false) {
 		update_DE_Boundary_half();
 	}
-	if (pt_glb->if_PEC_all == true) {
-		update_DE_PEC();
-	}
 
 #pragma acc parallel default(present) async(8)
 	{
@@ -3660,9 +3657,6 @@ void EMdynamic_system::update_DE_RK2()
 	if (pt_glb->if_periodic_allsurface == false) {
 		update_DE_Boundary_half();
 	}
-	if (pt_glb->if_PEC_all == true) {
-		update_DE_PEC();
-	}
 
 #pragma acc parallel default(present) async(8)
 	{
@@ -3704,9 +3698,6 @@ void EMdynamic_system::update_DE_RK3()
 
 	if (pt_glb->if_periodic_allsurface == false) {
 		update_DE_Boundary_full();
-	}
-	if (pt_glb->if_PEC_all == true) {
-		update_DE_PEC();
 	}
 
 #pragma acc parallel default(present) async(8)
@@ -3753,9 +3744,6 @@ void EMdynamic_system::update_DE()
 
 	if (pt_glb->if_periodic_allsurface == false) {
 		update_DE_Boundary();
-	}
-	if (pt_glb->if_PEC_all == true) {
-		update_DE_PEC();
 	}
 
 #pragma acc parallel default(present) async(8)
@@ -3977,21 +3965,6 @@ void EMdynamic_system::update_Jf_input() {
 					DJfz(i, j, k) = pt_glb->Jf_input_amp * sqrt(exp(1.)) * temporal_var / pt_glb->Jf_input_freq * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_freq, 2.)));
 				}
 			}
-			else if (pt_glb->Jf_input_type == 6) {
-				temporal_var = pt_glb->time_device - pt_glb->dt - 5. * pt_glb->Jf_input_sigma;
-				if (pt_glb->Jf_input_component == 'x') {
-					DJfx(i, j, k) = pt_glb->Jf_input_amp * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_sigma, 2.))) \
-						* sin(2. * PI * pt_glb->Jf_input_freq * (pt_glb->time_device - pt_glb->dt));
-				}
-				else if (pt_glb->Jf_input_component == 'y') {
-					DJfy(i, j, k) = pt_glb->Jf_input_amp * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_sigma, 2.))) \
-						* sin(2. * PI * pt_glb->Jf_input_freq * (pt_glb->time_device - pt_glb->dt));
-				}
-				else if (pt_glb->Jf_input_component == 'z') {
-					DJfz(i, j, k) = pt_glb->Jf_input_amp * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_sigma, 2.))) \
-						* sin(2. * PI * pt_glb->Jf_input_freq * (pt_glb->time_device - pt_glb->dt));
-				}
-			}
 
 		}
 	}
@@ -4117,21 +4090,6 @@ void EMdynamic_system::update_Jf_input_half() {
 				}
 				else if (pt_glb->Jf_input_component == 'z') {
 					DJfz(i, j, k) = pt_glb->Jf_input_amp * sqrt(exp(1.)) * temporal_var / pt_glb->Jf_input_freq * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_freq, 2.)));
-				}
-			}
-			else if (pt_glb->Jf_input_type == 6) {
-				temporal_var = pt_glb->time_device - 0.5 * pt_glb->dt - 5. * pt_glb->Jf_input_sigma;
-				if (pt_glb->Jf_input_component == 'x') {
-					DJfx(i, j, k) = pt_glb->Jf_input_amp * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_sigma, 2.))) \
-						* sin(2. * PI * pt_glb->Jf_input_freq * (pt_glb->time_device - 0.5 * pt_glb->dt));
-				}
-				else if (pt_glb->Jf_input_component == 'y') {
-					DJfy(i, j, k) = pt_glb->Jf_input_amp * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_sigma, 2.))) \
-						* sin(2. * PI * pt_glb->Jf_input_freq * (pt_glb->time_device - 0.5 * pt_glb->dt));
-				}
-				else if (pt_glb->Jf_input_component == 'z') {
-					DJfz(i, j, k) = pt_glb->Jf_input_amp * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_sigma, 2.))) \
-						* sin(2. * PI * pt_glb->Jf_input_freq * (pt_glb->time_device - 0.5 * pt_glb->dt));
 				}
 			}
 
@@ -4261,21 +4219,6 @@ void EMdynamic_system::update_Jf_input_full() {
 				}
 				else if (pt_glb->Jf_input_component == 'z') {
 					DJfz(i, j, k) = pt_glb->Jf_input_amp * sqrt(exp(1.)) * temporal_var / pt_glb->Jf_input_freq * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_freq, 2.)));
-				}
-			}
-			else if (pt_glb->Jf_input_type == 6) {
-				temporal_var = pt_glb->time_device - 5. * pt_glb->Jf_input_sigma;
-				if (pt_glb->Jf_input_component == 'x') {
-					DJfx(i, j, k) = pt_glb->Jf_input_amp * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_sigma, 2.))) \
-						* sin(2. * PI * pt_glb->Jf_input_freq * (pt_glb->time_device));
-				}
-				else if (pt_glb->Jf_input_component == 'y') {
-					DJfy(i, j, k) = pt_glb->Jf_input_amp * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_sigma, 2.))) \
-						* sin(2. * PI * pt_glb->Jf_input_freq * (pt_glb->time_device));
-				}
-				else if (pt_glb->Jf_input_component == 'z') {
-					DJfz(i, j, k) = pt_glb->Jf_input_amp * exp(-1. * pow(temporal_var, 2.) / (2. * pow(pt_glb->Jf_input_sigma, 2.))) \
-						* sin(2. * PI * pt_glb->Jf_input_freq * (pt_glb->time_device));
 				}
 			}
 
@@ -4520,37 +4463,5 @@ void EMdynamic_system::update_Jp() {
 		Jpy_n3_store(id) = Jpy_n3(id);
 		Jpz_n3(id) = Jpz_n3(id) + dJpz_n3_rk1(id) / 6. + dJpz_n3_rk2(id) / 3. + dJpz_n3_rk3(id) / 3. + dJpz_n3_rk4(id) / 6.;
 		Jpz_n3_store(id) = Jpz_n3(id);
-	}
-}
-
-void EMdynamic_system::update_DE_PEC() {
-#pragma acc parallel default(present) async(8)
-	{
-		//---------------------X component-----------------------//
-#pragma acc loop gang vector 
-		for (long int idx = 0; idx < nx * (ny + 1) * (nz + 1); idx++) {
-			if (DEx_ifPEC(idx) == true) {
-				DEx_em(idx) = 0.;
-				DEx_em_store(idx) = 0.;
-			}
-		}
-
-		//---------------------Y component-----------------------//
-#pragma acc loop gang vector 
-		for (long int idy = 0; idy < (nx + 1) * ny * (nz + 1); idy++) {
-			if (DEy_ifPEC(idy) == true) {
-				DEy_em(idy) = 0.;
-				DEy_em_store(idy) = 0.;
-			}
-		}
-
-		//---------------------Z component-----------------------//
-#pragma acc loop gang vector 
-		for (long int idz = 0; idz < (nx + 1) * (ny + 1) * nz; idz++) {
-			if (DEz_ifPEC(idz) == true) {
-				DEz_em(idz) = 0.;
-				DEz_em_store(idz) = 0.;
-			}
-		}
 	}
 }
