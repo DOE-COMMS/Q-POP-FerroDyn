@@ -1,0 +1,30 @@
+NVCC = nvc++
+
+CFLAGS = -fast -acc -Mcuda -gpu=cc86,cuda11.5
+
+MATHLIB = -lcufft -lcurand
+
+SOURCES := $(wildcard src/*.cpp)
+HEADERS := $(wildcard src/*.h)
+OBJECTS := $(patsubst %.cpp, %.o, $(SOURCES))
+#MAIN    := src/main.o
+
+OUT := bin/3DMultiPhysics
+
+$(OUT):
+	$(NVCC) $(CFLAGS) $(SOURCES) -o $(OUT) $(MATHLIB)
+	rm *.o
+
+# $(OUT): $(OBJECTS) $(MAIN)
+# 	$(NVCC) $(CFLAGS) $^ -o $(OUT) $(MATHLIB)
+
+# %.o: %.cpp
+#  	$(NVCC) $(CFLAGS) -c $< -o $@ $(MATHLIB)
+
+#src/main.o: src/main.cu
+#	$(NVCC) $(CFLAGS) -c src/main.cu -o src/main.o $(MATHLIB)
+
+.phony: clean run
+
+clean:
+	rm $(OUT)
