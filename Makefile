@@ -1,8 +1,8 @@
 NVCC = nvc++
 
-CFLAGS = -acc -gpu=cc86,cuda11.8 -Wall -O0 -g -stdpar
+CFLAGS = -acc -Wall -O0 -g
 
-MATHLIB = -lcufft -lcurand
+MATHLIB = -cudalib=cufft,curand
 
 SOURCES := $(wildcard src/*.cpp)
 HEADERS := $(wildcard src/*.h)
@@ -22,5 +22,9 @@ $(MAIN): src/main.cu
 
 .phony: clean
 
+clear: 
+	rm bin/*.vtk bin/*.dat bin/*log*
+
 clean:
 	rm $(OUT) $(OBJECTS)
+

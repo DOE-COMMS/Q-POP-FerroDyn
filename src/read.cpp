@@ -122,8 +122,7 @@ void global_parameters::read_global() {
  * Reads material parameters from materials.in and initializes material objects.
  */
 void global_parameters::read_materials() {
-	material mat;
-	std::string aline;
+
 	double norm;
 
 	material_parameters = new material[num_materials];
@@ -131,13 +130,21 @@ void global_parameters::read_materials() {
 	std::ifstream file("materials.in");
 	if (file.is_open()) {
 		for (long int i = 0; i < num_materials; i++) {
+			material mat;
+			std::string aline;
 			std::getline(file, aline);
+			std::cout << "Reading material parameters of " << aline << std::endl;
 			//while (aline.length() == 0)
 			//	std::getline(file, aline);
 
 			//Elastic parameters
-			file >> mat.c11 >> mat.c12 >> mat.c44; file.ignore(1000, '\n');
-			file >> mat.density; file.ignore(1000, '\n');
+			file >> mat.c11 >> mat.c12 >> mat.c44; 
+			std::cout << "Material " << i << " - Elastic parameters: C11 = " << mat.c11 << ", C12 = " << mat.c12 << ", C44 = " << mat.c44 << std::endl;
+			file.ignore(1000, '\n');
+			
+			file >> mat.density; 
+			std::cout << "Material " << i << " - Density = " << mat.density << std::endl;
+			file.ignore(1000, '\n');
 			file >> mat.elast_mass_damping >> mat.elast_stiff_damping; file.ignore(1000, '\n');
 
 			//Ferromagnetic parameters
@@ -208,13 +215,37 @@ void global_parameters::read_materials() {
 			file >> mat.r_permittivity11 >> mat.r_permittivity12 >> mat.r_permittivity13; file.ignore(1000, '\n');
 			file >> mat.r_permittivity21 >> mat.r_permittivity22 >> mat.r_permittivity23; file.ignore(1000, '\n');
 			file >> mat.r_permittivity31 >> mat.r_permittivity32 >> mat.r_permittivity33; file.ignore(1000, '\n');
-			//file >> mat.conductivity; file.ignore(1000, '\n');
 			file >> mat.conductivity11 >> mat.conductivity12 >> mat.conductivity13; file.ignore(1000, '\n');
 			file >> mat.conductivity21 >> mat.conductivity22 >> mat.conductivity23; file.ignore(1000, '\n');
 			file >> mat.conductivity31 >> mat.conductivity32 >> mat.conductivity33; file.ignore(1000, '\n');
 			file >> mat.comp_n1 >> mat.omega_plasma_n1 >> mat.tao_e_n1; file.ignore(1000, '\n');
 			file >> mat.comp_n2 >> mat.omega_plasma_n2 >> mat.tao_e_n2; file.ignore(1000, '\n');
 			file >> mat.comp_n3 >> mat.omega_plasma_n3 >> mat.tao_e_n3; file.ignore(1000, '\n');
+
+			// Logging the permittivity values
+			std::cout << "Permittivity values:" << std::endl;
+			std::cout << "r_permittivity11: " << mat.r_permittivity11 << std::endl;
+			std::cout << "r_permittivity12: " << mat.r_permittivity12 << std::endl;
+			std::cout << "r_permittivity13: " << mat.r_permittivity13 << std::endl;
+			std::cout << "r_permittivity21: " << mat.r_permittivity21 << std::endl;
+			std::cout << "r_permittivity22: " << mat.r_permittivity22 << std::endl;
+			std::cout << "r_permittivity23: " << mat.r_permittivity23 << std::endl;
+			std::cout << "r_permittivity31: " << mat.r_permittivity31 << std::endl;
+			std::cout << "r_permittivity32: " << mat.r_permittivity32 << std::endl;
+			std::cout << "r_permittivity33: " << mat.r_permittivity33 << std::endl;
+
+			// Logging the conductivity values
+			std::cout << "Conductivity values:" << std::endl;
+			std::cout << "conductivity11: " << mat.conductivity11 << std::endl;
+			std::cout << "conductivity12: " << mat.conductivity12 << std::endl;
+			std::cout << "conductivity13: " << mat.conductivity13 << std::endl;
+			std::cout << "conductivity21: " << mat.conductivity21 << std::endl;
+			std::cout << "conductivity22: " << mat.conductivity22 << std::endl;
+			std::cout << "conductivity23: " << mat.conductivity23 << std::endl;
+			std::cout << "conductivity31: " << mat.conductivity31 << std::endl;
+			std::cout << "conductivity32: " << mat.conductivity32 << std::endl;
+			std::cout << "conductivity33: " << mat.conductivity33 << std::endl;
+
 
 			check_material(mat);
 			get_cijkl(mat);

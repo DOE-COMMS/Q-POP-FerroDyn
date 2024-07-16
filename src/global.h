@@ -15,6 +15,7 @@ private:
 	unsigned int* pt_material_layer_unit;
 	unsigned int* pt_material_layer;
 	long int nx, ny, nz, n;
+	long int nx_phy, ny_phy, nz_phy;
 	double dx, dy, dz;
 private:
 	void set_global();

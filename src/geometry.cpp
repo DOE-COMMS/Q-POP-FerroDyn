@@ -64,16 +64,6 @@ void geometry_parameters::set_PML()
 		if_PML_Zs = false;
 		if_PML_Ze = false;
 
-		isPML.initialize(nx_system, ny_system, nz_system);
-
-		for (long int i = 0; i < nx_system; i++) {
-			for (long int j = 0; j < ny_system; j++) {
-				for (long int k = 0; k < nz_system; k++) {
-					isPML(i, j, k) = false;
-				}
-			}
-		}
-
 		xS = 0;
 		xE = nx_system;
 
@@ -106,8 +96,39 @@ void geometry_parameters::set_PML()
 			if_PML_Ze = false;
 		}
 
-		if (if_PML_Xs == false && if_PML_Xe == false && if_PML_Ys == false && if_PML_Ye == false && if_PML_Zs == false && if_PML_Ze == false)
+		if (if_PML_Xs == false && if_PML_Xe == false \
+			&& if_PML_Ys == false && if_PML_Ye == false \
+			&& if_PML_Zs == false && if_PML_Ze == false)
+		{
 			if_PML = false;
+		}
+
+		if (if_PML_Xs || if_PML_Xe)
+		{
+			if_PML_Xs = true;
+			if_PML_Xe = true;
+		}
+
+		if (if_PML_Ys || if_PML_Ye)
+		{
+			if_PML_Ys = true;
+			if_PML_Ye = true;
+		}
+
+		if (if_PML_Zs || if_PML_Ze)
+		{
+			if_PML_Zs = true;
+			if_PML_Ze = true;
+		}
+
+		xS = (if_PML_Xs ? PML_size : 0);
+		xE = (if_PML_Xs ? nx_system + PML_size : nx_system);
+
+		yS = (if_PML_Ys ? PML_size : 0);
+		yE = (if_PML_Ys ? ny_system + PML_size : ny_system);
+
+		zS = (if_PML_Zs ? PML_size : 0);
+		zE = (if_PML_Zs ? nz_system + PML_size : nz_system);
 
 		if (if_PML_Xs)
 			nx_system += PML_size;
@@ -123,47 +144,15 @@ void geometry_parameters::set_PML()
 			nz_system += PML_size;
 		if (if_PML_Ze)
 			nz_system += PML_size;
-
-		xS = (if_PML_Xs ? PML_size : 0);
-		xE = (if_PML_Xs ? nx_system - PML_size : nx_system);
-
-		yS = (if_PML_Ys ? PML_size : 0);
-		yE = (if_PML_Ys ? ny_system - PML_size : ny_system);
-
-		zS = (if_PML_Zs ? PML_size : 0);
-		zE = (if_PML_Zs ? nz_system - PML_size : nz_system);
-
-		isPML.initialize(nx_system + 1, ny_system + 1, nz_system + 1);
-
-		for (long int i = 0; i < nx_system; i++) {
-			for (long int j = 0; j < ny_system; j++) {
-				for (long int k = 0; k < nz_system; k++) {
-					isPML(i, j, k) = false;
-
-					if (if_PML_Xs && i < PML_size)
-						isPML(i, j, k) = true;
-					if (if_PML_Xe && i >= nx_system - PML_size)
-						isPML(i, j, k) = true;
-
-					if (if_PML_Ys && j < PML_size)
-						isPML(i, j, k) = true;
-					if (if_PML_Ye && j >= ny_system - PML_size)
-						isPML(i, j, k) = true;
-
-					if (if_PML_Zs && k < PML_size)
-						isPML(i, j, k) = true;
-					if (if_PML_Ze && k >= nz_system - PML_size)
-						isPML(i, j, k) = true;
-				}
-			}
-		}
 	}
+
+	nx_phy = nx_system - (if_PML_Xs ? PML_size : 0) - (if_PML_Xe ? PML_size : 0);
+	ny_phy = ny_system - (if_PML_Ys ? PML_size : 0) - (if_PML_Ye ? PML_size : 0);
+	nz_phy = nz_system - (if_PML_Zs ? PML_size : 0) - (if_PML_Ze ? PML_size : 0);
 }
 
 void geometry_parameters::copy_to_device() {
 #pragma acc enter data copyin(this)
-#pragma acc enter data copyin(this->isPML)
-#pragma acc enter data copyin(this->isPML.matrix[0:(nx_system + 1)*(ny_system + 1)*(nz_system + 1)])
 }
 
 geometry_parameters geometry_parameters::geo;

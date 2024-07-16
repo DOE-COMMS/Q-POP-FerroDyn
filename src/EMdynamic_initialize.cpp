@@ -187,8 +187,8 @@ void EMdynamic_system::initialize_host(){
 		}
 
 		if (pt_glb->if_PML == true) {
-			Dx_PML.initialize(nx + 1, ny, nz); Dy_PML.initialize(nx, ny + 1, nz); Dz_PML.initialize(nx, ny, nz + 1);
-			Dx_PML_store.initialize(nx + 1, ny, nz); Dy_PML_store.initialize(nx, ny + 1, nz); Dz_PML_store.initialize(nx, ny, nz + 1);
+			Dx_PML.initialize(nx, ny + 1, nz + 1); Dy_PML.initialize(nx + 1, ny, nz + 1); Dz_PML.initialize(nx + 1, ny + 1, nz);
+			Dx_PML_store.initialize(nx, ny + 1, nz + 1); Dy_PML_store.initialize(nx + 1, ny, nz + 1); Dz_PML_store.initialize(nx + 1, ny + 1, nz);
 
 			Bx_PML.initialize(nx + 1, ny, nz); By_PML.initialize(nx, ny + 1, nz); Bz_PML.initialize(nx, ny, nz + 1);
 			Bx_PML_store.initialize(nx + 1, ny, nz); By_PML_store.initialize(nx, ny + 1, nz); Bz_PML_store.initialize(nx, ny, nz + 1);
@@ -220,6 +220,20 @@ void EMdynamic_system::initialize_device() {
 			DEx_em_store = DEx_em;
 			DEy_em_store = DEy_em;
 			DEz_em_store = DEz_em;
+
+			Dx_PML = DEx_em;
+			Dy_PML = DEy_em;
+			Dz_PML = DEz_em;
+			Bx_PML = DHx_em;
+			By_PML = DHy_em;
+			Bz_PML = DHz_em;	
+
+			Dx_PML_store = DEx_em;
+			Dy_PML_store = DEy_em;
+			Dz_PML_store = DEz_em;
+			Bx_PML_store = DHx_em;
+			By_PML_store = DHy_em;
+			Bz_PML_store = DHz_em;
 		}
 
 #pragma acc parallel default(present) async(3)
@@ -546,7 +560,7 @@ void EMdynamic_system::initialize_PML() {
 	for (long int i = 0; i < nx; i++)
 	{
 		sigma_x_n(i) = 0.0;
-		kappa_x_n(i) = 0.0;
+		kappa_x_n(i) = 1.0;
 
 		if (i < pt_geo->PML_size && pt_geo->if_PML_Xs)
 		{
@@ -555,15 +569,18 @@ void EMdynamic_system::initialize_PML() {
 		}
 		if (i >= nx - pt_geo->PML_size && pt_geo->if_PML_Xe)
 		{
-			sigma_x_n(i) = pow((double)(pt_geo->PML_size - (nx - i)) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
-			kappa_x_n(i) = 1.0 + pow((pt_geo->PML_size - (nx - i)) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
+			sigma_x_n(i) = pow((double)(pt_geo->PML_size - (nx - i - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
+			kappa_x_n(i) = 1.0 + pow((pt_geo->PML_size - (nx - i - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
+
+		std::cout << "sigma_x_n(" << i << "): " << sigma_x_n(i) << std::endl;
+		std::cout << "kappa_x_n(" << i << "): " << kappa_x_n(i) << std::endl;
 	}
 
 	for (long int j = 0; j < ny; j++)
 	{
 		sigma_y_n(j) = 0.0;
-		kappa_y_n(j) = 0.0;
+		kappa_y_n(j) = 1.0;
 
 		if (j < pt_geo->PML_size && pt_geo->if_PML_Ys)
 		{
@@ -572,15 +589,18 @@ void EMdynamic_system::initialize_PML() {
 		}
 		if (j >= ny - pt_geo->PML_size && pt_geo->if_PML_Ye)
 		{
-			sigma_y_n(j) = pow((double)(pt_geo->PML_size - (ny -j)) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
-			kappa_y_n(j) = 1.0 + pow((double)(pt_geo->PML_size - (ny - j)) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
+			sigma_y_n(j) = pow((double)(pt_geo->PML_size - (ny - j - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
+			kappa_y_n(j) = 1.0 + pow((double)(pt_geo->PML_size - (ny - j - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
+
+		std::cout << "sigma_y_n(" << j << "): " << sigma_y_n(j) << std::endl;
+		std::cout << "kappa_y_n(" << j << "): " << kappa_y_n(j) << std::endl;
 	}
 
 	for (long int k = 0; k < nz; k++)
 	{
 		sigma_z_n(k) = 0.0;
-		kappa_z_n(k) = 0.0;
+		kappa_z_n(k) = 1.0;
 
 		if (k < pt_geo->PML_size && pt_geo->if_PML_Zs)
 		{
@@ -589,59 +609,71 @@ void EMdynamic_system::initialize_PML() {
 		}
 		if (k >= nz - pt_geo->PML_size && pt_geo->if_PML_Ze)
 		{
-			sigma_z_n(k) = pow((double)(pt_geo->PML_size - (nz - k)) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
-			kappa_z_n(k) = 1.0 + pow((double)(pt_geo->PML_size - (nz - k)) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
+			sigma_z_n(k) = pow((double)(pt_geo->PML_size - (nz - k - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
+			kappa_z_n(k) = 1.0 + pow((double)(pt_geo->PML_size - (nz - k - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
+
+		std::cout << "sigma_z_n(" << k << "): " << sigma_z_n(k) << std::endl;
+		std::cout << "kappa_z_n(" << k << "): " << kappa_z_n(k) << std::endl;
 	}
 
 	for (long int i = 0; i < nx+1; i++)
 	{
 		sigma_x_np1(i) = 0.0;
-		kappa_x_np1(i) = 0.0;
+		kappa_x_np1(i) = 1.0;
 
 		if (i < pt_geo->PML_size && pt_geo->if_PML_Xs)
 		{
 			sigma_x_np1(i) = pow(((double)(pt_geo->PML_size - i) - 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
 			kappa_x_np1(i) = 1.0 + pow(((double)(pt_geo->PML_size - i) - 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
-		if (i >= nx - pt_geo->PML_size && pt_geo->if_PML_Xe)
+		if (i >= nx + 1 - pt_geo->PML_size && pt_geo->if_PML_Xe)
 		{
-			sigma_x_np1(i) = pow(((double)(pt_geo->PML_size - (nx - i)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
-			kappa_x_np1(i) = 1.0 + pow(((double)(pt_geo->PML_size - (nx - i)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
+			sigma_x_np1(i) = pow(((double)(pt_geo->PML_size - (nx - i - 1)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
+			kappa_x_np1(i) = 1.0 + pow(((double)(pt_geo->PML_size - (nx - i - 1)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
+
+		std::cout << "sigma_x_np1(" << i << "): " << sigma_x_np1(i) << std::endl;
+		std::cout << "kappa_x_np1(" << i << "): " << kappa_x_np1(i) << std::endl;
 	}
 
 	for (long int j = 0; j < ny + 1; j++)
 	{
 		sigma_y_np1(j) = 0.0;
-		kappa_y_np1(j) = 0.0;
+		kappa_y_np1(j) = 1.0;
 
 		if (j < pt_geo->PML_size && pt_geo->if_PML_Ys)
 		{
 			sigma_y_np1(j) = pow(((double)(pt_geo->PML_size - j) - 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
 			kappa_y_np1(j) = 1.0 + pow(((double)(pt_geo->PML_size - j) - 0.5)/ (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
-		if (j >= ny - pt_geo->PML_size && pt_geo->if_PML_Ye)
+		if (j >= ny + 1 - pt_geo->PML_size && pt_geo->if_PML_Ye)
 		{
-			sigma_y_np1(j) = pow(((double)(pt_geo->PML_size - (ny - j)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
-			kappa_y_np1(j) = 1.0 + pow(((double)(pt_geo->PML_size - (ny - j)) + 0.5)/ (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
+			sigma_y_np1(j) = pow(((double)(pt_geo->PML_size - (ny - j - 1)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
+			kappa_y_np1(j) = 1.0 + pow(((double)(pt_geo->PML_size - (ny - j - 1)) + 0.5)/ (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
+
+		std::cout << "sigma_y_np1(" << j << "): " << sigma_y_np1(j) << std::endl;
+		std::cout << "kappa_y_np1(" << j << "): " << kappa_y_np1(j) << std::endl;
 	}
 
 	for (long int k = 0; k < nz + 1; k++)
 	{
 		sigma_z_np1(k) = 0.0;
-		kappa_z_np1(k) = 0.0;
+		kappa_z_np1(k) = 1.0;
 
 		if (k < pt_geo->PML_size && pt_geo->if_PML_Zs)
 		{
 			sigma_z_np1(k) = pow(((double)(pt_geo->PML_size - k) - 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
 			kappa_z_np1(k) = 1.0 + pow(((double)(pt_geo->PML_size - k) - 0.5)/ (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
-		if (k >= nz - pt_geo->PML_size && pt_geo->if_PML_Ze)
+		if (k >= nz + 1 - pt_geo->PML_size && pt_geo->if_PML_Ze)
 		{
-			sigma_z_np1(k) = pow(((double)(pt_geo->PML_size - (nz - k)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
-			kappa_z_np1(k) = 1.0 + pow(((double)(pt_geo->PML_size - (nz - k)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
+			sigma_z_np1(k) = pow(((double)(pt_geo->PML_size - (nz - k - 1)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * pt_glb->sigmaMax;
+			kappa_z_np1(k) = 1.0 + pow(((double)(pt_geo->PML_size - (nz - k - 1)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
+
+		std::cout << "sigma_z_np1(" << k << "): " << sigma_z_np1(k) << std::endl;
+		std::cout << "kappa_z_np1(" << k << "): " << kappa_z_np1(k) << std::endl;
 	}
 }

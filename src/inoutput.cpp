@@ -1,11 +1,12 @@
 #include "inoutput.h"
 #include <string>
 #include <fstream>
-#include<stdio.h>
+#include <iomanip>
+#include <stdio.h>
 #include"mathlib.h"
 
 /*
- *  1. cuFFTMp compatible datatype. Is an array.
+ *  1. matrix3d data
  *  2. Time step to write.
  *  3, 4, 5. Mesh size
  *  6, 7, 8. Cell size
@@ -73,7 +74,7 @@ bool inoutput::saveVTK_Scalar(matrix3d<double> data,
 	for (long int i = 0; i < nx; i++) {
 		for (long int j = 0; j < ny; j++) {
 			for (long int k = 0; k < nz; k++) {
-				vtkFile << data(xS + i, yS + j, zS + k) << std::endl;
+				vtkFile << data(xS + i, yS + j, zS + k) << '\n';
 			}
 		}
 	}
@@ -136,13 +137,12 @@ bool inoutput::saveVTK_Vector(matrix3d<double> data1, matrix3d<double> data2, ma
         vtkFile << "POINT_DATA " << nx * ny * nz << std::endl;
     }
 
-    vtkFile << std::endl << "VECTORS " << varName << " double 1" << std::endl;
-    vtkFile << "LOOKUP_TABLE default" << std::endl;
+    vtkFile << std::endl << "VECTORS " << varName << " double" << std::endl;
 
 	for (long int i = 0; i < nx; i++) {
 		for (long int j = 0; j < ny; j++) {
 			for (long int k = 0; k < nz; k++) {
-				vtkFile << data1(xS + i, yS + j, zS + k) << " " << data2(xS + i, yS + j, zS + k) << " " << data3(xS + i, yS + j, zS + k) << std::endl;
+				vtkFile << std::fixed << std::setprecision(6) << data1(xS + i, yS + j, zS + k) << "\t" << data2(xS + i, yS + j, zS + k) << "\t" << data3(xS + i, yS + j, zS + k) << '\n';
 			}
 		}
 	}
@@ -475,213 +475,96 @@ void inoutput::input_Jp(EMdynamic_system* em) {
 //---------------------------------//
 
 void inoutput::output_m(unsigned long long int& nstep, magnetic_system* pt_mag) {
-	std::string filename = "m." + std::to_string(nstep) + ".dat";
-	//std::ofstream file(filename.c_str());
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_file;
-	pt_file = fopen(filename.c_str(), "w");
-
 	saveVTK_Vector(pt_mag->mx_glb, pt_mag->my_glb, pt_mag->mz_glb, \
 		nstep,
 		pt_geo->xS, pt_geo->yS, pt_geo->zS,
 		pt_geo->xE, pt_geo->yE, pt_geo->zE,
 		pt_geo->dx, pt_geo->dy, pt_geo->dz,
 		"m", "mag", 0);
-
-	// for (long int i = 0; i < nx; i++) {
-	// 	for (long int j = 0; j < ny; j++) {
-	// 		for (long int k = 0; k < nz; k++) {
-	// 			fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-	// 				i + 1, j + 1, k + 1, pt_mag->mx_glb(i, j, k), pt_mag->my_glb(i, j, k), pt_mag->mz_glb(i, j, k));
-	// 		}
-	// 	}
-	// }
-
-	fclose(pt_file);
 }
 
 void inoutput::output_magcell(unsigned long long int& nstep, magnetic_system* pt_mag) {
-	unsigned long long index, i, j, k;
-
-	std::string filename = "m_magcell." + std::to_string(nstep) + ".dat";
-	FILE* pt_file;
-	pt_file = fopen(filename.c_str(), "w");
-
-	for (unsigned long id = 0; id < pt_glb->NFM; id++) {
-		index = pt_glb->magcell_index[id];
-		i = index / (ny * nz);
-		j = (index - i * (ny * nz)) / nz;
-		k = index - i * (ny * nz) - j * nz;
-		fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-			i + 1, j + 1, k + 1, pt_mag->mx_glb(index), pt_mag->my_glb(index), pt_mag->mz_glb(index));
-	}
-
-	fclose(pt_file);
-}
-
-void inoutput::output_AFMm(unsigned long long int& nstep, magnetic_system* pt_mag) {
-	std::string filename = "m_AFM." + std::to_string(nstep) + ".dat";
-	//std::ofstream file(filename.c_str());
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_file;
-	pt_file = fopen(filename.c_str(), "w");
-
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, \
-					pt_mag->mx_AFM1_glb(i, j, k), pt_mag->my_AFM1_glb(i, j, k), pt_mag->mz_AFM1_glb(i, j, k), \
-					pt_mag->mx_AFM2_glb(i, j, k), pt_mag->my_AFM2_glb(i, j, k), pt_mag->mz_AFM2_glb(i, j, k));
-			}
-		}
-	}
-
-	fclose(pt_file);
-}
-
-void inoutput::output_p(unsigned long long int& nstep, ferroelectric_system* pt_fe) {
-	std::string filename = "p." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_file;
-	pt_file = fopen(filename.c_str(), "w");
-
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, pt_fe->px_glb(i, j, k), pt_fe->py_glb(i, j, k), pt_fe->pz_glb(i, j, k));
-			}
-		}
-	}
-
-	fclose(pt_file);
-}
-
-void inoutput::output_q(unsigned long long int& nstep, ferroelectric_system* pt_fe) {
-	std::string filename = "q." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_file;
-	pt_file = fopen(filename.c_str(), "w");
-
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, pt_fe->qx_glb(i, j, k), pt_fe->qy_glb(i, j, k), pt_fe->qz_glb(i, j, k));
-			}
-		}
-	}
-
-	fclose(pt_file);
-}
-
-void inoutput::output_Estat(unsigned long long int& nstep, ferroelectric_system* pt_fe) {
-	std::string filename = "Estat." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_file;
-	pt_file = fopen(filename.c_str(), "w");
-
-	double Ex, Ey, Ez;
-
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				Ex = pt_fe->Ex_stat(i, j, k);
-				Ey = pt_fe->Ey_stat(i, j, k);
-				Ez = pt_fe->Ez_stat(i, j, k);
-				fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, Ex, Ey, Ez);
-			}
-		}
-	}
-
-	fclose(pt_file);
-}
-
-void inoutput::output_Eem(unsigned long long int& nstep, EMdynamic_system* pt_em) {
-	std::string filename = "Eem." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_file;
-	//pt_file = fopen(filename.c_str(), "w");
-
-	//double Ex, Ey, Ez;
-
-	saveVTK_Vector(pt_em->DEx_em_cell, pt_em->DEy_em_cell, pt_em->DEz_em_cell, \
+	saveVTK_Vector(pt_mag->mx_glb, pt_mag->my_glb, pt_mag->mz_glb, \
 		nstep,
 		pt_geo->xS, pt_geo->yS, pt_geo->zS,
 		pt_geo->xE, pt_geo->yE, pt_geo->zE,
 		pt_geo->dx, pt_geo->dy, pt_geo->dz,
-		"Eem", "Eem", 0);
-	
-	// for (long int i = 0; i < nx; i++) {
-	// 	for (long int j = 0; j < ny; j++) {
-	// 		for (long int k = 0; k < nz; k++) {
-	// 			Ex = pt_em->DEx_em_cell(i, j, k);
-	// 			Ey = pt_em->DEy_em_cell(i, j, k);
-	// 			Ez = pt_em->DEz_em_cell(i, j, k);
-	// 			fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-	// 				i + 1, j + 1, k + 1, Ex, Ey, Ez);
-	// 		}
-	// 	}
-	// }
+		"m_magcell", "m_magcell", 0);
+}
 
-	//fclose(pt_file);
+void inoutput::output_AFMm(unsigned long long int& nstep, magnetic_system* pt_mag) {
+	saveVTK_Vector(pt_mag->mx_AFM1_glb, pt_mag->my_AFM1_glb, pt_mag->mz_AFM1_glb, \
+		nstep,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"m_AFM", "AFM1", 0);
+
+	saveVTK_Vector(pt_mag->mx_AFM2_glb, pt_mag->my_AFM2_glb, pt_mag->mz_AFM2_glb, \
+		nstep,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"m_AFM", "AFM2", 1);
+}
+
+void inoutput::output_p(unsigned long long int& nstep, ferroelectric_system* pt_fe) {
+	saveVTK_Vector(pt_fe->px_glb, pt_fe->py_glb, pt_fe->pz_glb, \
+		nstep,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"p", "p", 0);
+}
+
+void inoutput::output_q(unsigned long long int& nstep, ferroelectric_system* pt_fe) {
+	saveVTK_Vector(pt_fe->qx_glb, pt_fe->qy_glb, pt_fe->qz_glb, \
+		nstep,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"q", "q", 0);
+}
+
+void inoutput::output_Estat(unsigned long long int& nstep, ferroelectric_system* pt_fe) {
+	saveVTK_Vector(pt_fe->Ex_stat, pt_fe->Ey_stat, pt_fe->Ez_stat, \
+		nstep,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"Estat", "Estat", 0);
+}
+
+void inoutput::output_Eem(unsigned long long int& nstep, EMdynamic_system* pt_em) {
+	saveVTK_Vector(pt_em->DEx_em_cell, pt_em->DEy_em_cell, pt_em->DEz_em_cell, \
+		nstep,
+		0, 0, 0,
+		nx, ny, nz,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"Eem", "Eem", 0);
 }
 
 void inoutput::output_EemYee(unsigned long long int& nstep, EMdynamic_system* pt_em) {
-	double Ex, Ey, Ez;
+	saveVTK_Scalar(pt_em->DEx_em, \
+		nstep,
+		0, 0, 0,
+		nx, ny+1, nz+1,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"Ex_Yee", "Ex_Yee", 0);
 
-	std::string filenamex = "Ex_Yee." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_filex;
-	pt_filex = fopen(filenamex.c_str(), "w");
+	saveVTK_Scalar(pt_em->DEy_em, \
+		nstep,
+		0, 0, 0,
+		nx+1, ny, nz+1,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"Ey_Yee", "Ey_Yee", 0);
 
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny + 1; j++) {
-			for (long int k = 0; k < nz + 1; k++) {
-				Ex = pt_em->DEx_em(i, j, k);
-
-				fprintf(pt_filex, "%ld  %ld  %ld  %.7e\n", \
-					i + 1, j + 1, k + 1, Ex);
-			}
-		}
-	}
-	fclose(pt_filex);
-
-	std::string filenamey = "Ey_Yee." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_filey;
-	pt_filey = fopen(filenamey.c_str(), "w");
-
-	for (long int i = 0; i < nx + 1; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz + 1; k++) {
-				Ey = pt_em->DEy_em(i, j, k);
-
-				fprintf(pt_filey, "%ld  %ld  %ld  %.7e\n", \
-					i + 1, j + 1, k + 1, Ey);
-			}
-		}
-	}
-	fclose(pt_filey);
-
-	std::string filenamez = "Ez_Yee." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_filez;
-	pt_filez = fopen(filenamez.c_str(), "w");
-
-	for (long int i = 0; i < nx + 1; i++) {
-		for (long int j = 0; j < ny + 1; j++) {
-			for (long int k = 0; k < nz; k++) {
-				Ez = pt_em->DEz_em(i, j, k);
-
-				fprintf(pt_filez, "%ld  %ld  %ld  %.7e\n", \
-					i + 1, j + 1, k + 1, Ez);
-			}
-		}
-	}
-	fclose(pt_filez);
+	saveVTK_Scalar(pt_em->DEz_em, \
+		nstep,
+		0, 0, 0,
+		nx+1, ny+1, nz,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"Ez_Yee", "Ez_Yee", 0);
 }
 
 void inoutput::output_Hstat(unsigned long long int& nstep, magnetic_system* pt_mag) {
@@ -708,81 +591,35 @@ void inoutput::output_Hstat(unsigned long long int& nstep, magnetic_system* pt_m
 }
 
 void inoutput::output_Hem(unsigned long long int& nstep, EMdynamic_system* pt_em) {
-	std::string filename = "Hem." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_file;
-	pt_file = fopen(filename.c_str(), "w");
-
-	double Hx, Hy, Hz;
-
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				Hx = pt_em->DHx_em_cell(i, j, k);
-				Hy = pt_em->DHy_em_cell(i, j, k);
-				Hz = pt_em->DHz_em_cell(i, j, k);
-				fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, Hx, Hy, Hz);
-			}
-		}
-	}
-
-	fclose(pt_file);
+	saveVTK_Vector(pt_em->DHx_em_cell, pt_em->DHy_em_cell, pt_em->DHz_em_cell, \
+		nstep,
+		0, 0, 0,
+		nx, ny, nz,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"Hem", "Hem", 0);
 }
 
 void inoutput::output_HemYee(unsigned long long int& nstep, EMdynamic_system* pt_em) {
-	double Hx, Hy, Hz;
+	saveVTK_Scalar(pt_em->DHx_em, \
+		nstep,
+		0, 0, 0,
+		nx+1, ny, nz,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"Hx_Yee", "Hx_Yee", 0);
 
-	std::string filenamex = "Hx_Yee." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_filex;
-	pt_filex = fopen(filenamex.c_str(), "w");
+	saveVTK_Scalar(pt_em->DHy_em, \
+		nstep,
+		0, 0, 0,
+		nx, ny+1, nz,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"Hy_Yee", "Hy_Yee", 0);
 
-	for (long int i = 0; i < nx + 1; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				Hx = pt_em->DHx_em(i, j, k);
-
-				fprintf(pt_filex, "%ld  %ld  %ld  %.7e\n", \
-					i + 1, j + 1, k + 1, Hx);
-			}
-		}
-	}
-	fclose(pt_filex);
-
-	std::string filenamey = "Hy_Yee." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_filey;
-	pt_filey = fopen(filenamey.c_str(), "w");
-
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny + 1; j++) {
-			for (long int k = 0; k < nz; k++) {
-				Hy = pt_em->DHy_em(i, j, k);
-
-				fprintf(pt_filey, "%ld  %ld  %ld  %.7e\n", \
-					i + 1, j + 1, k + 1, Hy);
-			}
-		}
-	}
-	fclose(pt_filey);
-
-	std::string filenamez = "Hz_Yee." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_filez;
-	pt_filez = fopen(filenamez.c_str(), "w");
-
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz + 1; k++) {
-				Hz = pt_em->DHz_em(i, j, k);
-
-				fprintf(pt_filez, "%ld  %ld  %ld  %.7e\n", \
-					i + 1, j + 1, k + 1, Hz);
-			}
-		}
-	}
-	fclose(pt_filez);
+	saveVTK_Scalar(pt_em->DHz_em, \
+		nstep,
+		0, 0, 0,
+		nx, ny, nz+1,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"Hz_Yee", "Hz_Yee", 0);
 }
 
 void inoutput::output_em_onecell(unsigned long long int& nstep, EMdynamic_system* pt_em) {
@@ -863,62 +700,28 @@ void inoutput::output_straint0(unsigned long long int& nstep, elastic_system* pt
 }
 
 void inoutput::output_uandv(unsigned long long int& nstep, elastic_system* pt_elasto) {
-	double ux, uy, uz, vx, vy, vz;
+	saveVTK_Vector(pt_elasto->Dux_glb, pt_elasto->Duy_glb, pt_elasto->Duz_glb, \
+		nstep,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"u", "u", 0);
 
-	std::string filenameu = "u." + std::to_string(nstep) + ".dat";
-
-	FILE* pt_fileu;
-	pt_fileu = fopen(filenameu.c_str(), "w");
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				ux = pt_elasto->Dux_glb(i, j, k);
-				uy = pt_elasto->Duy_glb(i, j, k);
-				uz = pt_elasto->Duz_glb(i, j, k);
-				fprintf(pt_fileu, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, ux, uy, uz);
-			}
-		}
-	}
-	fclose(pt_fileu);
-
-	std::string filenamev = "v." + std::to_string(nstep) + ".dat";
-
-	FILE* pt_filev;
-	pt_filev = fopen(filenamev.c_str(), "w");
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				vx = pt_elasto->vx_glb(i, j, k);
-				vy = pt_elasto->vy_glb(i, j, k);
-				vz = pt_elasto->vz_glb(i, j, k);
-				fprintf(pt_filev, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, vx, vy, vz);
-			}
-		}
-	}
-	fclose(pt_filev);
+	saveVTK_Vector(pt_elasto->vx_glb, pt_elasto->vy_glb, pt_elasto->vz_glb, \
+		nstep,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"v", "v", 0);
 }
 
 void inoutput::output_elastoforce(unsigned long long int& nstep, elastic_system* pt_elasto) {
-	double fx, fy, fz;
-
-	std::string filenamef = "elastoforce." + std::to_string(nstep) + ".dat";
-
-	FILE* pt_filef;
-	pt_filef = fopen(filenamef.c_str(), "w");
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				fx = pt_elasto->force_x_store(i, j, k);
-				fy = pt_elasto->force_y_store(i, j, k);
-				fz = pt_elasto->force_z_store(i, j, k);
-				fprintf(pt_filef, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, fx, fy, fz);
-			}
-		}
-	}
-	fclose(pt_filef);
+	saveVTK_Vector(pt_elasto->force_x_store, pt_elasto->force_y_store, pt_elasto->force_z_store, \
+		nstep,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"elastoforce", "elastoforce", 0);
 }
 
 void inoutput::output_eigenstraint0_crt(unsigned long long int& nstep, elastic_system* pt_elasto) {
@@ -955,6 +758,7 @@ void inoutput::output_Jp(unsigned long long int& nstep, EMdynamic_system* pt_em)
 	std::string filename1 = "Jp1." + std::to_string(nstep) + ".dat";
 	//FILE* pt_file = fopen(filename.c_str(), "w");
 	FILE* pt_file1;
+
 	pt_file1 = fopen(filename1.c_str(), "w");
 	for (long int i = 0; i < nx; i++) {
 		for (long int j = 0; j < ny; j++) {
@@ -1005,23 +809,12 @@ void inoutput::output_Jp(unsigned long long int& nstep, EMdynamic_system* pt_em)
 }
 
 void inoutput::output_Jishe(unsigned long long int& nstep, magnetic_system* pt_mag) {
-	double Jx, Jy;
-
-	std::string filename = "J_ISHE." + std::to_string(nstep) + ".dat";
-	//FILE* pt_file = fopen(filename.c_str(), "w");
-	FILE* pt_file;
-	pt_file = fopen(filename.c_str(), "w");
-	for (long int i = 0; i < nx; i++) {
-		for (long int j = 0; j < ny; j++) {
-			for (long int k = 0; k < nz; k++) {
-				Jx = pt_mag->Jx_ISHE(i, j, k);
-				Jy = pt_mag->Jy_ISHE(i, j, k);
-				fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, Jx, Jy, 0.);
-			}
-		}
-	}
-	fclose(pt_file);
+	saveVTK_Vector(pt_mag->Jx_ISHE, pt_mag->Jy_ISHE, pt_mag->Jx_ISHE, \
+		nstep,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		pt_geo->dx, pt_geo->dy, pt_geo->dz,
+		"J_ISHE", "J_ISHE", 0);
 }
 
 void inoutput::output_averagem(unsigned long long int& nstep, magnetic_system* pt_mag) {

@@ -6,13 +6,13 @@ false				    //If read 'struct.in'
 
 3				        //Number of layers
 1 1 1				    //Number of periods, id of first layer and last layer of the repetitive unit
-40 50 50				//nz of each layer (sums to nz_work)
+40 40 50				//nz of each layer (sums to nz_work)
 
 true                                    // PML?
-false false false false true false      // PML surfaces (x = 0, x = nx, y = 0, y = ny, z = 0, z = nz)
-10  1.321e5                              // PML thickness (default is 10), maximum conductivity in the PML region
+false false false false false true      // PML surfaces (x = 0, x = nx, y = 0, y = ny, z = 0, z = nz)
+10  1.321e5                             // PML thickness (default is 10), maximum conductivity in the PML region
 
-100				        //Total number of steps
+10000				        //Total number of steps
 2.e-18				    //dt
 
 2				        //number of material types
@@ -73,7 +73,7 @@ false 	25			    //if output average m or p, steps for average
 false 40000	false 100	//If output FM m, output step for FM magnetization; if output magnetic cells only, output step
 false 200000			//If output AFM m, output step for AFM magnetization
 false 25			    //If output p, output step for polarization
-false 25 true 25 100	//If output EM wave, output step for magnetic and electric field; If output EandH in one cell, output step, index(line)of the cell
+true 500 true 1 100	//If output EM wave, output step for magnetic and electric field; If output EandH in one cell, output step, index(line)of the cell
 false 1000000			//If output strain, output step for strain
 
 false 5000000			//If output Hstat at t = 0, output step
@@ -92,3 +92,5 @@ true				    //If input free charge current
 0 x 5.e13 5.996e14 0	//Type, 0-2 sinusoial periodic, spatial profile: 0(uniform),1(sin),2(cos); 3 for single gaussian, 4 for double gaussian. Amplitude, frequency (or sigma)
 0                       //J rotate angle in xy plain(only works for type=0, direction=x, now)
 false 5. 100.e9         //If prescribe precession of m in first layer? Precession: angle from axis, frequency in Hz
+
+

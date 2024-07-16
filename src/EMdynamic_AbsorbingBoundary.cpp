@@ -30,33 +30,6 @@ void EMdynamic_system::transfer_pointer() {
 		DEy_em_t1 = DEy_em;
 		DEz_em_t1 = DEz_em;
 	}
-	//#pragma acc loop gang vector 
-	//	for (long int i = 0; i < 1; i++) {
-			//DEx_em_t4.nullify_device();
-			//DEy_em_t4.nullify_device();
-			//DEz_em_t4.nullify_device();
-
-			//DEx_em_t4.get_pointer() = DEx_em_t3.get_pointer();
-			//DEy_em_t4.get_pointer() = DEy_em_t3.get_pointer();
-			//DEz_em_t4.get_pointer() = DEz_em_t3.get_pointer();
-
-			//DEx_em_t3.get_pointer() = DEx_em_t2.get_pointer();
-			//DEy_em_t3.get_pointer() = DEy_em_t2.get_pointer();
-			//DEz_em_t3.get_pointer() = DEz_em_t2.get_pointer();
-
-			//DEx_em_t2.get_pointer() = DEx_em_t1.get_pointer();
-			//DEy_em_t2.get_pointer() = DEy_em_t1.get_pointer();
-			//DEz_em_t2.get_pointer() = DEz_em_t1.get_pointer();
-
-			//DEx_em_t1.get_pointer() = NULL;
-			//DEy_em_t1.get_pointer() = NULL;
-			//DEz_em_t1.get_pointer() = NULL;
-
-			//DEx_em_t1.initialize_device(nx, ny + 1, nz + 1);
-			//DEy_em_t1.initialize_device(nx + 1, ny, nz + 1);
-			//DEz_em_t1.initialize_device(nx + 1, ny + 1, nz);
-	//	}
-	//#pragma acc wait
 }
 
 void EMdynamic_system::update_DE_Boundary_half() {

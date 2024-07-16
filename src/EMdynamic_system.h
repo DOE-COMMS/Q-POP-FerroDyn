@@ -152,6 +152,8 @@ public:
 	void get_dE_RK3();
 	void get_dE_RK4();
 
+	void testFunc();
+
 #pragma acc routine gang
 	void get_dJp_RK1();
 #pragma acc routine gang

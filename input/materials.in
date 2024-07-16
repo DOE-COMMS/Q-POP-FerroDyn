@@ -35,8 +35,12 @@ false								//If ferroelectrics (FE)
 0.	0.	0.							//Q11,Q12,Q44
 0.	0.	0.							//f11,f12,f44
 
-1.      							//Relative permittivity er11, er12, er13
-0.      							//Electrical Conductivity cond11, cond12, cond13
+1.  0.  0.							//Relative permittivity er11, er12, er13
+0.  1.  0.							//Relative permittivity er21, er22, er23
+0.  0.  1.							//Relative permittivity er31, er32, er33
+0.	0.	0.							//Electrical Conductivity cond11, cond12, cond13
+0.	0.	0.							//Electrical Conductivity cond21, cond22, cond23
+0.	0.	0.							//Electrical Conductivity cond31, cond32, cond331.	0.	1.							//Component n1, plasma frequency in rad, electron relation time
 1.	0.	1.							//Component n1, plasma frequency in rad, electron relation time
 0.  0.  1.                  		//Component n2, plasma frequency in rad, electron relation time
 0.  0.  1.                  		//Component n3, plasma frequency in rad, electron relation time
@@ -77,12 +81,13 @@ false								//If ferroelectrics (FE)
 0.1	-0.034 0.029					//Q11,Q12,Q44
 0.	0.	0.							//f11,f12,f44
 
-2.  2.  0.							//Relative permittivity er11, er12, er13
-2.  8.  0.							//Relative permittivity er21, er22, er23
-0.  0.  8.							//Relative permittivity er31, er32, er33
-0.	0.	0.							//Electrical Conductivity cond11, cond12, cond13
-0.	0.	0.							//Electrical Conductivity cond21, cond22, cond23
-0.	0.	0.							//Electrical Conductivity cond31, cond32, cond33
+2.  2.  1.							//Relative permittivity er11, er12, er13
+2.  8.  1.							//Relative permittivity er21, er22, er23
+1.  1.  8.							//Relative permittivity er31, er32, er33
+1.	0.	0.							//Electrical Conductivity cond11, cond12, cond13
+0.	1.	0.							//Electrical Conductivity cond21, cond22, cond23
+0.	0.	1.							//Electrical Conductivity cond31, cond32, cond33
 1.	0.	1.							//Component n1, plasma frequency in rad, electron relation time
 0.  0.  1.                  		//Component n2, plasma frequency in rad, electron relation time
 0.  0.  1.                  		//Component n3, plasma frequency in rad, electron relation time
+

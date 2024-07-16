@@ -38,9 +38,10 @@ public:
 	long int PML_size;
 	double sigmaMax; 	// Maximum conductivity in the PML medium
 	// Flags for a cell-level check to see if PML is active there
-	matrix3d<bool> isPML;
+	// matrix3d<bool> isPML;
 
 	long int xS, xE, yS, yE, zS, zE;
+	long int nx_phy, ny_phy, nz_phy; // Dimensions of the physical part of the computational mesh
 
 private:
 	void set_PML();

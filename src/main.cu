@@ -18,7 +18,7 @@ int main() {
 	unsigned long long int nstep = 0; // Timestep counter
 
 	std::cout << "OPENACC VERSION: " << _OPENACC << std::endl;
-	
+
 	// read geometry and copy to device
 	_GEO.readgeo();
 	_GEO.copy_to_device();
@@ -32,7 +32,7 @@ int main() {
 
 	// copy math library to device
 	_MLB.copy_to_device();
-	
+
 	// define different systems
 	ferroelectric_system fe; //KG equation
 	magnetic_system mag; //LLG
@@ -44,6 +44,9 @@ int main() {
 	mag.initialize_host(/*&elasto, &em*/);
 	elasto.initialize_host(/*&mag, &fe*/);
 	em.initialize_host(/*&mag, &fe*/);
+
+	_GEO.loggeo();
+	_GLB.log_global();
 
 	//------------Physical quantities input-------------//
 	{
@@ -119,6 +122,90 @@ int main() {
 	fe.initialize_device();
 	em.initialize_device();
 	elasto.initialize_device();
+
+	// _IO.saveVTK_Scalar(em.sigma_x_n, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	_GEO.nx_system, 1, 1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"sigma_x_PML", "sigma_x", 0);
+
+	// _IO.saveVTK_Scalar(em.sigma_y_n, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	1, _GEO.ny_system, 1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"sigma_y_PML", "sigma_y", 0);
+
+	// _IO.saveVTK_Scalar(em.sigma_z_n, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	1, 1, _GEO.nz_system,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"sigma_z_PML", "sigma_z", 0);
+
+	// _IO.saveVTK_Scalar(em.kappa_x_n, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	_GEO.nx_system, 1, 1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"kappa_x_PML", "kappa_x", 0);
+
+	// _IO.saveVTK_Scalar(em.kappa_y_n, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	1, _GEO.ny_system, 1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"kappa_y_PML", "kappa_y", 0);
+
+	// _IO.saveVTK_Scalar(em.kappa_z_n, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	1, 1, _GEO.nz_system,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"kappa_z_PML", "kappa_z", 0);
+
+	// _IO.saveVTK_Scalar(em.sigma_x_np1, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	_GEO.nx_system+1, 1, 1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"sigma2_x_PML", "sigma_x", 0);
+
+	// _IO.saveVTK_Scalar(em.sigma_y_np1, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	1, _GEO.ny_system+1, 1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"sigma2_y_PML", "sigma_y", 0);
+
+	// _IO.saveVTK_Scalar(em.sigma_z_np1, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	1, 1, _GEO.nz_system+1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"sigma2_z_PML", "sigma_z", 0);
+
+	// _IO.saveVTK_Scalar(em.kappa_x_np1, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	_GEO.nx_system, 1, 1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"kappa2_x_PML", "kappa_x", 0);
+
+	// _IO.saveVTK_Scalar(em.kappa_y_np1, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	1, _GEO.ny_system+1, 1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"kappa2_y_PML", "kappa_y", 0);
+
+	// _IO.saveVTK_Scalar(em.kappa_z_np1, \
+	// 	0,
+	// 	0, 0, 0,
+	// 	1, 1, _GEO.nz_system+1,
+	// 	_GEO.dx, _GEO.dy, _GEO.dz,
+	// 	"kappa2_z_PML", "kappa_z", 0);
 
 #pragma acc wait
 
@@ -203,8 +290,234 @@ int main() {
 		}
 	}
 
-	// _GLB.log_global();
-	// _GEO.loggeo();
+	//------------------------------//
+	//				OUTPUT			//
+	//------------------------------//
+
+	//--------------------Copy from device-----------------//
+	{
+		if ((_GLB.if_output_m == true && nstep % _GLB.output_step_m == 0) || \
+			(_GLB.if_output_only_magcell == true && nstep % _GLB.output_step_magcell == 0)) {
+			mag.copym_from_device();
+		}
+
+		if (_GLB.if_output_AFMm == true) {
+			if (nstep % _GLB.output_step_AFMm == 0) {
+				mag.copym_AFM_from_device();
+			}
+		}
+
+		if (_GLB.if_output_p == true) {
+			if (nstep % _GLB.output_step_p == 0) {
+				fe.copyp_from_device();
+			}
+		}
+
+		if (_GLB.if_output_q == true) {
+			if (nstep % _GLB.output_step_q == 0) {
+				fe.copyq_from_device();
+			}
+		}
+
+		if ((_GLB.if_output_em == true && nstep % _GLB.output_step_em == 0) || \
+			(_GLB.if_output_em_onecell == true && nstep % _GLB.output_step_em_onecell == 0)) {
+			em.copy_from_device();
+		}
+
+		if (_GLB.if_output_emYee == true) {
+			if (nstep % _GLB.output_step_emYee == 0) {
+				em.copyYee_from_device();
+			}
+		}
+
+		if (_GLB.if_output_Estat == true) {
+			if (nstep % _GLB.output_step_Estat == 0) {
+				fe.copyE_from_device();
+			}
+		}
+
+		if (_GLB.if_output_Hstat == true) {
+			if (nstep % _GLB.output_step_Hstat == 0) {
+				mag.copyH_from_device();
+			}
+		}
+
+		if (_GLB.if_output_uandv == true) {
+			if (nstep % _GLB.output_step_uandv == 0) {
+				elasto.copy_uandv_from_device();
+			}
+		}
+
+		if (_GLB.if_output_elastoforce == true) {
+			if (nstep % _GLB.output_step_elastoforce == 0) {
+				elasto.copy_elastoforce_from_device();
+			}
+		}
+
+		if (_GLB.if_output_eigenstraint0_crt == true) {
+			if (nstep % _GLB.output_step_eigenstraint0_crt == 0) {
+				elasto.copy_eigenstraint0_from_device();
+			}
+		}
+
+		if (_GLB.if_output_Jp == true) {
+			if (nstep % _GLB.output_step_Jp == 0) {
+				em.copyJp_from_device();
+			}
+		}
+
+		if (_GLB.if_output_Jishe == true) {
+			if (nstep % _GLB.output_step_Jishe == 0) {
+				mag.copyJishe_from_device();
+			}
+		}
+
+		if (_GLB.if_output_ave == true) {
+			if (nstep % _GLB.output_step_ave == 0) {
+				if (_GLB.if_FM_all == true) {
+					mag.get_averagem();
+				}
+				if (_GLB.if_AFM_all == true) {
+					mag.get_averagem_AFM();
+				}
+				if (_GLB.if_FE_all == true) {
+					fe.get_averagep();
+				}
+			}
+		}
+
+		if (_GLB.if_output_strain == true) {
+			if (nstep % _GLB.output_step_strain == 0) {
+				if (_GLB.if_elastodynamics == true) {
+					elasto.copy_Dstrain_from_device();
+				}
+				else {
+					if (_GLB.if_elastostatic == true) {
+#pragma acc parallel default(present)
+						{
+							elasto.get_strain_static_glb();
+						}
+					elasto.copy_straint0_from_device();
+					}
+				}
+			}
+		}
+	}
+#pragma acc wait
+	//------------------------File Writing-------------------------------------//
+	{
+		if (_GLB.if_output_ave == true) {
+			if (nstep % _GLB.output_step_ave == 0) {
+				if (_GLB.if_FM_all == true) {
+					_IO.output_averagem(nstep, &mag);
+				}
+				if (_GLB.if_AFM_all == true) {
+					_IO.output_averageAFMm(nstep, &mag);
+				}
+				if (_GLB.if_FE_all == true) {
+					_IO.output_averagep(nstep, &fe);
+				}
+			}
+		}
+
+		if (_GLB.if_output_m == true) {
+			if (nstep % _GLB.output_step_m == 0) {
+				_IO.output_m(nstep, &mag);
+			}
+		}
+
+		if (_GLB.if_output_only_magcell == true) {
+			if (nstep % _GLB.output_step_magcell == 0) {
+				_IO.output_magcell(nstep, &mag);
+			}
+		}
+
+		if (_GLB.if_output_AFMm == true) {
+			if (nstep % _GLB.output_step_AFMm == 0) {
+				_IO.output_AFMm(nstep, &mag);
+			}
+		}
+
+		if (_GLB.if_output_p == true) {
+			if (nstep % _GLB.output_step_p == 0) {
+				_IO.output_p(nstep, &fe);
+			}
+		}
+
+		if (_GLB.if_output_q == true) {
+			if (nstep % _GLB.output_step_q == 0) {
+				_IO.output_q(nstep, &fe);
+			}
+		}
+
+		if (_GLB.if_output_em == true) {
+			if (nstep % _GLB.output_step_em == 0) {
+				_IO.output_Eem(nstep, &em);
+				_IO.output_Hem(nstep, &em);
+			}
+		}
+
+		if (_GLB.if_output_em_onecell == true) {
+			if (nstep % _GLB.output_step_em_onecell == 0) {
+				_IO.output_em_onecell(nstep, &em);
+			}
+		}
+
+		if (_GLB.if_output_emYee == true) {
+			if (nstep % _GLB.output_step_emYee == 0) {
+				_IO.output_EemYee(nstep, &em);
+				_IO.output_HemYee(nstep, &em);
+			}
+		}
+
+		if (_GLB.if_output_Estat == true) {
+			if (nstep % _GLB.output_step_Estat == 0) {
+				_IO.output_Estat(nstep, &fe);
+			}
+		}
+
+		if (_GLB.if_output_Hstat == true) {
+			if (nstep % _GLB.output_step_Hstat == 0) {
+				_IO.output_Hstat(nstep, &mag);
+			}
+		}
+
+		if (_GLB.if_output_strain == true) {
+			if (nstep % _GLB.output_step_strain == 0) {
+				_IO.output_strain(nstep, &elasto);
+			}
+		}
+
+		if (_GLB.if_output_uandv == true) {
+			if (nstep % _GLB.output_step_uandv == 0) {
+				_IO.output_uandv(nstep, &elasto);
+			}
+		}
+
+		if (_GLB.if_output_elastoforce == true) {
+			if (nstep % _GLB.output_step_elastoforce == 0) {
+				_IO.output_elastoforce(nstep, &elasto);
+			}
+		}
+
+		if (_GLB.if_output_eigenstraint0_crt == true) {
+			if (nstep % _GLB.output_step_eigenstraint0_crt == 0) {
+				_IO.output_eigenstraint0_crt(nstep, &elasto);
+			}
+		}
+
+		if (_GLB.if_output_Jp == true) {
+			if (nstep % _GLB.output_step_Jp == 0) {
+				_IO.output_Jp(nstep, &em);
+			}
+		}
+
+		if (_GLB.if_output_Jishe == true) {
+			if (nstep % _GLB.output_step_Jishe == 0) {
+				_IO.output_Jishe(nstep, &mag);
+			}
+		}
+	}
 
 #pragma acc wait
 
@@ -498,8 +811,8 @@ int main() {
 		//--------------------Copy from device-----------------//
 		{
 			if ((_GLB.if_output_m == true && nstep % _GLB.output_step_m == 0) || \
-				(_GLB.if_output_only_magcell == true && nstep % _GLB.output_step_magcell == 0)) {				
-					mag.copym_from_device();				
+				(_GLB.if_output_only_magcell == true && nstep % _GLB.output_step_magcell == 0)) {
+				mag.copym_from_device();
 			}
 
 			if (_GLB.if_output_AFMm == true) {
@@ -522,7 +835,7 @@ int main() {
 
 			if ((_GLB.if_output_em == true && nstep % _GLB.output_step_em == 0) || \
 				(_GLB.if_output_em_onecell == true && nstep % _GLB.output_step_em_onecell == 0)) {
-					em.copy_from_device();
+				em.copy_from_device();
 			}
 
 			if (_GLB.if_output_emYee == true) {
@@ -598,7 +911,7 @@ int main() {
 							{
 								elasto.get_strain_static_glb();
 							}
-							elasto.copy_straint0_from_device();
+						elasto.copy_straint0_from_device();
 						}
 					}
 				}

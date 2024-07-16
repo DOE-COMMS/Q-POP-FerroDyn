@@ -13,6 +13,10 @@ void global_parameters::set_global() {
 	ny = pt_geo->ny_system;
 	nz = pt_geo->nz_system;
 
+	nx_phy = pt_geo->nx_phy;
+	ny_phy = pt_geo->ny_phy;
+	nz_phy = pt_geo->nz_phy;
+
 	n = nx * ny * nz;
 
 	dx = pt_geo->dx;
@@ -39,8 +43,8 @@ void global_parameters::set_global() {
 
 	kappaMax = 1.1;
 	PML_m = 3.5;
-	eta0 = 1.0;
-	maxReflErr = exp(-18);
+	eta0 = 120 * 120 * 10;
+	maxReflErr = exp(-16);
 	if (PML_size != 0)
 		sigmaMax = -(PML_m + 1.0) * log(maxReflErr) / (2.0 * PML_size * eta0 * (dx + dy + dz) / 3.0);
 	else
