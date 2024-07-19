@@ -39,16 +39,32 @@ void global_parameters::set_global() {
 	zE = pt_geo->zE;
 
 	PML_size = pt_geo->PML_size;
-	sigmaMax = pt_geo->sigmaMax;
-
+	PML_materialType = pt_geo->PML_materialType;
+	
 	kappaMax = 1.1;
 	PML_m = 3.5;
-	eta0 = 120 * 120 * 10;
+	
+	eta0 = sqrt(e0 / mu0);
 	maxReflErr = exp(-16);
 	if (PML_size != 0)
-		sigmaMax = -(PML_m + 1.0) * log(maxReflErr) / (2.0 * PML_size * eta0 * (dx + dy + dz) / 3.0);
+		sigmaMax = -(PML_m + 1.0) * log(maxReflErr) / (2.0 * PML_size * eta0);
 	else
 		sigmaMax = 0.0;
+
+	if (PML_materialType != 0)
+	{
+		mat = &(material_parameters[PML_materialType - 1]);
+		PML_er11 = mat->r_permittivity11;
+		PML_er22 = mat->r_permittivity22;
+		PML_er33 = mat->r_permittivity33;
+	}
+	else
+	{
+		PML_er11 = 1.;
+		PML_er22 = 1.;
+		PML_er33 = 1.;
+	}
+
 
 	Hext[0] = 0.; Hext[1] = 0.; Hext[2] = 0.;
 	Eext[0] = 0.; Eext[1] = 0.; Eext[2] = 0.;

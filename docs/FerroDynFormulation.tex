@@ -1,0 +1,314 @@
+\documentclass[]{article}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage{enumitem}
+\usepackage{yhmath}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{scalerel}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{bm}
+
+\DeclareMathOperator*{\Bigcdot}{\scalerel*{\cdot}{\bigodot}}
+\DeclareMathSymbol{\shortminus}{\mathbin}{AMSa}{"39}
+
+\makeatletter
+\DeclareTextCompositeCommand{\r}{OT1}{A}{%
+	\leavevmode\vbox{%
+		\offinterlineskip
+		\ialign{\hfil##\hfil\cr\char23\cr\noalign{\kern-1.15ex}A\cr}%
+	}%
+}
+\makeatother
+
+%opening
+\title{Q-POP-FerroDyn}
+
+
+\begin{document}
+	
+	\maketitle
+	\section*{Formulation for Q-POP-FerroDyn}
+
+		The total free energy of the system is defined as 
+		\begin{equation}
+			F = F_{Landau} + F_{gradient} + F_{electrostatic} + F_{elastic},
+		\end{equation}
+		where
+		\begin{align}
+			F_{Landau} & = \int(a_{i}P_{i}^{2} + a_{ij}P_{i}^{2}P_{j}^{2} + a_{ijk}P_{i}^{2}P_{j}^{2}P_{k}^{2})dx^{3} \\
+			F_{gradient} & = \int g_{ijkl}\pdv[]{P_{i}}{x_{j}}\pdv[]{P_{k}}{x_{l}}dx^{3} \\
+			F_{electrostatic} & = \int\bigg(-\frac{1}{2}\kappa_{0}\kappa_{ij}^{b}E_{i}E_{j} - E_{i}P_{i}\bigg)dx^{3}\\
+			F_{elastic} & = \int\frac{1}{2}c_{ijkl}(\epsilon_{ij}-\epsilon_{ij}^{0})(\epsilon_{kl}-\epsilon_{kl}^{0})dx^{3}
+		\end{align}
+
+		Dynamical equation for polarization \textbf{P}(x, t):
+		\begin{equation}
+			\mu_{ij}\pdv[2]{P_{j}}{t} + \gamma_{ij}\pdv[]{P_{j}}{t} + \frac{\delta F}{\delta P_{i}} = 0,
+		\end{equation}
+		where $\bm{\mu}$ and $\bm{\gamma}$ are mass and damping coefficients, respectively. 
+		
+
+		The driving force term in the dynamic equation for polarization is
+		\begin{align}
+			\frac{\delta F}{\delta P_{i}} & = \frac{\delta}{\delta P_{j}}(F_{Landau} + F_{gradient} + F_{electrostatic} + F_{elastic}) \\
+			& = 2a_{i}P_{i} + 2a_{ij}P_{i}P_{j}^{2} + 2a_{ijk}P_{i}P_{j}^{2}P_{k}^{2}\ +\nonumber \\
+			& \ \ \ \ g_{ijkl}\frac{\partial^{2}P_{k}}{\partial x_{j}\partial x_{l}} - E_{i}
+		\end{align}
+
+		Elastodynamics equation for mechanical displacement \textbf{u}(x, t):
+		\begin{equation}
+			\rho\pdv[2]{u_{i}}{t} = f^{v}_{i} + \frac{\partial}{\partial x_{j}}\bigg(\sigma_{ij} + \beta\pdv[]{\sigma_{ij}}{t}\bigg),
+		\end{equation}
+		where $\rho$, $\beta$, and \textbf{$f^{v}$} are the material mass density, the stiffness damping coefficient, and the external body force density, respectively. 
+		
+		The stress field $\bm{\sigma}(x, t)$ is defined as
+		\begin{equation}
+			\bm{\sigma}(\bm{x}, t) \equiv \sigma_{ij} = c_{ijkl}(\epsilon_{kl} - \epsilon_{kl}^{0}),
+		\end{equation}
+		where $\bm{c}$ is the elastic stiffness tensor, $\bm{\epsilon}(\textbf{x}, t)$ is the strain field given by $\bm{\epsilon} = [\nabla\bm{u}+(\nabla\bm{u})^{T}]/2$, and $\bm{\epsilon}^{0}(\bm{x}, t)\equiv \epsilon_{ij}^{0} = Q_{ijkl}P_{k}P_{l}$ is the eigenstrain field with an electrostrictive coefficient $\bm{Q}$. 
+		\newpage 
+		
+		\section*{Maxwell's Equations}
+		Starting from Ampere's Law,
+		\begin{align} \label{eq:ampere}
+			\nabla\cross\bm{H} &= \bm{J} + \pdv{\bm{D}}{t} \nonumber\\
+			&= \bm{J} + \epsilon\pdv{\bm{E}}{t} + \pdv{\bm{P}}{t}
+		\end{align}
+		\begin{align} \label{eq:ampere2}
+			\implies \pdv{\bm{E}}{t} &= \frac{1}{\epsilon}\bigg(\nabla\cross\bm{H} - \bm{J} - \pdv{\bm{P}}{t}\bigg) \nonumber \\
+				&= \frac{1}{\epsilon_{0}\epsilon_{r}}\bigg(\nabla\cross\bm{H} - \bm{J}^{f}-\pdv{\bm{P}}{t}\bigg)
+		\end{align}
+		
+		Faraday's law reads
+		\begin{equation} \label{eq:faraday}
+			\nabla\cross\bm{E} = -\mu\bigg(\pdv{\bm{M}}{t} + \pdv{\bm{H}}{t}\bigg)
+		\end{equation}
+		\begin{equation} \label{eq:faraday2}
+			\implies\pdv{\bm{H}}{t} = -\frac{1}{\mu}(\nabla\cross\bm{E}) - \pdv{\bm{M}}{t}
+		\end{equation}
+		
+		The Maxwell's equations are solved using the finite-difference time-domain method (FDTD), using a staggered Yee grid. The stencil used by the Yee grid is as follows:
+		\begin{align*}
+			& 1: (i-1, j-1, k-1), 2: (i-1, j-1, k), 3: (i-1, j, k-1), 4: (i-1, j, k) \\
+			& 5: (i, j-1, k-1), 6: (i, j-1, k), 7: (i, j, k-1), 8: (i, j, k)
+		\end{align*}
+		The permittivity and conductivity tensors are computed at each node by averaging over the stencil.
+		\begin{align*}
+			\epsilon_{ij} = \frac{\sum_{n = 1}^{8} \epsilon_{ij, n}}{8} \\
+			\sigma_{ij} = \frac{\sum_{n = 1}^{8} \sigma_{ij, n}}{8} 
+		\end{align*}
+		Similarly, the source-terms representing various types of current are averaged over the same stencil.
+		
+		A fourth-order explicit Runge-Kutta (RK4) method is used for time-marching. 
+		
+		For n = 1, 2, 3, 4, where each n represents the respective strides between two formal time-steps, an example of the update equation at node (i, j, k) is as follows:
+		\begin{align}
+			\Delta E_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k} = 
+			& \bigg[\frac{\Delta t}{\epsilon_{0}}\bigg(\frac{\epsilon_{yy}\epsilon_{zz} - \epsilon_{yz}\epsilon_{zy}}{||\epsilon||}\bigg)\bigg|_{i, j, k} \times\dots\nonumber\\
+			&\bigg(\left.\pdv{H_{z}}{y}\right\rvert^{(t + \frac{(n-1)\Delta t}{4})}_{i, j, k} - \left.\pdv{H_{y}}{z}\right\rvert^{(t + \frac{(n-1)\Delta t}{4})}_{i, j, k} - \Delta J_{x}^{(t + \frac{(n-1)\Delta t}{4})} - \sigma_{xi}E_{i, store}^{(t + \frac{(n-1)\Delta t}{4})} - \frac{\Delta P_{x}^{(t + \frac{n\Delta t}{4})}}{\Delta t}\bigg)\bigg]\nonumber \\
+			& + \bigg[\frac{\Delta t}{\epsilon_{0}}\bigg(\frac{\epsilon_{xz}\epsilon_{zy} - \epsilon_{xy}\epsilon_{zz}}{||\epsilon||}\bigg)\bigg|_{i, j, k} \times\dots\nonumber\\
+			&\bigg(\left.\pdv{H_{x}}{z}\right\rvert^{(t + \frac{(n-1)\Delta t}{4})}_{i, j, k} - \left.\pdv{H_{z}}{x}\right\rvert^{(t + \frac{(n-1)\Delta t}{4})}_{i, j, k} - \Delta J_{y}^{(t + \frac{(n-1)\Delta t}{4})} - \sigma_{yi}E_{i, store}^{(t + \frac{(n-1)\Delta t}{4})} - \frac{\Delta P_{y}^{(t + \frac{n\Delta t}{4})}}{\Delta t}\bigg)\bigg] \nonumber\\
+			& + \bigg[\frac{\Delta t}{\epsilon_{0}}\bigg(\frac{\epsilon_{xy}\epsilon_{yz} - \epsilon_{xz}\epsilon_{yy}}{||\epsilon||}\bigg)\bigg|_{i, j, k} \times\dots\nonumber\\
+			&\bigg(\left.\pdv{H_{y}}{x}\right\rvert^{(t + \frac{(n-1)\Delta t}{4})}_{i, j, k} - \left.\pdv{H_{x}}{y}\right\rvert^{(t + \frac{(n-1)\Delta t}{4})}_{i, j, k} - \Delta J_{z}^{(t + \frac{(n-1)\Delta t}{4})} - \sigma_{zi}E_{i, store}^{(t + \frac{(n-1)\Delta t}{4})} - \frac{\Delta P_{z}^{(t + \frac{n\Delta t}{4})}}{\Delta t}\bigg)\bigg]
+		\end{align}
+		where
+		\begin{equation}
+			\left.\pdv{H_{x}}{y}\right\rvert^{(t + \frac{(n-1)\Delta t}{4})} = \frac{H_{x}^{(t + \frac{(n-1)\Delta t}{4})}|_{i, j, k} - H_{x}^{(t + \frac{(n-1)\Delta t}{4})}|_{i-1, j, k}}{\Delta y},
+		\end{equation}
+
+		\begin{equation}
+			\Delta J_{i} = \Delta J_{f, i} + \Delta J_{p, i} + \Delta J_{ISHE, i},
+		\end{equation}
+
+		$\Delta J_{f, i}$ is the change in the free charge current density. \\
+
+		$\Delta J_{p, i}$ is the change in the polarization current density (eddy current). Its evolution is governed by the Drude equation 
+		\begin{equation}
+			\pdv{\bm{J}_{p}}{t} + \frac{\bm{J}_{p}}{\tau} = \epsilon_{0}\omega_{p}^{2}\bm{E} 
+		\end{equation}
+		
+		For n = 1, 2, 3, 4:
+		\begin{align}
+			\Delta J_{p, i}^{(t+\frac{n\Delta t}{4})} &= 
+				\Delta J_{p, i, n1}^{(t+\frac{n\Delta t}{4})} + \Delta J_{p, i, n2}^{(t+\frac{n\Delta t}{4})} + \Delta J_{p, i, n3}^{(t+\frac{n\Delta t}{4})} \nonumber\\
+				&= \epsilon_{0}E_{i, cell}^{t}(\omega_{p, n1}\omega_{p, n1}comp_{n1} + \omega_{p, n2}\omega_{p, n2}comp_{n2} + \omega_{p, n3}\omega_{p, n3}comp_{n3}) - \dots \nonumber\\
+				& \Delta t\bigg(\frac{J_{p, i, n1}^{(t + \frac{(n-1)\Delta t}{4})}}{\tau_{e, n1}} + \frac{J_{p, i, n2}^{(t + \frac{(n-1)\Delta t}{4})}}{\tau_{e, n2}} + \frac{J_{p, i, n3}^{(t + \frac{(n-1)\Delta t}{4})}}{\tau_{e, n3}}\bigg),
+		\end{align}
+		where
+		\begin{align}
+			J_{p, i, store}^{(t + \frac{(n-1)\Delta t}{4})} = 
+			\begin{cases}
+				J_{p, i}^{(t)}, & n = 1\\
+				J_{p, i}^{(t)} + 0.5*\Delta J_{p, i}^{(t+\frac{(n-1)\Delta t}{4})}, & n = 2, 3\\
+				J_{p, i}^{(t)} + \Delta J_{p, i}^{(t+\frac{3\Delta t}{4})}, & n = 4,
+			\end{cases} 
+		\end{align} \\
+		
+		$\Delta J_{ISHE, i}$ is the change in the current density induced by the spin current via the inverse spin-Hall effect. 
+		\begin{align}
+			\Delta J_{ISHE, i} = \dots
+		\end{align}
+		
+		
+		\begin{align}
+			E_{i, store}^{(t + \frac{(n-1)\Delta t}{4})} = 
+			\begin{cases}
+				E_{i}^{(t)}, & n = 1\\
+				E_{i}^{(t)} + 0.5*\Delta E_{i}^{(t+\frac{(n-1)\Delta t}{4})}, & n = 2, 3\\
+				E_{i}^{(t)} + \Delta E_{i}^{(t+\frac{3\Delta t}{4})}, & n = 4
+			\end{cases} 
+		\end{align}
+		
+		Finally, the polarization current is calculated by evolving the polarization dynamical equation using RK4 time-stepping.
+	
+		\begin{align}
+			\Delta H_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k} = -\frac{\Delta t}{\mu_{0}}\bigg(\pdv{E_{z}}{y} - \pdv{E_{y}}{z}\bigg) - \frac{\Delta M_{x, 1} + \Delta M_{x, 2}}{M_{\text{count}}}
+		\end{align}
+		
+		\begin{align}
+			E_{x}^{t + \Delta t} = E_{x}^{t} + \frac{\Delta E_{x}^{(t+\frac{\Delta t}{4})}}{6} + \frac{\Delta E_{x}^{(t+\frac{2\Delta t}{4})}}{3} + \frac{\Delta E_{x}^{(t+\frac{3\Delta t}{4})}}{3} + \frac{\Delta E_{x}^{(t+\frac{4\Delta t}{4})}}{6} \\
+			H_{x}^{t + \Delta t} = H_{x}^{t} + \frac{\Delta H_{x}^{(t+\frac{\Delta t}{4})}}{6} + \frac{\Delta H_{x}^{(t+\frac{2\Delta t}{4})}}{3} + \frac{\Delta H_{x}^{(t+\frac{3\Delta t}{4})}}{3} + \frac{\Delta H_{x}^{(t+\frac{4\Delta t}{4})}}{6}
+		\end{align}
+		\newpage
+		\section*{PML Modification}
+		The time-harmonic forms of the Maxwell's equations \eqref{eq:ampere} and \eqref{eq:faraday} are
+		\begin{align}
+			\nabla\cross\bm{\widehat{H}} &= \bm{\widehat{J}} + \textit{i}\omega\epsilon_{0}\epsilon_{r}\bm{\widehat{E}} + \textit{i}\omega\bm{\widehat{P}} \\
+			\nabla\cross\bm{\widehat{E}} &= -\textit{i}\omega\mu_{0}\mu_{r}(\bm{\widehat{M}+\widehat{H}})
+		\end{align}
+		where $\bm{\widehat{E}}, \bm{\widehat{H}}, \bm{\widehat{J}}, \bm{\widehat{M}}, \text{and} \bm{\widehat{P}}$ are all in the frequency-domain.
+		
+		A UPML constitutive tensor is now defined,
+		\begin{align}
+			\bar{\bar{s}} &= \begin{bmatrix}s_{x}^{\shortminus 1} & 0 & 0 \\ 0 & s_{x} & 0 \\ 0 & 0 & s_{x}\end{bmatrix}\begin{bmatrix}s_{y} & 0 & 0 \\ 0 & s_{y}^{\shortminus 1} & 0 \\ 0 & 0 & s_{y}\end{bmatrix}\begin{bmatrix}s_{z} & 0 & 0 \\ 0 & s_{z} & 0 \\ 0 & 0 & s_{z}^{\shortminus 1}\end{bmatrix} \\
+			&= \begin{bmatrix}s_{x}^{\shortminus 1}s_{y}s_{z} & 0 & 0 \\ 0 & s_{x}s_{y}^{\shortminus 1}s_{z} & 0 \\ 0 & 0 & s_{x}s_{y}s_{z}^{\shortminus 1}\end{bmatrix}
+		\end{align}
+		where 
+		\begin{equation}
+			s_{x} = \kappa_{x} + \frac{\sigma_{x}}{i\omega\epsilon};\;\;\; s_{y} = \kappa_{y} + \frac{\sigma_{y}}{i\omega\epsilon};\;\;\; s_{z} = \kappa_{z} + \frac{\sigma_{z}}{i\omega\epsilon}
+		\end{equation}
+		
+		$\kappa$ and $\sigma$ are all one-dimensional functions that are equal to unity and zero respectively in the physical non-PML region, ensuring that the PML constitutive tensor and PML auxilliary equations are active only in the PML.
+		
+		There are no sources of current, polarization and magnetization densities within the PML, consequently reducing the time-harmonic equations to simply
+		\begin{align}
+			\nabla\cross\bm{\widehat{H}} &= \textit{i}\omega\bar{\bar{s}}\epsilon_{0}\epsilon_{r}\bm{\widehat{E}} \\
+			\nabla\cross\bm{\widehat{E}} &= -\textit{i}\omega\bar{\bar{s}}\mu_{0}\mu_{r}\widehat{H}
+		\end{align}
+		
+		To decouple the frequency-dependent terms and thereby avoid a convolution between the material tensors and the EM-fields in the time-domain, new constitutive relationships are defined as follows:
+		\begin{align} \label{eq:const}
+			\bm{\widehat{D_{x}}} = \epsilon_{0}\epsilon_{r}\frac{s_{z}}{s_{x}}\bm{\widehat{E_{x}}} \\
+			\bm{\widehat{B_{x}}} = \epsilon_{0}\epsilon_{r}\frac{s_{z}}{s_{x}}\bm{\widehat{H_{x}}} \\
+		\end{align}
+		
+		Following an inverse Fourier transform, the time-domain differential equations are now
+		\begin{equation}
+			\begin{bmatrix}
+				\pdv{H_{z}}{y} - \pdv{H_{y}}{z} \\[4pt]
+				\pdv{H_{x}}{z} - \pdv{H_{z}}{x} \\[4pt]
+				\dv{H_{y}}{x} - \pdv{H_{x}}{y}
+			\end{bmatrix}
+			 = \pdv{}{t}
+			 \begin{bmatrix}
+			 	\kappa_{y} & 0 & 0 \\[4pt]
+			 	0 & \kappa_{z} & 0 \\[4pt] 
+			 	0 & 0 & \kappa_{x}
+			 \end{bmatrix}
+			 \begin{bmatrix}
+			 	D_{x}\\[4pt]
+			 	D_{y}\\[4pt]
+			 	D_{z}
+			 \end{bmatrix}
+			 + \frac{1}{\epsilon_{0}}
+			 \begin{bmatrix}
+			 	\sigma_{y} & 0 & 0 \\[4pt]
+			 	0 & \sigma_{z} & 0 \\[4pt] 
+			 	0 & 0 & \sigma_{x}
+			 \end{bmatrix}
+			 \begin{bmatrix}
+			 	D_{x}\\[4pt]
+			 	D_{y}\\[4pt]
+			 	D_{z}
+			 \end{bmatrix}
+		\end{equation}
+		Taking for instance the update equation for $D_{x}$,
+		\begin{equation}
+			\pdv{D_{x}}{t} = \frac{\bigg(\pdv{H_{z}}{y} - \pdv{H_{y}}{z}\bigg)}{\kappa_{y}} - \frac{\sigma_{x}D_{x}}{\kappa_{y}\epsilon_{0}}
+		\end{equation}
+		A similar RK4 treatment as earlier yields 
+		\begin{align*}
+			\Delta D_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k} = 
+			& \frac{\Delta t}{\kappa_{y}}\bigg(\pdv{H_{z}}{y}\bigg|^{(t + \frac{(n-1)\Delta t}{4})}_{i, j, k} - \pdv{H_{y}}{z}\bigg|^{(t + \frac{(n-1)\Delta t}{4})}_{i, j, k}\bigg) - \frac{\sigma_{y}\Delta t}{\kappa_{y}\epsilon_{0}}D_{x, store}^{(t + \frac{(n-1)\Delta t}{4})}\\
+		\end{align*}
+		\begin{equation}
+			D_{x}^{t + \Delta t} = D_{x}^{t} + \frac{\Delta D_{x}^{(t+\frac{\Delta t}{4})}}{6} + \frac{\Delta D_{x}^{(t+\frac{2\Delta t}{4})}}{3} + \frac{\Delta D_{x}^{(t+\frac{3\Delta t}{4})}}{3} + \frac{\Delta D_{x}^{(t+\frac{4\Delta t}{4})}}{6}
+		\end{equation}
+		
+		Multiplying \eqref{eq:const} by $i\omega$ and performing an inverse Fourier transform returns the new value of the electric field.
+		\begin{align}
+			\pdv{}{t}\begin{bmatrix}
+				\kappa_{x} & 0 & 0 \\[4pt]
+				0 & \kappa_{y} & 0 \\[4pt] 
+				0 & 0 & \kappa_{z}
+			\end{bmatrix}
+			\begin{bmatrix}
+				D_{x} \\[4pt]
+				D_{y} \\[4pt]
+				D_{z} 
+			\end{bmatrix} + 
+			\frac{1}{\epsilon_{0}}\begin{bmatrix}
+				\sigma_{x} & 0 & 0 \\[4pt]
+				0 & \sigma_{y} & 0 \\[4pt] 
+				0 & 0 & \sigma_{z}
+			\end{bmatrix}
+			\begin{bmatrix}
+			D_{x} \\[4pt]
+			D_{y} \\[4pt]
+			D_{z} 
+			\end{bmatrix} = &
+			\pdv{}{t}
+			\begin{bmatrix}
+				\epsilon_{xx} & \epsilon_{xy} & \epsilon_{xz} \\[4pt]
+				\epsilon_{yx} & \epsilon_{yy} & \epsilon_{yz} \\[4pt] 
+				\epsilon_{zx} & \epsilon_{zy} & \epsilon_{zz}
+			\end{bmatrix}
+			\begin{bmatrix}
+				\kappa_{z} & 0 & 0 \\[4pt]
+				0 & \kappa_{x} & 0 \\[4pt] 
+				0 & 0 & \kappa_{y}
+			\end{bmatrix}
+			\begin{bmatrix}
+				E_{x} \\[4pt]
+				E_{y} \\[4pt]
+				E_{z} 
+			\end{bmatrix} + \dots \\ &
+			\frac{1}{\epsilon_{0}}			\begin{bmatrix}
+				\epsilon_{xx} & \epsilon_{xy} & \epsilon_{xz} \\[4pt]
+				\epsilon_{yx} & \epsilon_{yy} & \epsilon_{yz} \\[4pt] 
+				\epsilon_{zx} & \epsilon_{zy} & \epsilon_{zz}
+			\end{bmatrix}\begin{bmatrix}
+				\sigma_{z} & 0 & 0 \\[4pt]
+				0 & \sigma_{x} & 0 \\[4pt] 
+				0 & 0 & \sigma_{y}
+			\end{bmatrix}
+			\begin{bmatrix}
+				E_{x} \\[4pt]
+				E_{y} \\[4pt]
+				E_{z} 
+			\end{bmatrix}
+		\end{align}
+		
+		The update equation for E is then 
+		\begin{align}
+			\Delta E_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k} = &
+			\frac{\Delta t}{\kappa_{z}}\times\bigg(\frac{\epsilon_{yy}\epsilon_{zz} - \epsilon_{yz}\epsilon_{zy}}{||\epsilon||}\bigg)\bigg|_{i, j, k}\times\dots \nonumber \\
+			&\bigg(\frac{\kappa_{x}\Delta D_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k}}{\Delta t} + \frac{\sigma_{x}D_{x, store}^{(t + \frac{(n-1)\Delta t}{4})}}{\epsilon_{0}}\bigg) - \frac{\Delta t}{\kappa_{z}}\frac{\sigma_{z}E_{x, store}^{(t + \frac{(n-1)\Delta t}{4})}}{\epsilon_{0}}
+		\end{align}
+\end{document}

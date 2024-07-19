@@ -55,7 +55,7 @@ void geometry_parameters::set_PML()
 	if (if_PML == false)
 	{
 		PML_size = 0;
-		sigmaMax = 0;
+		PML_materialType = 0;
 
 		if_PML_Xs = false;
 		if_PML_Xe = false;

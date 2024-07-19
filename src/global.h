@@ -10,6 +10,8 @@
 class global_parameters {
 private:
 	double PI = 3.14159265358979323846;
+	double mu0 = 1.256637061e-6;
+	double e0 = 8.854187817e-12;
 	class geometry_parameters* pt_geo = &(geometry_parameters::geo);
 
 	unsigned int* pt_material_layer_unit;
@@ -133,6 +135,8 @@ public:
 	double PML_d, PML_m, eta0;
 	double maxReflErr;
 	long int xS, xE, yS, yE, zS, zE;
+	int PML_materialType;
+	double PML_er11, PML_er22, PML_er33;
 
 	bool if_flexo;
 

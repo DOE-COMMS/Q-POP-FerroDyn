@@ -283,7 +283,7 @@ void geometry_parameters::readgeo() {
 		
 		file >> std::boolalpha >> if_PML; file.ignore(1000, '\n');
 		file >> std::boolalpha >> if_PML_Xs >> if_PML_Xe >> if_PML_Ys >> if_PML_Ye >> if_PML_Zs >> if_PML_Ze; file.ignore(1000, '\n');
-		file >> PML_size >> sigmaMax; file.ignore(1000, '\n');
+		file >> PML_size >> PML_materialType; file.ignore(1000, '\n');
 	}
 	file.close();
 
@@ -624,7 +624,7 @@ void geometry_parameters::loggeo() {
 	logFile << "if_PML_Zs: " << if_PML_Zs << std::endl;
 	logFile << "if_PML_Ze: " << if_PML_Ze << std::endl;
 	logFile << "PML_size: " << PML_size << std::endl;
-	logFile << "sigmaMax: " << sigmaMax << std::endl;
+	logFile << "PML_materialType: " << PML_materialType << std::endl;
 	logFile << "PML boundaries - xS: " << xS << ", xE: " << xE << ", yS: " << yS << ", yE: " << yE << ", zS: " << zS << ", zE: " << zE << std::endl;
 
 	// If there are other properties or arrays that need to be logged, you can add them here in a similar fashion.

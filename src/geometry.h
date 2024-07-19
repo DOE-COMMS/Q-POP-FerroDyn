@@ -36,7 +36,7 @@ public:
 	bool if_PML, if_PML_Xs, if_PML_Xe, if_PML_Ys, if_PML_Ye, if_PML_Zs, if_PML_Ze;
 	// PML parameters
 	long int PML_size;
-	double sigmaMax; 	// Maximum conductivity in the PML medium
+	int PML_materialType;
 	// Flags for a cell-level check to see if PML is active there
 	// matrix3d<bool> isPML;
 

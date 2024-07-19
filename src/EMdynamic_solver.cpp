@@ -49,7 +49,6 @@ void EMdynamic_system::get_dE_RK1() {
 	double P_count;
 
 	bool isPML = false;
-	double C1, C2, C3, C4, C5, C6;
 
 	if (pt_glb->if_Jf_input == true) {
 		update_Jf_input(); //RK
@@ -79,7 +78,6 @@ dPx,dPy,dPz,\
 mat_type,mat,\
 dHzdy,dHydz,dHxdz,dHzdx,dHxdy,dHydx,\
 i,j,k,isPML, \
-C1, C2, C3, C4, C5, C6,\
 P_count) default(present) async(1)
 	for (long int id = 0; id < (nx + 1) * (ny + 1) * (nz + 1); id++) {
 		i = id / ((ny + 1) * (nz + 1));
@@ -155,10 +153,26 @@ P_count) default(present) async(1)
 
 		//----------Polarization 1------//
 		mat_type = pt_glb->material_cell(idx1, idy1, idz1);
-		////printf("mat_type1 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx1, idy1, idz1);
-		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
 
+		if (mat_type == 0) {
+			if ((idx1 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx1 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy1 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy1 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz1 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz1 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -192,10 +206,26 @@ P_count) default(present) async(1)
 
 		//----------Polarization 2------//
 		mat_type = pt_glb->material_cell(idx2, idy2, idz2);
-		////printf("mat_type2 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx2, idy2, idz2);
 
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx2 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+				|| (idx2 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+				|| (idy2 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+				|| (idy2 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+				|| (idz2 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+				|| (idz2 >= pt_geo->zE && true == pt_geo->if_PML_Ze))
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -232,7 +262,24 @@ P_count) default(present) async(1)
 		mat_type = pt_glb->material_cell(idx3, idy3, idz3);
 		////printf("mat_type3 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx3, idy3, idz3);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx3 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx3 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy3 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy3 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz3 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz3 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -269,7 +316,24 @@ P_count) default(present) async(1)
 		mat_type = pt_glb->material_cell(idx4, idy4, idz4);
 		//printf("mat_type4 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx4, idy4, idz4);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx4 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx4 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy4 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy4 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz4 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz4 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -304,7 +368,24 @@ P_count) default(present) async(1)
 		//----------Polarization 5------//
 		mat_type = pt_glb->material_cell(idx5, idy5, idz5);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx5 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx5 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy5 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy5 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz5 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz5 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -342,7 +423,24 @@ P_count) default(present) async(1)
 		//printf("mat_type6 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx6, idy6, idz6);
 
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx6 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx6 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy6 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy6 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz6 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz6 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -380,7 +478,24 @@ P_count) default(present) async(1)
 		//printf("mat_type7 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx7, idy7, idz7);
 
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx7 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx7 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy7 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy7 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz7 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz7 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -417,7 +532,24 @@ P_count) default(present) async(1)
 		//printf("mat_type8 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx8, idy8, idz8);
 		
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx8 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx8 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy8 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy8 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz8 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz8 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -476,100 +608,59 @@ P_count) default(present) async(1)
 		inverse_er31 = (-er22 * er31 + er21 * er32) / Denominator;
 		inverse_er32 = (er12 * er31 - er11 * er32) / Denominator;
 		inverse_er33 = (-er12 * er21 + er11 * er22) / Denominator;
-
-		if (isnan(inverse_er11) || isnan(inverse_er12) || isnan(inverse_er13) || isnan(inverse_er21) ||
-			isnan(inverse_er22) || isnan(inverse_er23) || isnan(inverse_er31) || isnan(inverse_er32) ||
-			isnan(inverse_er33)) {
-			//printf("NaN detected in one of the inverse_er components at (%d, %d, %d)\n", i, j, k);
-		}
-
+		
 		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
 			|| (i >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
 			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
 			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
 			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
 			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
-		{
-			isPML = true;
-		}
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
 
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx) {
-				C1 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt);
+				DEx_em_t1(idx8, j, k) = pt_glb->dt / kappa_y_np1(0, j, 0) \
+					* (dHzdy - dHydz - (sigma_y_np1(0, j, 0) / e0) * Dx_PML_store(idx8, j, k) \
+						- Jfx - Jpx - Jishex - dPx / pt_glb->dt);
 
-				DEx_em_t1(idx8, j, k) = C1 * Dx_PML_store(idx8, j, k) + C2 * (dHzdy - dHydz);
 			}
 
 			if (j < ny) {
-				C1 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt);
-
-				DEy_em_t1(i, idy8, k) = C1 * Dy_PML_store(i, idy8, k) + C2 * (dHxdz - dHzdx);
+				DEy_em_t1(i, idy8, k) = pt_glb->dt / kappa_z_np1(0, 0, k) \
+					* (dHxdz - dHzdx - (sigma_z_np1(0, 0, k) / e0) * Dy_PML_store(i, idy8, k) \
+						- Jfy - Jpy - Jishey - dPy / pt_glb->dt);
 			}
 
 			if (k < nz) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt);
-
-				DEz_em_t1(i, j, idz8) = C1 * Dz_PML_store(i, j, idz8) + C2 * (dHydx - dHxdy);
+				DEz_em_t1(i, j, idz8) = pt_glb->dt / kappa_x_np1(i, 0, 0) \
+					* (dHydx - dHxdy - (sigma_x_np1(i, 0, 0) / e0) * Dz_PML_store(i, j, idz8) \
+						- Jfz - Jpz - dPz / pt_glb->dt);
 			}
 
 			if (i < nx) {
-				C1 = 2.0 * e0 * kappa_x_n(idx8, 0, 0) - sigma_x_n(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_n(idx8, 0, 0) + sigma_x_n(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-
-				dDEx_em_rk1(idx8, j, k) = \
-					(C5 * DEx_em_store(idx8, j, k) \
-						+ inverse_er11 * (C1 * DEx_em_t1(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er12 * (C3 * DEy_em_t1(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er13 * (C5 * DEz_em_t1(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C6;
+				dDEx_em_rk1(idx8, j, k) = (pt_glb->dt / kappa_z_np1(0, 0, k)) \
+					* (inverse_er11*(kappa_x_n(idx8, 0, 0) * DEx_em_t1(idx8, j, k) / pt_glb->dt \
+						+ sigma_x_n(idx8, 0, 0) * Dx_PML_store(idx8, j, k) / e0) / e0\
+						- (sigma_z_np1(0, 0, k) * DEx_em_store(idx8, j, k) / e0));
 			}
 
 			if (j < ny) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_n(0, idy8, 0) - sigma_y_n(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_n(0, idy8, 0) + sigma_y_n(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-
-				dDEy_em_rk1(i, idy8, k) = \
-					(C1 * DEy_em_store(i, idy8, k) \
-						+ inverse_er21 * (C1 * DEx_em_t1(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er22 * (C3 * DEy_em_t1(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er23 * (C5 * DEz_em_t1(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C2;
-
+				dDEy_em_rk1(i, idx8, k) = (pt_glb->dt / kappa_x_np1(i, 0, 0)) \
+					* (inverse_er22*(kappa_y_n(0, idy8, 0) * DEy_em_t1(i, idx8, k) / pt_glb->dt \
+						+ sigma_y_n(0, idy8, 0) * Dy_PML_store(i, idx8, k) / e0) / e0\
+						- (sigma_x_np1(i, 0, 0) * DEy_em_store(i, idx8, k) / e0));
 			}
 
 			if (k < nz) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_n(0, 0, idz8) - sigma_z_n(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_n(0, 0, idz8) + sigma_z_n(0, 0, idz8) * pt_glb->dt;
-
-				dDEz_em_rk1(i, j, idz8) = \
-					(C3 * DEz_em_store(i, j, idz8) \
-						+ inverse_er31 * (C1 * DEx_em_t1(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er32 * (C3 * DEy_em_t1(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er33 * (C5 * DEz_em_t1(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C4;
+				dDEz_em_rk1(i, j, idz8) = (pt_glb->dt / kappa_y_np1(0, j, 0)) \
+					* (inverse_er33*(kappa_z_n(0, 0, idz8) * DEz_em_t1(i, j, idz8) / pt_glb->dt \
+						+ sigma_z_n(0, 0, idz8) * Dz_PML_store(i, j, idz8) / e0) / e0 \
+						- (sigma_y_np1(0, j, 0) * DEz_em_store(i, j, idz8) / e0));
 			}
-
 		}
 		else
 		{
@@ -591,7 +682,7 @@ P_count) default(present) async(1)
 
 			if (j < ny) {
 
-dDEy_em_rk1(i, idy8, k) = \
+				dDEy_em_rk1(i, idy8, k) = \
 					pt_glb->dt / e0 * inverse_er21 * \
 					(dHzdy - dHydz - Jfx - Jpx - Jishex - \
 						cond11 * DEx_em_store(idx8, j, k) - cond12 * DEy_em_store(i, idy8, k) - cond13 * DEz_em_store(i, j, idz8) - \
@@ -760,8 +851,26 @@ P_count) default(present)async(1)
 
 		//----------Polarization 1------//
 		mat_type = pt_glb->material_cell(idx1, idy1, idz1);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx1 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx1 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy1 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy1 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz1 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz1 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -795,8 +904,26 @@ P_count) default(present)async(1)
 
 		//----------Polarization 2------//
 		mat_type = pt_glb->material_cell(idx2, idy2, idz2);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx2 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+				|| (idx2 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+				|| (idy2 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+				|| (idy2 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+				|| (idz2 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+				|| (idz2 >= pt_geo->zE && true == pt_geo->if_PML_Ze))
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -831,8 +958,26 @@ P_count) default(present)async(1)
 
 		//----------Polarization 3------//
 		mat_type = pt_glb->material_cell(idx3, idy3, idz3);
+		////printf("mat_type3 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx3, idy3, idz3);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx3 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx3 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy3 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy3 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz3 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz3 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -867,8 +1012,26 @@ P_count) default(present)async(1)
 
 		//----------Polarization 4------//
 		mat_type = pt_glb->material_cell(idx4, idy4, idz4);
+		//printf("mat_type4 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx4, idy4, idz4);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx4 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx4 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy4 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy4 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz4 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz4 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -903,7 +1066,24 @@ P_count) default(present)async(1)
 		//----------Polarization 5------//
 		mat_type = pt_glb->material_cell(idx5, idy5, idz5);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx5 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx5 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy5 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy5 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz5 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz5 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -938,8 +1118,27 @@ P_count) default(present)async(1)
 
 		//----------Polarization 6------//
 		mat_type = pt_glb->material_cell(idx6, idy6, idz6);
+		//printf("mat_type6 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx6, idy6, idz6);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx6 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx6 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy6 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy6 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz6 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz6 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -974,8 +1173,27 @@ P_count) default(present)async(1)
 
 		//----------Polarization 7------//
 		mat_type = pt_glb->material_cell(idx7, idy7, idz7);
+		//printf("mat_type7 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx7, idy7, idz7);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx7 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx7 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy7 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy7 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz7 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz7 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1009,8 +1227,26 @@ P_count) default(present)async(1)
 
 		//----------Polarization 8------//
 		mat_type = pt_glb->material_cell(idx8, idy8, idz8);
+		
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx8 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx8 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy8 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy8 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz8 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz8 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1077,86 +1313,51 @@ P_count) default(present)async(1)
 			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
 			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
 			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
-		{
-			isPML = true;
-		}
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
 
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx) {
-				C1 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt);
-
-				DEx_em_t2(idx8, j, k) = C1 * Dx_PML_store(idx8, j, k) + C2 * (dHzdy - dHydz);
+				DEx_em_t2(idx8, j, k) = pt_glb->dt / kappa_y_np1(0, j, 0) \
+					* (dHzdy - dHydz - (sigma_y_np1(0, j, 0) / e0) * Dx_PML_store(idx8, j, k) \
+						- Jfx - Jpx - Jishex - dPx / pt_glb->dt);
 
 			}
 
 			if (j < ny) {
-				C1 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt);
-
-				DEy_em_t2(i, idy8, k) = C1 * Dy_PML_store(i, idy8, k) + C2 * (dHxdz - dHzdx);
+				DEy_em_t2(i, idy8, k) = pt_glb->dt / kappa_z_np1(0, 0, k) \
+					* (dHxdz - dHzdx - (sigma_z_np1(0, 0, k) / e0) * Dy_PML_store(i, idy8, k) \
+						- Jfy - Jpy - Jishey - dPy / pt_glb->dt);
 			}
 
 			if (k < nz) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt);
-
-				DEz_em_t2(i, j, idz8) = C1 * Dz_PML_store(i, j, idz8) + C2 * (dHydx - dHxdy);
+				DEz_em_t2(i, j, idz8) = pt_glb->dt / kappa_x_np1(i, 0, 0) \
+					* (dHydx - dHxdy - (sigma_x_np1(i, 0, 0) / e0) * Dz_PML_store(i, j, idz8) \
+						- Jfz - Jpz - dPz / pt_glb->dt);
 			}
 
 			if (i < nx) {
-				C1 = 2.0 * e0 * kappa_x_n(idx8, 0, 0) - sigma_x_n(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_n(idx8, 0, 0) + sigma_x_n(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-
-				dDEx_em_rk2(idx8, j, k) = \
-					(C5 * DEx_em_store(idx8, j, k) \
-						+ inverse_er11 * (C1 * DEx_em_t2(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er12 * (C3 * DEy_em_t2(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er13 * (C5 * DEz_em_t2(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C6;
+				dDEx_em_rk2(idx8, j, k) = (pt_glb->dt / kappa_z_np1(0, 0, k)) \
+					* (inverse_er11*(kappa_x_n(idx8, 0, 0) * DEx_em_t2(idx8, j, k) / pt_glb->dt \
+						+ sigma_x_n(idx8, 0, 0) * Dx_PML_store(idx8, j, k) / e0) / e0\
+						- (sigma_z_np1(0, 0, k) * DEx_em_store(idx8, j, k) / e0));
 			}
 
 			if (j < ny) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_n(0, idy8, 0) - sigma_y_n(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_n(0, idy8, 0) + sigma_y_n(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-
-				dDEy_em_rk2(i, idy8, k) = \
-					(C1 * DEy_em_store(i, idy8, k) \
-						+ inverse_er21 * (C1 * DEx_em_t2(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er22 * (C3 * DEy_em_t2(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er23 * (C5 * DEz_em_t2(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C2;
-
+				dDEy_em_rk2(i, idx8, k) = (pt_glb->dt / kappa_x_np1(i, 0, 0)) \
+					* (inverse_er22*(kappa_y_n(0, idy8, 0) * DEy_em_t2(i, idx8, k) / pt_glb->dt \
+						+ sigma_y_n(0, idy8, 0) * Dy_PML_store(i, idx8, k) / e0) / e0\
+						- (sigma_x_np1(i, 0, 0) * DEy_em_store(i, idx8, k) / e0));
 			}
 
 			if (k < nz) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_n(0, 0, idz8) - sigma_z_n(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_n(0, 0, idz8) + sigma_z_n(0, 0, idz8) * pt_glb->dt;
-
-				dDEz_em_rk2(i, j, idz8) = \
-					(C3 * DEz_em_store(i, j, idz8) \
-						+ inverse_er31 * (C1 * DEx_em_t2(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er32 * (C3 * DEy_em_t2(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er33 * (C5 * DEz_em_t2(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C4;
+				dDEz_em_rk2(i, j, idz8) = (pt_glb->dt / kappa_y_np1(0, j, 0)) \
+					* (inverse_er33*(kappa_z_n(0, 0, idz8) * DEz_em_t2(i, j, idz8) / pt_glb->dt \
+						+ sigma_z_n(0, 0, idz8) * Dz_PML_store(i, j, idz8) / e0) / e0\
+						- (sigma_y_np1(0, j, 0) * DEz_em_store(i, j, idz8) / e0));
 			}
 		}
 		else
@@ -1344,8 +1545,26 @@ P_count) default(present)async(1)
 
 		//----------Polarization 1------//
 		mat_type = pt_glb->material_cell(idx1, idy1, idz1);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx1 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx1 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy1 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy1 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz1 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz1 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1379,8 +1598,26 @@ P_count) default(present)async(1)
 
 		//----------Polarization 2------//
 		mat_type = pt_glb->material_cell(idx2, idy2, idz2);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx2 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+				|| (idx2 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+				|| (idy2 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+				|| (idy2 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+				|| (idz2 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+				|| (idz2 >= pt_geo->zE && true == pt_geo->if_PML_Ze))
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1415,8 +1652,26 @@ P_count) default(present)async(1)
 
 		//----------Polarization 3------//
 		mat_type = pt_glb->material_cell(idx3, idy3, idz3);
+		////printf("mat_type3 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx3, idy3, idz3);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx3 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx3 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy3 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy3 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz3 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz3 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1451,8 +1706,26 @@ P_count) default(present)async(1)
 
 		//----------Polarization 4------//
 		mat_type = pt_glb->material_cell(idx4, idy4, idz4);
+		//printf("mat_type4 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx4, idy4, idz4);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx4 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx4 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy4 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy4 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz4 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz4 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1487,7 +1760,24 @@ P_count) default(present)async(1)
 		//----------Polarization 5------//
 		mat_type = pt_glb->material_cell(idx5, idy5, idz5);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx5 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx5 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy5 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy5 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz5 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz5 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1522,8 +1812,27 @@ P_count) default(present)async(1)
 
 		//----------Polarization 6------//
 		mat_type = pt_glb->material_cell(idx6, idy6, idz6);
+		//printf("mat_type6 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx6, idy6, idz6);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx6 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx6 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy6 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy6 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz6 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz6 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1558,8 +1867,27 @@ P_count) default(present)async(1)
 
 		//----------Polarization 7------//
 		mat_type = pt_glb->material_cell(idx7, idy7, idz7);
+		//printf("mat_type7 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx7, idy7, idz7);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx7 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx7 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy7 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy7 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz7 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz7 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1593,8 +1921,27 @@ P_count) default(present)async(1)
 
 		//----------Polarization 8------//
 		mat_type = pt_glb->material_cell(idx8, idy8, idz8);
+		//printf("mat_type8 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx8, idy8, idz8);
+		
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx8 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx8 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy8 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy8 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz8 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz8 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1661,86 +2008,51 @@ P_count) default(present)async(1)
 			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
 			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
 			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
-		{
-			isPML = true;
-		}
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
 
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx) {
-				C1 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt);
-
-				DEx_em_t3(idx8, j, k) = C1 * Dx_PML_store(idx8, j, k) + C2 * (dHzdy - dHydz);
+				DEx_em_t3(idx8, j, k) = pt_glb->dt / kappa_y_np1(0, j, 0) \
+					* (dHzdy - dHydz - (sigma_y_np1(0, j, 0) / e0) * Dx_PML_store(idx8, j, k) \
+						- Jfx - Jpx - Jishex - dPx / pt_glb->dt);
 
 			}
 
 			if (j < ny) {
-				C1 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt);
-
-				DEy_em_t3(i, idy8, k) = C1 * Dy_PML_store(i, idy8, k) + C2 * (dHxdz - dHzdx);
+				DEy_em_t3(i, idy8, k) = pt_glb->dt / kappa_z_np1(0, 0, k) \
+					* (dHxdz - dHzdx - (sigma_z_np1(0, 0, k) / e0) * Dy_PML_store(i, idy8, k) \
+						- Jfy - Jpy - Jishey - dPy / pt_glb->dt);
 			}
 
 			if (k < nz) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt);
-
-				DEz_em_t3(i, j, idz8) = C1 * Dz_PML_store(i, j, idz8) + C2 * (dHydx - dHxdy);
+				DEz_em_t3(i, j, idz8) = pt_glb->dt / kappa_x_np1(i, 0, 0) \
+					* (dHydx - dHxdy - (sigma_x_np1(i, 0, 0) / e0) * Dz_PML_store(i, j, idz8) \
+						- Jfz - Jpz - dPz / pt_glb->dt);
 			}
 
 			if (i < nx) {
-				C1 = 2.0 * e0 * kappa_x_n(idx8, 0, 0) - sigma_x_n(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_n(idx8, 0, 0) + sigma_x_n(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-
-				dDEx_em_rk3(idx8, j, k) = \
-					(C5 * DEx_em_store(idx8, j, k) \
-						+ inverse_er11 * (C1 * DEx_em_t3(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er12 * (C3 * DEy_em_t3(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er13 * (C5 * DEz_em_t3(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C6;
+				dDEx_em_rk3(idx8, j, k) = (pt_glb->dt / kappa_z_np1(0, 0, k)) \
+					* (inverse_er11*(kappa_x_n(idx8, 0, 0) * DEx_em_t3(idx8, j, k) / pt_glb->dt \
+						+ sigma_x_n(idx8, 0, 0) * Dx_PML_store(idx8, j, k) / e0) / e0\
+						- (sigma_z_np1(0, 0, k) * DEx_em_store(idx8, j, k) / e0));
 			}
 
 			if (j < ny) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_n(0, idy8, 0) - sigma_y_n(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_n(0, idy8, 0) + sigma_y_n(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-
-				dDEy_em_rk3(i, idy8, k) = \
-					(C1 * DEy_em_store(i, idy8, k) \
-						+ inverse_er21 * (C1 * DEx_em_t3(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er22 * (C3 * DEy_em_t3(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er23 * (C5 * DEz_em_t3(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C2;
-
+				dDEy_em_rk3(i, idx8, k) = (pt_glb->dt / kappa_x_np1(i, 0, 0)) \
+					* (inverse_er22*(kappa_y_n(0, idy8, 0) * DEy_em_t3(i, idx8, k) / pt_glb->dt \
+						+ sigma_y_n(0, idy8, 0) * Dy_PML_store(i, idx8, k) / e0) / e0\
+						- (sigma_x_np1(i, 0, 0) * DEy_em_store(i, idx8, k) / e0));
 			}
 
 			if (k < nz) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_n(0, 0, idz8) - sigma_z_n(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_n(0, 0, idz8) + sigma_z_n(0, 0, idz8) * pt_glb->dt;
-
-				dDEz_em_rk3(i, j, idz8) = \
-					(C3 * DEz_em_store(i, j, idz8) \
-						+ inverse_er31 * (C1 * DEx_em_t3(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er32 * (C3 * DEy_em_t3(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er33 * (C5 * DEz_em_t3(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C4;
+				dDEz_em_rk3(i, j, idz8) = (pt_glb->dt / kappa_y_np1(0, j, 0)) \
+					* (inverse_er33*(kappa_z_n(0, 0, idz8) * DEz_em_t3(i, j, idz8) / pt_glb->dt \
+						+ sigma_z_n(0, 0, idz8) * Dz_PML_store(i, j, idz8) / e0) / e0\
+						- (sigma_y_np1(0, j, 0) * DEz_em_store(i, j, idz8) / e0));
 			}
 		}
 		else
@@ -1930,8 +2242,26 @@ P_count) default(present) async(1)
 
 		//----------Polarization 1------//
 		mat_type = pt_glb->material_cell(idx1, idy1, idz1);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx1 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx1 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy1 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy1 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz1 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz1 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -1965,8 +2295,26 @@ P_count) default(present) async(1)
 
 		//----------Polarization 2------//
 		mat_type = pt_glb->material_cell(idx2, idy2, idz2);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx2 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+				|| (idx2 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+				|| (idy2 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+				|| (idy2 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+				|| (idz2 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+				|| (idz2 >= pt_geo->zE && true == pt_geo->if_PML_Ze))
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -2001,8 +2349,26 @@ P_count) default(present) async(1)
 
 		//----------Polarization 3------//
 		mat_type = pt_glb->material_cell(idx3, idy3, idz3);
+		////printf("mat_type3 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx3, idy3, idz3);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx3 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx3 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy3 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy3 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz3 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz3 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -2037,8 +2403,26 @@ P_count) default(present) async(1)
 
 		//----------Polarization 4------//
 		mat_type = pt_glb->material_cell(idx4, idy4, idz4);
+		//printf("mat_type4 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx4, idy4, idz4);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx4 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx4 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy4 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy4 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz4 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz4 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -2073,7 +2457,24 @@ P_count) default(present) async(1)
 		//----------Polarization 5------//
 		mat_type = pt_glb->material_cell(idx5, idy5, idz5);
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx5 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx5 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy5 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy5 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz5 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz5 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -2108,8 +2509,27 @@ P_count) default(present) async(1)
 
 		//----------Polarization 6------//
 		mat_type = pt_glb->material_cell(idx6, idy6, idz6);
+		//printf("mat_type6 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx6, idy6, idz6);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx6 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx6 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy6 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy6 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz6 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz6 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -2144,8 +2564,27 @@ P_count) default(present) async(1)
 
 		//----------Polarization 7------//
 		mat_type = pt_glb->material_cell(idx7, idy7, idz7);
+		//printf("mat_type7 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx7, idy7, idz7);
+
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx7 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx7 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy7 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy7 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz7 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz7 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -2179,8 +2618,27 @@ P_count) default(present) async(1)
 
 		//----------Polarization 8------//
 		mat_type = pt_glb->material_cell(idx8, idy8, idz8);
+		//printf("mat_type8 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx8, idy8, idz8);
+		
 		if (mat_type == 0) {
-			er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			if ((idx8 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (idx8 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (idy8 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (idy8 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (idz8 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (idz8 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
+			
+			if (isPML) {
+				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+			}
+			else {
+				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
+			}
 		}
 		else {
 			mat = &(pt_glb->material_parameters[(mat_type)-1]);
@@ -2247,86 +2705,51 @@ P_count) default(present) async(1)
 			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
 			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
 			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
-		{
-			isPML = true;
-		}
+			{
+				isPML = true;
+			}
+			else
+				isPML = false;
 
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx) {
-				C1 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt);
-
-				DEx_em_t4(idx8, j, k) = C1 * Dx_PML_store(idx8, j, k) + C2 * (dHzdy - dHydz);
+				DEx_em_t4(idx8, j, k) = pt_glb->dt / kappa_y_np1(0, j, 0) \
+					* (dHzdy - dHydz - (sigma_y_np1(0, j, 0) / e0) * Dx_PML_store(idx8, j, k) \
+						- Jfx - Jpx - Jishex - dPx / pt_glb->dt);
 
 			}
 
 			if (j < ny) {
-				C1 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt);
-
-				DEy_em_t4(i, idy8, k) = C1 * Dy_PML_store(i, idy8, k) + C2 * (dHxdz - dHzdx);
+				DEy_em_t4(i, idy8, k) = pt_glb->dt / kappa_z_np1(0, 0, k) \
+					* (dHxdz - dHzdx - (sigma_z_np1(0, 0, k) / e0) * Dy_PML_store(i, idy8, k) \
+						- Jfy - Jpy - Jishey - dPy / pt_glb->dt);
 			}
 
 			if (k < nz) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C1 /= 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = (2.0 * e0 * pt_glb->dt) / (2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt);
-
-				DEz_em_t4(i, j, idz8) = C1 * Dz_PML_store(i, j, idz8) + C2 * (dHydx - dHxdy);
+				DEz_em_t4(i, j, idz8) = pt_glb->dt / kappa_x_np1(i, 0, 0) \
+					* (dHydx - dHxdy - (sigma_x_np1(i, 0, 0) / e0) * Dz_PML_store(i, j, idz8) \
+						- Jfz - Jpz - dPz / pt_glb->dt);
 			}
 
 			if (i < nx) {
-				C1 = 2.0 * e0 * kappa_x_n(idx8, 0, 0) - sigma_x_n(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_n(idx8, 0, 0) + sigma_x_n(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-
-				dDEx_em_rk4(idx8, j, k) = \
-					(C5 * DEx_em_store(idx8, j, k) \
-						+ inverse_er11 * (C1 * DEx_em_t4(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er12 * (C3 * DEy_em_t4(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er13 * (C5 * DEz_em_t4(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C6;
+				dDEx_em_rk4(idx8, j, k) = (pt_glb->dt / kappa_z_np1(0, 0, k)) \
+					* (inverse_er11*(kappa_x_n(idx8, 0, 0) * DEx_em_t4(idx8, j, k) / pt_glb->dt \
+						+ sigma_x_n(idx8, 0, 0) * Dx_PML_store(idx8, j, k) / e0) / e0\
+						- (sigma_z_np1(0, 0, k) * DEx_em_store(idx8, j, k) / e0));
 			}
 
 			if (j < ny) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_n(0, idy8, 0) - sigma_y_n(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_n(0, idy8, 0) + sigma_y_n(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) - sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_np1(0, 0, idz8) + sigma_z_np1(0, 0, idz8) * pt_glb->dt;
-
-				dDEy_em_rk4(i, idy8, k) = \
-					(C1 * DEy_em_store(i, idy8, k) \
-						+ inverse_er21 * (C1 * DEx_em_t4(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er22 * (C3 * DEy_em_t4(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er23 * (C5 * DEz_em_t4(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C2;
-
+				dDEy_em_rk4(i, idx8, k) = (pt_glb->dt / kappa_x_np1(i, 0, 0)) \
+					* (inverse_er22*(kappa_y_n(0, idy8, 0) * DEy_em_t4(i, idx8, k) / pt_glb->dt \
+						+ sigma_y_n(0, idy8, 0) * Dy_PML_store(i, idx8, k) / e0) / e0\
+						- (sigma_x_np1(i, 0, 0) * DEy_em_store(i, idx8, k) / e0));
 			}
 
 			if (k < nz) {
-				C1 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) - sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-				C2 = 2.0 * e0 * kappa_x_np1(idx8, 0, 0) + sigma_x_np1(idx8, 0, 0) * pt_glb->dt;
-
-				C3 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) - sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-				C4 = 2.0 * e0 * kappa_y_np1(0, idy8, 0) + sigma_y_np1(0, idy8, 0) * pt_glb->dt;
-
-				C5 = 2.0 * e0 * kappa_z_n(0, 0, idz8) - sigma_z_n(0, 0, idz8) * pt_glb->dt;
-				C6 = 2.0 * e0 * kappa_z_n(0, 0, idz8) + sigma_z_n(0, 0, idz8) * pt_glb->dt;
-
-				dDEz_em_rk4(i, j, idz8) = \
-					(C3 * DEz_em_store(i, j, idz8) \
-						+ inverse_er31 * (C1 * DEx_em_t4(idx8, j, k) - C2 * Dx_PML_store(idx8, j, k)) \
-						+ inverse_er32 * (C3 * DEy_em_t4(i, idy8, k) - C4 * Dy_PML_store(i, idy8, k)) \
-						+ inverse_er33 * (C5 * DEz_em_t4(i, j, idz8) - C6 * Dz_PML_store(i, j, idz8))) / C4;
+				dDEz_em_rk4(i, j, idz8) = (pt_glb->dt / kappa_y_np1(0, j, 0)) \
+					* (inverse_er33*(kappa_z_n(0, 0, idz8) * DEz_em_t4(i, j, idz8) / pt_glb->dt \
+						+ sigma_z_n(0, 0, idz8) * Dz_PML_store(i, j, idz8) / e0) / e0\
+						- (sigma_y_np1(0, j, 0) * DEz_em_store(i, j, idz8) / e0));
 			}
 		}
 		else
@@ -2398,15 +2821,29 @@ void EMdynamic_system::get_dH_RK1() {
 	long int idx2, idy2, idz2;
 	double M_count;
 
+	bool isPML = false;
+
 	//------------------X component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_count) default(present) async(4)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_count, isPML) default(present) async(4)
 	for (long int id = 0; id < (nx + 1) * ny * nz; id++) {
 		i = id / ((ny) * (nz));
 		j = (id - i * ((ny) * (nz))) / (nz);
 		k = id - i * ((ny) * (nz)) - j * (nz);
-
+		
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE + 1 && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		if (i == 0) {
 			if (pt_geo->periodicX == true) {
 				idx1 = nx - 1;
@@ -2490,7 +2927,19 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		dDHx_em_rk1(i, j, k) = -pt_glb->dt / mu0 * (dEzdy - dEydz) - (dMx1 + dMx2) / M_count; //RK
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (j < ny && k < nz) {
+				BHx_em_t1(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
+					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k));
+				
+				dDHx_em_rk1(i, j, k) = (pt_glb->dt / kappa_z_n(0, 0, k)) \
+					* ((kappa_x_np1(i, 0, 0) * BHx_em_t1(i, j, k) / pt_glb->dt \
+						+ sigma_x_np1(i, 0, 0) * Bx_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_z_n(0, 0, k) * DHx_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHx_em_rk1(i, j, k) = -pt_glb->dt / mu0 * (dEzdy - dEydz) - (dMx1 + dMx2) / M_count; //RK
 		
 			//if (abs(dDHx_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHx_em(i, j, k) = 0.;
@@ -2502,12 +2951,24 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 	//------------------Y component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_count) default(present) async(5)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_count,isPML) default(present) async(5)
 	for (long int id = 0; id < nx * (ny + 1) * nz; id++) {
 		i = id / ((ny + 1) * (nz));
 		j = (id - i * ((ny + 1) * (nz))) / (nz);
 		k = id - i * ((ny + 1) * (nz)) - j * (nz);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE + 1 && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		idx1 = i; idx2 = i;
 		if (j == 0) {
 			if (pt_geo->periodicY == true) {
@@ -2590,7 +3051,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHy_em_rk1(i, j, k) = -pt_glb->dt / mu0 * (dExdz - dEzdx) - (dMy1 + dMy2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (i < nx && k < nz) {
+				BHy_em_t1(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
+					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k) \
+						);
+
+				dDHy_em_rk1(i, j, k) = (pt_glb->dt / kappa_x_n(i, 0, 0)) \
+					* ((kappa_y_np1(0, j, 0) * BHy_em_t1(i, j, k) / pt_glb->dt \
+						+ sigma_y_np1(0, j, 0) * By_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_x_n(i, 0, 0) * DHy_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHy_em_rk1(i, j, k) = -pt_glb->dt / mu0 * (dExdz - dEzdx) - (dMy1 + dMy2) / M_count; //RK
 		//if (abs(dDHy_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHy_em(i, j, k) = 0.;
 		//}
@@ -2600,12 +3075,24 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 	//------------------Z component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_count) default(present) async(6)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_count,isPML) default(present) async(6)
 	for (long int id = 0; id < nx * ny * (nz + 1); id++) {
 		i = id / ((ny) * (nz + 1));
 		j = (id - i * ((ny) * (nz + 1))) / (nz + 1);
 		k = id - i * ((ny) * (nz + 1)) - j * (nz + 1);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE + 1 && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		dEydx = (DEy_em_store(i + 1, j, k) - DEy_em_store(i, j, k)) / dx;
 		dExdy = (DEx_em_store(i, j + 1, k) - DEx_em_store(i, j, k)) / dy;
 
@@ -2687,7 +3174,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHz_em_rk1(i, j, k) = -pt_glb->dt / mu0 * (dEydx - dExdy) - (dMz1 + dMz2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (i < nx && j < ny) {
+				BHz_em_t1(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
+					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k) \
+						);
+
+				dDHz_em_rk1(i, j, k) = (pt_glb->dt / kappa_y_n(0, j, 0)) \
+					* ((kappa_z_np1(0, 0, k) * BHz_em_t1(i, j, k) / pt_glb->dt \
+						+ sigma_z_np1(0, 0, k) * Bz_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_y_n(0, j, 0) * DHz_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHz_em_rk1(i, j, k) = -pt_glb->dt / mu0 * (dEydx - dExdy) - (dMz1 + dMz2) / M_count; //RK
 		//if (abs(dDHz_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHz_em(i, j, k) = 0.;
 		//}
@@ -2710,15 +3211,29 @@ void EMdynamic_system::get_dH_RK2() {
 	long int idx2, idy2, idz2;
 	double M_count;
 
+	bool isPML;
+
 	//------------------X component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_count) default(present) async(4)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_count,isPML) default(present) async(4)
 	for (long int id = 0; id < (nx + 1) * ny * nz; id++) {
 		i = id / ((ny) * (nz));
 		j = (id - i * ((ny) * (nz))) / (nz);
 		k = id - i * ((ny) * (nz)) - j * (nz);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE + 1 && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		if (i == 0) {
 			if (pt_geo->periodicX == true) {
 				idx1 = nx - 1;
@@ -2801,7 +3316,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHx_em_rk2(i, j, k) = -pt_glb->dt / mu0 * (dEzdy - dEydz) - (dMx1 + dMx2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (j < ny && k < nz) {
+				BHx_em_t2(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
+					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k) \
+						);
+
+				dDHx_em_rk2(i, j, k) = (pt_glb->dt / kappa_z_n(0, 0, k)) \
+					* ((kappa_x_np1(i, 0, 0) * BHx_em_t2(i, j, k) / pt_glb->dt \
+						+ sigma_x_np1(i, 0, 0) * Bx_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_z_n(0, 0, k) * DHx_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHx_em_rk2(i, j, k) = -pt_glb->dt / mu0 * (dEzdy - dEydz) - (dMx1 + dMx2) / M_count; //RK
 		//if (abs(dDHx_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHx_em(i, j, k) = 0.;
 		//}
@@ -2812,12 +3341,24 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 	//------------------Y component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_count) default(present) async(5)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_count,isPML) default(present) async(5)
 	for (long int id = 0; id < nx * (ny + 1) * nz; id++) {
 		i = id / ((ny + 1) * (nz));
 		j = (id - i * ((ny + 1) * (nz))) / (nz);
 		k = id - i * ((ny + 1) * (nz)) - j * (nz);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE + 1 && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		idx1 = i; idx2 = i;
 		if (j == 0) {
 			if (pt_geo->periodicY == true) {
@@ -2900,7 +3441,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHy_em_rk2(i, j, k) = -pt_glb->dt / mu0 * (dExdz - dEzdx) - (dMy1 + dMy2) / M_count; //RK
+		
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (i < nx && k < nz) {
+				BHy_em_t2(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
+					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k) \
+						);
+
+				dDHy_em_rk2(i, j, k) = (pt_glb->dt / kappa_x_n(i, 0, 0)) \
+					* ((kappa_y_np1(0, j, 0) * BHy_em_t2(i, j, k) / pt_glb->dt \
+						+ sigma_y_np1(0, j, 0) * By_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_x_n(i, 0, 0) * DHy_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHy_em_rk2(i, j, k) = -pt_glb->dt / mu0 * (dExdz - dEzdx) - (dMy1 + dMy2) / M_count; //RK
 		//if (abs(dDHy_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHy_em(i, j, k) = 0.;
 		//}
@@ -2910,12 +3465,24 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 	//------------------Z component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_count) default(present) async(6)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_count,isPML) default(present) async(6)
 	for (long int id = 0; id < nx * ny * (nz + 1); id++) {
 		i = id / ((ny) * (nz + 1));
 		j = (id - i * ((ny) * (nz + 1))) / (nz + 1);
 		k = id - i * ((ny) * (nz + 1)) - j * (nz + 1);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE + 1 && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		dEydx = (DEy_em_store(i + 1, j, k) - DEy_em_store(i, j, k)) / dx;
 		dExdy = (DEx_em_store(i, j + 1, k) - DEx_em_store(i, j, k)) / dy;
 
@@ -2996,7 +3563,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHz_em_rk2(i, j, k) = -pt_glb->dt / mu0 * (dEydx - dExdy) - (dMz1 + dMz2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (i < nx && j < ny) {
+				BHz_em_t2(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
+					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k) \
+						);
+
+				dDHz_em_rk2(i, j, k) = (pt_glb->dt / kappa_y_n(0, j, 0)) \
+					* ((kappa_z_np1(0, 0, k) * BHz_em_t2(i, j, k) / pt_glb->dt \
+						+ sigma_z_np1(0, 0, k) * Bz_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_y_n(0, j, 0) * DHz_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHz_em_rk2(i, j, k) = -pt_glb->dt / mu0 * (dEydx - dExdy) - (dMz1 + dMz2) / M_count; //RK
 		//if (abs(dDHz_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHz_em(i, j, k) = 0.;
 		//}
@@ -3019,15 +3600,29 @@ void EMdynamic_system::get_dH_RK3() {
 	long int idx2, idy2, idz2;
 	double M_count;
 
+	bool isPML;
+
 	//------------------X component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_count) default(present) async(4)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_count,isPML) default(present) async(4)
 	for (long int id = 0; id < (nx + 1) * ny * nz; id++) {
 		i = id / ((ny) * (nz));
 		j = (id - i * ((ny) * (nz))) / (nz);
 		k = id - i * ((ny) * (nz)) - j * (nz);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE + 1 && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		if (i == 0) {
 			if (pt_geo->periodicX == true) {
 				idx1 = nx - 1;
@@ -3110,7 +3705,22 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHx_em_rk3(i, j, k) = -pt_glb->dt / mu0 * (dEzdy - dEydz) - (dMx1 + dMx2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (j < ny && k < nz) {
+				BHx_em_t3(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
+					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k) \
+						);
+
+				dDHx_em_rk3(i, j, k) = (pt_glb->dt / kappa_z_n(0, 0, k)) \
+					* ((kappa_x_np1(i, 0, 0) * BHx_em_t3(i, j, k) / pt_glb->dt \
+						+ sigma_x_np1(i, 0, 0) * Bx_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_z_n(0, 0, k) * DHx_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHx_em_rk3(i, j, k) = -pt_glb->dt / mu0 * (dEzdy - dEydz) - (dMx1 + dMx2) / M_count; //RK
+
 		//if (abs(dDHx_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHx_em(i, j, k) = 0.;
 		//}
@@ -3121,12 +3731,24 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 	//------------------Y component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_count) default(present) async(5)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_count,isPML) default(present) async(5)
 	for (long int id = 0; id < nx * (ny + 1) * nz; id++) {
 		i = id / ((ny + 1) * (nz));
 		j = (id - i * ((ny + 1) * (nz))) / (nz);
 		k = id - i * ((ny + 1) * (nz)) - j * (nz);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE + 1 && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		idx1 = i; idx2 = i;
 		if (j == 0) {
 			if (pt_geo->periodicY == true) {
@@ -3209,7 +3831,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHy_em_rk3(i, j, k) = -pt_glb->dt / mu0 * (dExdz - dEzdx) - (dMy1 + dMy2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (i < nx && k < nz) {
+				BHy_em_t3(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
+					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k) \
+						);
+
+				dDHy_em_rk3(i, j, k) = (pt_glb->dt / kappa_x_n(i, 0, 0)) \
+					* ((kappa_y_np1(0, j, 0) * BHy_em_t3(i, j, k) / pt_glb->dt \
+						+ sigma_y_np1(0, j, 0) * By_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_x_n(i, 0, 0) * DHy_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHy_em_rk3(i, j, k) = -pt_glb->dt / mu0 * (dExdz - dEzdx) - (dMy1 + dMy2) / M_count; //RK
 		//if (abs(dDHy_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHy_em(i, j, k) = 0.;
 		//}
@@ -3219,12 +3855,24 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 	//------------------Z component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_count) default(present) async(6)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_count,isPML) default(present) async(6)
 	for (long int id = 0; id < nx * ny * (nz + 1); id++) {
 		i = id / ((ny) * (nz + 1));
 		j = (id - i * ((ny) * (nz + 1))) / (nz + 1);
 		k = id - i * ((ny) * (nz + 1)) - j * (nz + 1);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE + 1 && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		dEydx = (DEy_em_store(i + 1, j, k) - DEy_em_store(i, j, k)) / dx;
 		dExdy = (DEx_em_store(i, j + 1, k) - DEx_em_store(i, j, k)) / dy;
 
@@ -3305,7 +3953,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHz_em_rk3(i, j, k) = -pt_glb->dt / mu0 * (dEydx - dExdy) - (dMz1 + dMz2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (i < nx && j < ny) {
+				BHz_em_t3(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
+					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k) \
+						);
+
+				dDHz_em_rk3(i, j, k) = (pt_glb->dt / kappa_y_n(0, j, 0)) \
+					* ((kappa_z_np1(0, 0, k) * BHz_em_t3(i, j, k) / pt_glb->dt \
+						+ sigma_z_np1(0, 0, k) * Bz_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_y_n(0, j, 0) * DHz_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHz_em_rk3(i, j, k) = -pt_glb->dt / mu0 * (dEydx - dExdy) - (dMz1 + dMz2) / M_count; //RK
 		//if (abs(dDHz_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHz_em(i, j, k) = 0.;
 		//}
@@ -3328,15 +3990,29 @@ void EMdynamic_system::get_dH_RK4() {
 	long int idx2, idy2, idz2;
 	double M_count;
 
+	bool isPML;
+
 	//------------------X component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_count) default(present) async(4)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_count, isPML) default(present) async(4)
 	for (long int id = 0; id < (nx + 1) * ny * nz; id++) {
 		i = id / ((ny) * (nz));
 		j = (id - i * ((ny) * (nz))) / (nz);
 		k = id - i * ((ny) * (nz)) - j * (nz);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE + 1 && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		if (i == 0) {
 			if (pt_geo->periodicX == true) {
 				idx1 = nx - 1;
@@ -3419,7 +4095,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHx_em_rk4(i, j, k) = -pt_glb->dt / mu0 * (dEzdy - dEydz) - (dMx1 + dMx2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (j < ny && k < nz) {
+				BHx_em_t4(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
+					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k) \
+						);
+
+				dDHx_em_rk4(i, j, k) = (pt_glb->dt / kappa_z_n(0, 0, k)) \
+					* ((kappa_x_np1(i, 0, 0) * BHx_em_t4(i, j, k) / pt_glb->dt \
+						+ sigma_x_np1(i, 0, 0) * Bx_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_z_n(0, 0, k) * DHx_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHx_em_rk4(i, j, k) = -pt_glb->dt / mu0 * (dEzdy - dEydz) - (dMx1 + dMx2) / M_count; //RK
 		//if (abs(dDHx_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHx_em(i, j, k) = 0.;
 		//}
@@ -3430,11 +4120,23 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 	//------------------Y component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_count) default(present) async(5)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_count,isPML) default(present) async(5)
 	for (long int id = 0; id < nx * (ny + 1) * nz; id++) {
 		i = id / ((ny + 1) * (nz));
 		j = (id - i * ((ny + 1) * (nz))) / (nz);
 		k = id - i * ((ny + 1) * (nz)) - j * (nz);
+
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE + 1 && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
 
 		idx1 = i; idx2 = i;
 		if (j == 0) {
@@ -3518,7 +4220,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHy_em_rk4(i, j, k) = -pt_glb->dt / mu0 * (dExdz - dEzdx) - (dMy1 + dMy2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (i < nx && k < nz) {
+				BHy_em_t4(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
+					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k) \
+						);
+
+				dDHy_em_rk4(i, j, k) = (pt_glb->dt / kappa_x_n(i, 0, 0)) \
+					* ((kappa_y_np1(0, j, 0) * BHy_em_t4(i, j, k) / pt_glb->dt \
+						+ sigma_y_np1(0, j, 0) * By_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_x_n(i, 0, 0) * DHy_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHy_em_rk4(i, j, k) = -pt_glb->dt / mu0 * (dExdz - dEzdx) - (dMy1 + dMy2) / M_count; //RK
 		//if (abs(dDHy_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHy_em(i, j, k) = 0.;
 		//}
@@ -3528,12 +4244,24 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 	//------------------Z component-------------------//
 #pragma acc parallel loop gang vector private(dMx1, dMy1, dMz1,dMx2, dMy2, dMz2,\
 Ms1_AFM1, Ms2_AFM1,Ms1_AFM2, Ms2_AFM2,\
-Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_count) default(present) async(6)
+Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_count,isPML) default(present) async(6)
 	for (long int id = 0; id < nx * ny * (nz + 1); id++) {
 		i = id / ((ny) * (nz + 1));
 		j = (id - i * ((ny) * (nz + 1))) / (nz + 1);
 		k = id - i * ((ny) * (nz + 1)) - j * (nz + 1);
 
+		if ((i < pt_geo->xS && true == pt_geo->if_PML_Xs) \
+			|| (i >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
+			|| (j < pt_geo->yS && true == pt_geo->if_PML_Ys) \
+			|| (j >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
+			|| (k < pt_geo->zS && true == pt_geo->if_PML_Zs) \
+			|| (k >= pt_geo->zE + 1&& true == pt_geo->if_PML_Ze)) 
+		{
+			isPML = true;
+		}
+		else
+			isPML = false;
+		
 		dEydx = (DEy_em_store(i + 1, j, k) - DEy_em_store(i, j, k)) / dx;
 		dExdy = (DEx_em_store(i, j + 1, k) - DEx_em_store(i, j, k)) / dy;
 
@@ -3614,7 +4342,21 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		if (M_count < 0.5) {
 			M_count = 1.;
 		}
-		dDHz_em_rk4(i, j, k) = -pt_glb->dt / mu0 * (dEydx - dExdy) - (dMz1 + dMz2) / M_count; //RK
+
+		if (true == pt_geo->if_PML && true == isPML) {
+			if (i < nx && j < ny) {
+				BHz_em_t4(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
+					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k) \
+						);
+
+				dDHz_em_rk4(i, j, k) = (pt_glb->dt / kappa_y_n(0, j, 0)) \
+					* ((kappa_z_np1(0, 0, k) * BHz_em_t4(i, j, k) / pt_glb->dt \
+						+ sigma_z_np1(0, 0, k) * Bz_PML_store(i, j, k) / e0) / mu0 \
+						- (sigma_y_n(0, j, 0) * DHz_em_store(i, j, k) / e0));
+			}
+		}
+		else
+			dDHz_em_rk4(i, j, k) = -pt_glb->dt / mu0 * (dEydx - dExdy) - (dMz1 + dMz2) / M_count; //RK
 		//if (abs(dDHz_em(i, j, k)) < 1.e-6 * (Ms1 + Ms2) * 0.5 * pt_glb->dt) {
 		//	dDHz_em(i, j, k) = 0.;
 		//}
@@ -3630,16 +4372,22 @@ void EMdynamic_system::update_DH_RK1()
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * ny * nz; id++) {
 			DHx_em_store(id) = DHx_em(id) + dDHx_em_rk1(id) * 0.5;
+			if (true == pt_geo->if_PML)
+				Bx_PML_store(id) = Bx_PML(id) + BHx_em_t1(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * nz; id++) {
 			DHy_em_store(id) = DHy_em(id) + dDHy_em_rk1(id) * 0.5;
+			if (true == pt_geo->if_PML)
+				By_PML_store(id) = By_PML(id) + BHy_em_t1(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * ny * (nz + 1); id++) {
 			DHz_em_store(id) = DHz_em(id) + dDHz_em_rk1(id) * 0.5;
+			if (true == pt_geo->if_PML)
+				Bz_PML_store(id) = Bz_PML(id) + BHz_em_t1(id) * 0.5;
 		}
 	}
 
@@ -3657,16 +4405,22 @@ void EMdynamic_system::update_DH_RK2()
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * ny * nz; id++) {
 			DHx_em_store(id) = DHx_em(id) + dDHx_em_rk2(id) * 0.5;
+			if (true == pt_geo->if_PML)
+				Bx_PML_store(id) = Bx_PML(id) + BHx_em_t2(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * nz; id++) {
 			DHy_em_store(id) = DHy_em(id) + dDHy_em_rk2(id) * 0.5;
+			if (true == pt_geo->if_PML)
+				By_PML_store(id) = By_PML(id) + BHy_em_t2(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * ny * (nz + 1); id++) {
 			DHz_em_store(id) = DHz_em(id) + dDHz_em_rk2(id) * 0.5;
+			if (true == pt_geo->if_PML)
+				Bz_PML_store(id) = Bz_PML(id) + BHz_em_t2(id) * 0.5;
 		}
 	}
 
@@ -3684,16 +4438,22 @@ void EMdynamic_system::update_DH_RK3()
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * ny * nz; id++) {
 			DHx_em_store(id) = DHx_em(id) + dDHx_em_rk3(id);
+			if (true == pt_geo->if_PML)
+				Bx_PML_store(id) = Bx_PML(id) + BHx_em_t3(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * nz; id++) {
 			DHy_em_store(id) = DHy_em(id) + dDHy_em_rk3(id);
+			if (true == pt_geo->if_PML)
+				By_PML_store(id) = By_PML(id) + BHy_em_t3(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * ny * (nz + 1); id++) {
 			DHz_em_store(id) = DHz_em(id) + dDHz_em_rk3(id);
+			if (true == pt_geo->if_PML)
+				Bz_PML_store(id) = Bz_PML(id) + BHz_em_t3(id) * 0.5;
 		}
 	}
 
@@ -3712,18 +4472,33 @@ void EMdynamic_system::update_DH()
 		for (long id = 0; id < (nx + 1) * ny * nz; id++) {
 			DHx_em(id) = DHx_em(id) + dDHx_em_rk1(id) / 6. + dDHx_em_rk2(id) / 3. + dDHx_em_rk3(id) / 3. + dDHx_em_rk4(id) / 6.;
 			DHx_em_store(id) = DHx_em(id);
+			if (true == pt_geo->if_PML)
+			{
+				Bx_PML(id) = Bx_PML(id) + BHx_em_t1(id) / 6. + BHx_em_t2(id) / 3. + BHx_em_t3(id) / 3. + BHx_em_t4(id) / 6.;
+				Bx_PML_store(id) = Bx_PML(id);
+			}
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * nz; id++) {
 			DHy_em(id) = DHy_em(id) + dDHy_em_rk1(id) / 6. + dDHy_em_rk2(id) / 3. + dDHy_em_rk3(id) / 3. + dDHy_em_rk4(id) / 6.;
 			DHy_em_store(id) = DHy_em(id);
+			if (true == pt_geo->if_PML)
+			{
+				Bx_PML(id) = Bx_PML(id) + BHy_em_t1(id) / 6. + BHy_em_t2(id) / 3. + BHy_em_t3(id) / 3. + BHy_em_t4(id) / 6.;
+				By_PML_store(id) = By_PML(id);
+			}
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * ny * (nz + 1); id++) {
 			DHz_em(id) = DHz_em(id) + dDHz_em_rk1(id) / 6. + dDHz_em_rk2(id) / 3. + dDHz_em_rk3(id) / 3. + dDHz_em_rk4(id) / 6.;
 			DHz_em_store(id) = DHz_em(id);
+			if (true == pt_geo->if_PML)
+			{
+				Bz_PML(id) = Bz_PML(id) + BHz_em_t1(id) / 6. + BHz_em_t2(id) / 3. + BHz_em_t3(id) / 3. + BHz_em_t4(id) / 6.;
+				Bz_PML_store(id) = Bz_PML(id);
+			}
 		}
 	}
 
@@ -3990,19 +4765,7 @@ void EMdynamic_system::update_DE_cell() {
 		j = (id - i * (ny * nz)) / nz;
 		k = id - i * (ny * nz) - j * nz;
 
-		//printf("DEx2: %le\t%le\t%le\t%le\t%le\t%ld\n", \
-		DEx_em_cell(i, j, k), DEx_em_store(i, j, k), DEx_em_store(i, j + 1, k), \
-		DEx_em_store(i, j, k + 1), DEx_em_store(i, j + 1, k + 1), id);
-
-		//printf("DEy2: %le\t%le\t%le\t%le\t%le\t%ld\n", \
-		DEy_em_cell(i, j, k), DEy_em_store(i, j, k), DEy_em_store(i, j, k + 1), \
-		DEy_em_store(i, j, k + 1), DEy_em_store(i + 1, j, k + 1), id);
-
-		//printf("DEz2: %le\t%le\t%le\t%le\t%le\t%ld\n", \
-		DEz_em_store(i, j + 1, k), DEz_em_store(i + 1, j + 1, k), id);
-		DEz_em_cell(i, j, k), DEz_em_store(i, j, k), DEz_em_store(i + 1, j, k), \
-	
-	DEx_em_cell(i, j, k) = (DEx_em_store(i, j, k) + DEx_em_store(i, j + 1, k) + DEx_em_store(i, j, k + 1) + DEx_em_store(i, j + 1, k + 1)) / 4.;
+		DEx_em_cell(i, j, k) = (DEx_em_store(i, j, k) + DEx_em_store(i, j + 1, k) + DEx_em_store(i, j, k + 1) + DEx_em_store(i, j + 1, k + 1)) / 4.;
 		DEy_em_cell(i, j, k) = (DEy_em_store(i, j, k) + DEy_em_store(i + 1, j, k) + DEy_em_store(i, j, k + 1) + DEy_em_store(i + 1, j, k + 1)) / 4.;
 		DEz_em_cell(i, j, k) = (DEz_em_store(i, j, k) + DEz_em_store(i + 1, j, k) + DEz_em_store(i, j + 1, k) + DEz_em_store(i + 1, j + 1, k)) / 4.;
 	}
