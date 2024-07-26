@@ -80,25 +80,7 @@ void EMdynamic_system::initialize_host(){
 		}
 	}
 
-	if (pt_glb->if_Jf_input == true) {
-		if (pt_geo->if_PML_Xs)
-		{
-			pt_glb->Jfin_xi += pt_geo->PML_size;
-			pt_glb->Jfin_xf += pt_geo->PML_size;
-		}
-
-		if (pt_geo->if_PML_Ys)
-		{
-			pt_glb->Jfin_yi += pt_geo->PML_size;
-			pt_glb->Jfin_yf += pt_geo->PML_size;
-		}
-
-		if (pt_geo->if_PML_Zs)
-		{
-			pt_glb->Jfin_zi += pt_geo->PML_size;
-			pt_glb->Jfin_zf += pt_geo->PML_size;
-		}
-		
+	if (pt_glb->if_Jf_input == true) {		
 		Jf_nx = (pt_glb->Jfin_xf - pt_glb->Jfin_xi + 1);
 		Jf_ny = (pt_glb->Jfin_yf - pt_glb->Jfin_yi + 1);
 		Jf_nz = (pt_glb->Jfin_zf - pt_glb->Jfin_zi + 1);
@@ -565,13 +547,13 @@ void EMdynamic_system::initialize_PML() {
 		if (i < pt_geo->PML_size && pt_geo->if_PML_Xs)
 		{
 			sigma_x_n(i) = pow((double)(pt_geo->PML_size - i) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er11 / sqrt(pt_glb->PML_er11);
+				* pt_glb->sigmaMax;
 			kappa_x_n(i) = 1.0 + pow((double)(pt_geo->PML_size - i) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 		if (i >= nx - pt_geo->PML_size && pt_geo->if_PML_Xe)
 		{
 			sigma_x_n(i) = pow((double)(pt_geo->PML_size - (nx - i - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er11 / sqrt(pt_glb->PML_er11);
+				* pt_glb->sigmaMax;
 			kappa_x_n(i) = 1.0 + pow((pt_geo->PML_size - (nx - i - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 
@@ -587,13 +569,13 @@ void EMdynamic_system::initialize_PML() {
 		if (j < pt_geo->PML_size && pt_geo->if_PML_Ys)
 		{
 			sigma_y_n(j) = pow((double)(pt_geo->PML_size - j) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er22 / sqrt(pt_glb->PML_er22);
+				* pt_glb->sigmaMax;
 			kappa_y_n(j) = 1.0 + pow((double)(pt_geo->PML_size - j) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 		if (j >= ny - pt_geo->PML_size && pt_geo->if_PML_Ye)
 		{
 			sigma_y_n(j) = pow((double)(pt_geo->PML_size - (ny - j - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er22 / sqrt(pt_glb->PML_er22);
+				* pt_glb->sigmaMax;
 			kappa_y_n(j) = 1.0 + pow((double)(pt_geo->PML_size - (ny - j - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 
@@ -609,13 +591,13 @@ void EMdynamic_system::initialize_PML() {
 		if (k < pt_geo->PML_size && pt_geo->if_PML_Zs)
 		{
 			sigma_z_n(k) = pow((double)(pt_geo->PML_size - k) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er33 / sqrt(pt_glb->PML_er33);
+				* pt_glb->sigmaMax;
 			kappa_z_n(k) = 1.0 + pow((double)(pt_geo->PML_size - k) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 		if (k >= nz - pt_geo->PML_size && pt_geo->if_PML_Ze)
 		{
 			sigma_z_n(k) = pow((double)(pt_geo->PML_size - (nz - k - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er33 / sqrt(pt_glb->PML_er33);
+				* pt_glb->sigmaMax;
 			kappa_z_n(k) = 1.0 + pow((double)(pt_geo->PML_size - (nz - k - 1)) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 
@@ -631,13 +613,13 @@ void EMdynamic_system::initialize_PML() {
 		if (i < pt_geo->PML_size && pt_geo->if_PML_Xs)
 		{
 			sigma_x_np1(i) = pow(((double)(pt_geo->PML_size - i) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * \
-				pt_glb->sigmaMax / pt_glb->PML_er11 / sqrt(pt_glb->PML_er11);
+				pt_glb->sigmaMax;
 			kappa_x_np1(i) = 1.0 + pow(((double)(pt_geo->PML_size - i) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 		if (i >= nx + 1 - pt_geo->PML_size && pt_geo->if_PML_Xe)
 		{
 			sigma_x_np1(i) = pow(((double)(pt_geo->PML_size - (nx - i)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * \
-				pt_glb->sigmaMax / pt_glb->PML_er11 / sqrt(pt_glb->PML_er11);
+				pt_glb->sigmaMax;
 			kappa_x_np1(i) = 1.0 + pow(((double)(pt_geo->PML_size - (nx - i)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 
@@ -653,13 +635,13 @@ void EMdynamic_system::initialize_PML() {
 		if (j < pt_geo->PML_size && pt_geo->if_PML_Ys)
 		{
 			sigma_y_np1(j) = pow(((double)(pt_geo->PML_size - j) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er22 / sqrt(pt_glb->PML_er22);
+				* pt_glb->sigmaMax;
 			kappa_y_np1(j) = 1.0 + pow(((double)(pt_geo->PML_size - j) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 		if (j >= ny + 1 - pt_geo->PML_size && pt_geo->if_PML_Ye)
 		{
 			sigma_y_np1(j) = pow(((double)(pt_geo->PML_size - (ny - j)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er22 / sqrt(pt_glb->PML_er22);
+				* pt_glb->sigmaMax;
 			kappa_y_np1(j) = 1.0 + pow(((double)(pt_geo->PML_size - (ny - j)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 
@@ -675,13 +657,13 @@ void EMdynamic_system::initialize_PML() {
 		if (k < pt_geo->PML_size && pt_geo->if_PML_Zs)
 		{
 			sigma_z_np1(k) = pow(((double)(pt_geo->PML_size - k) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er33 / sqrt(pt_glb->PML_er33);
+				* pt_glb->sigmaMax;
 			kappa_z_np1(k) = 1.0 + pow(((double)(pt_geo->PML_size - k) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 		if (k >= nz + 1 - pt_geo->PML_size && pt_geo->if_PML_Ze)
 		{
 			sigma_z_np1(k) = pow(((double)(pt_geo->PML_size - (nz - k)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) \
-				* pt_glb->sigmaMax / pt_glb->PML_er33 / sqrt(pt_glb->PML_er33);
+				* pt_glb->sigmaMax;
 			kappa_z_np1(k) = 1.0 + pow(((double)(pt_geo->PML_size - (nz - k)) + 0.5) / (double)pt_geo->PML_size, pt_glb->PML_m) * (pt_glb->kappaMax - 1.0);
 		}
 

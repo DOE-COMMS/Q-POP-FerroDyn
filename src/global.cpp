@@ -43,15 +43,8 @@ void global_parameters::set_global() {
 	
 	kappaMax = 1.1;
 	PML_m = 3.5;
-	
-	eta0 = sqrt(e0 / mu0);
-	maxReflErr = exp(-16);
-	if (PML_size != 0)
-		sigmaMax = -(PML_m + 1.0) * log(maxReflErr) / (2.0 * PML_size * eta0);
-	else
-		sigmaMax = 0.0;
 
-	if (PML_materialType != 0)
+	if (PML_materialType > 0 && PML_materialType < num_materials)
 	{
 		mat = &(material_parameters[PML_materialType - 1]);
 		PML_er11 = mat->r_permittivity11;
@@ -64,9 +57,34 @@ void global_parameters::set_global() {
 		PML_er22 = 1.;
 		PML_er33 = 1.;
 	}
+	
+	eta0 = sqrt(mu0 / e0 * ((PML_er11 + PML_er22 + PML_er33) / 3.0));
+	maxReflErr = exp(-16);
 
+	if (PML_size != 0)
+		sigmaMax = -(PML_m + 1.0) * log(maxReflErr) / (2.0 * PML_size * eta0 * (dx + dy + dz)/3.0);
+	else
+		sigmaMax = 0.0;
+	
+	if (pt_geo->if_PML_Xs)
+	{
+		Jfin_xi += pt_geo->PML_size;
+		Jfin_xf += pt_geo->PML_size;
+	}
 
-	Hext[0] = 0.; Hext[1] = 0.; Hext[2] = 0.;
+	if (pt_geo->if_PML_Ys)
+	{
+		Jfin_yi += pt_geo->PML_size;
+		Jfin_yf += pt_geo->PML_size;
+	}
+
+	if (pt_geo->if_PML_Zs)
+	{
+		Jfin_zi += pt_geo->PML_size;
+		Jfin_zf += pt_geo->PML_size;
+	}
+		
+		Hext[0] = 0.; Hext[1] = 0.; Hext[2] = 0.;
 	Eext[0] = 0.; Eext[1] = 0.; Eext[2] = 0.;
 
 	//---------Designate Material Type for each layer-----------//

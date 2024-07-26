@@ -168,7 +168,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -221,7 +221,7 @@ P_count) default(present) async(1)
 				isPML = false;
 
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -275,7 +275,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -329,7 +329,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -381,7 +381,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -436,7 +436,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -491,7 +491,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -545,7 +545,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -866,7 +866,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -919,7 +919,7 @@ P_count) default(present)async(1)
 				isPML = false;
 
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -973,7 +973,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1027,7 +1027,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1079,7 +1079,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1134,7 +1134,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1189,7 +1189,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1242,7 +1242,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1560,7 +1560,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1613,7 +1613,7 @@ P_count) default(present)async(1)
 				isPML = false;
 
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1667,7 +1667,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1721,7 +1721,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1773,7 +1773,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1828,7 +1828,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1883,7 +1883,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -1937,7 +1937,7 @@ P_count) default(present)async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -2257,7 +2257,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -2310,7 +2310,7 @@ P_count) default(present) async(1)
 				isPML = false;
 
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -2364,7 +2364,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -2418,7 +2418,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -2470,7 +2470,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -2525,7 +2525,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -2580,7 +2580,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -2634,7 +2634,7 @@ P_count) default(present) async(1)
 				isPML = false;
 			
 			if (isPML) {
-				er11 = pt_glb->PML_er11; er22 = pt_glb->PML_er22; er33 = pt_glb->PML_er33;
+				er11 += pt_glb->PML_er11; er22 += pt_glb->PML_er22; er33 += pt_glb->PML_er33;
 			}
 			else {
 				er11 = er11 + 1.; 	er22 = er22 + 1.; 	er33 = er33 + 1.;
@@ -2930,8 +2930,9 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (j < ny && k < nz) {
 				BHx_em_t1(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
-					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k));
-				
+					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k)) \
+						- (dMx1 + dMx2) / M_count;
+
 				dDHx_em_rk1(i, j, k) = (pt_glb->dt / kappa_z_n(0, 0, k)) \
 					* ((kappa_x_np1(i, 0, 0) * BHx_em_t1(i, j, k) / pt_glb->dt \
 						+ sigma_x_np1(i, 0, 0) * Bx_PML_store(i, j, k) / e0) / mu0 \
@@ -3055,8 +3056,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx && k < nz) {
 				BHy_em_t1(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
-					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k) \
-						);
+					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k)) \
+						- (dMy1 + dMy2) / M_count;
 
 				dDHy_em_rk1(i, j, k) = (pt_glb->dt / kappa_x_n(i, 0, 0)) \
 					* ((kappa_y_np1(0, j, 0) * BHy_em_t1(i, j, k) / pt_glb->dt \
@@ -3178,8 +3179,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx && j < ny) {
 				BHz_em_t1(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
-					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k) \
-						);
+					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k)) \
+						- (dMz1 + dMz2) / M_count;
 
 				dDHz_em_rk1(i, j, k) = (pt_glb->dt / kappa_y_n(0, j, 0)) \
 					* ((kappa_z_np1(0, 0, k) * BHz_em_t1(i, j, k) / pt_glb->dt \
@@ -3320,8 +3321,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (j < ny && k < nz) {
 				BHx_em_t2(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
-					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k) \
-						);
+					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k)) \
+						- (dMx1 + dMx2) / M_count;
 
 				dDHx_em_rk2(i, j, k) = (pt_glb->dt / kappa_z_n(0, 0, k)) \
 					* ((kappa_x_np1(i, 0, 0) * BHx_em_t2(i, j, k) / pt_glb->dt \
@@ -3445,8 +3446,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx && k < nz) {
 				BHy_em_t2(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
-					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k) \
-						);
+					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k)) \
+						- (dMy1 + dMy2) / M_count;
 
 				dDHy_em_rk2(i, j, k) = (pt_glb->dt / kappa_x_n(i, 0, 0)) \
 					* ((kappa_y_np1(0, j, 0) * BHy_em_t2(i, j, k) / pt_glb->dt \
@@ -3567,8 +3568,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx && j < ny) {
 				BHz_em_t2(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
-					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k) \
-						);
+					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k)) \
+						- (dMz1 + dMz2) / M_count;
 
 				dDHz_em_rk2(i, j, k) = (pt_glb->dt / kappa_y_n(0, j, 0)) \
 					* ((kappa_z_np1(0, 0, k) * BHz_em_t2(i, j, k) / pt_glb->dt \
@@ -3709,8 +3710,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (j < ny && k < nz) {
 				BHx_em_t3(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
-					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k) \
-						);
+					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k)) \
+						- (dMx1 + dMx2) / M_count;
 
 				dDHx_em_rk3(i, j, k) = (pt_glb->dt / kappa_z_n(0, 0, k)) \
 					* ((kappa_x_np1(i, 0, 0) * BHx_em_t3(i, j, k) / pt_glb->dt \
@@ -3835,8 +3836,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx && k < nz) {
 				BHy_em_t3(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
-					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k) \
-						);
+					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k)) \
+						- (dMy1 + dMy2) / M_count;
 
 				dDHy_em_rk3(i, j, k) = (pt_glb->dt / kappa_x_n(i, 0, 0)) \
 					* ((kappa_y_np1(0, j, 0) * BHy_em_t3(i, j, k) / pt_glb->dt \
@@ -3957,8 +3958,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx && j < ny) {
 				BHz_em_t3(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
-					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k) \
-						);
+					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k)) \
+						- (dMz1 + dMz2) / M_count;
 
 				dDHz_em_rk3(i, j, k) = (pt_glb->dt / kappa_y_n(0, j, 0)) \
 					* ((kappa_z_np1(0, 0, k) * BHz_em_t3(i, j, k) / pt_glb->dt \
@@ -4099,8 +4100,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (j < ny && k < nz) {
 				BHx_em_t4(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
-					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k) \
-						);
+					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k)) \
+						- (dMx1 + dMx2) / M_count;
 
 				dDHx_em_rk4(i, j, k) = (pt_glb->dt / kappa_z_n(0, 0, k)) \
 					* ((kappa_x_np1(i, 0, 0) * BHx_em_t4(i, j, k) / pt_glb->dt \
@@ -4224,8 +4225,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx && k < nz) {
 				BHy_em_t4(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
-					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k) \
-						);
+					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k)) \
+						- (dMy1 + dMy2) / M_count;
 
 				dDHy_em_rk4(i, j, k) = (pt_glb->dt / kappa_x_n(i, 0, 0)) \
 					* ((kappa_y_np1(0, j, 0) * BHy_em_t4(i, j, k) / pt_glb->dt \
@@ -4346,8 +4347,8 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		if (true == pt_geo->if_PML && true == isPML) {
 			if (i < nx && j < ny) {
 				BHz_em_t4(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
-					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k) \
-						);
+					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k)) \
+						- (dMz1 + dMz2) / M_count;
 
 				dDHz_em_rk4(i, j, k) = (pt_glb->dt / kappa_y_n(0, j, 0)) \
 					* ((kappa_z_np1(0, 0, k) * BHz_em_t4(i, j, k) / pt_glb->dt \

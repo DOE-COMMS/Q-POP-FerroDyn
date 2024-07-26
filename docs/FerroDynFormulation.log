@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.2.23)  18 JUL 2024 22:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.2.23)  22 JUL 2024 15:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -580,9 +580,9 @@ Package rerunfilecheck Info: File `FerroDynFormulation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 13484 strings out of 474462
- 212715 string characters out of 5742883
- 1964998 words of memory out of 5000000
+ 13490 strings out of 474462
+ 212961 string characters out of 5742883
+ 1972998 words of memory out of 5000000
  35561 multiletter control sequences out of 15000+600000
  574666 words of font info for 93 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -610,9 +610,9 @@ rs/saura/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pf
 b><C:/Users/saura/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/sym
 bols/msam7.pfb><C:/Users/saura/AppData/Local/Programs/MiKTeX/fonts/type1/public
 /yhmath/yhcmex.pfb>
-Output written on FerroDynFormulation.pdf (5 pages, 253198 bytes).
+Output written on FerroDynFormulation.pdf (5 pages, 256627 bytes).
 PDF statistics:
- 185 PDF objects out of 1000 (max. 8388607)
- 50 named destinations out of 1000 (max. 500000)
+ 192 PDF objects out of 1000 (max. 8388607)
+ 56 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

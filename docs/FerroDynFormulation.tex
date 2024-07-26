@@ -194,6 +194,16 @@
 			s_{x} = \kappa_{x} + \frac{\sigma_{x}}{i\omega\epsilon};\;\;\; s_{y} = \kappa_{y} + \frac{\sigma_{y}}{i\omega\epsilon};\;\;\; s_{z} = \kappa_{z} + \frac{\sigma_{z}}{i\omega\epsilon}
 		\end{equation}
 		
+		Using a polynomial grading profile to model the variation of PML loss with depth,
+		\begin{equation}
+			\sigma_{x}(x) = \bigg(\frac{x}{d}\bigg)^{m}\sigma_{x,max}; \;\;\; \kappa_{x}(x) = 1 + (\kappa_{x,max} - 1)\bigg(\frac{x}{d}\bigg)^{m}
+		\end{equation}
+		
+		$\kappa_{x,max}$ is usually a small number between 1 and 2, while $\sigma_{x, max}$ is computed as
+		\begin{equation}
+			\sigma_{x, max} = -\frac{(m + 1)ln[R(0)]}{2\eta d}
+		\end{equation}
+		
 		$\kappa$ and $\sigma$ are all one-dimensional functions that are equal to unity and zero respectively in the physical non-PML region, ensuring that the PML constitutive tensor and PML auxilliary equations are active only in the PML.
 		
 		There are no sources of current, polarization and magnetization densities within the PML, consequently reducing the time-harmonic equations to simply
@@ -205,7 +215,7 @@
 		To decouple the frequency-dependent terms and thereby avoid a convolution between the material tensors and the EM-fields in the time-domain, new constitutive relationships are defined as follows:
 		\begin{align} \label{eq:const}
 			\bm{\widehat{D_{x}}} = \epsilon_{0}\epsilon_{r}\frac{s_{z}}{s_{x}}\bm{\widehat{E_{x}}} \\
-			\bm{\widehat{B_{x}}} = \epsilon_{0}\epsilon_{r}\frac{s_{z}}{s_{x}}\bm{\widehat{H_{x}}} \\
+			\bm{\widehat{B_{x}}} = \mu_{0}\mu_{r}\frac{s_{z}}{s_{x}}\bm{\widehat{H_{x}}} \\
 		\end{align}
 		
 		Following an inverse Fourier transform, the time-domain differential equations are now
@@ -250,6 +260,16 @@
 		\begin{equation}
 			D_{x}^{t + \Delta t} = D_{x}^{t} + \frac{\Delta D_{x}^{(t+\frac{\Delta t}{4})}}{6} + \frac{\Delta D_{x}^{(t+\frac{2\Delta t}{4})}}{3} + \frac{\Delta D_{x}^{(t+\frac{3\Delta t}{4})}}{3} + \frac{\Delta D_{x}^{(t+\frac{4\Delta t}{4})}}{6}
 		\end{equation}
+		
+		Similarly for $B_{x}$,
+		\begin{equation}
+			\pdv{B_{x}}{t} = -\frac{\bigg(\pdv{E_{z}}{y} - \pdv{E_{y}}{z}\bigg)}{\kappa_{y}} - \frac{\sigma_{x}B_{x}}{\kappa_{y}\epsilon_{0}}
+		\end{equation}
+		A similar RK4 treatment as earlier yields 
+		\begin{align*}
+			\Delta B_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k} = 
+			& -\frac{\Delta t}{\kappa_{y}}\bigg(\pdv{E_{z}}{y}\bigg|^{(t + \frac{(n-1)\Delta t}{4})}_{i, j, k} - \pdv{E_{y}}{z}\bigg|^{(t  + \frac{(n-1)\Delta t}{4})}_{i, j, k}\bigg) - \frac{\sigma_{y}\Delta t}{\kappa_{y}\epsilon_{0}}B_{x, store}^{(t + \frac{(n-1)\Delta t}{4})}\\
+		\end{align*}
 		
 		Multiplying \eqref{eq:const} by $i\omega$ and performing an inverse Fourier transform returns the new value of the electric field.
 		\begin{align}
@@ -308,7 +328,71 @@
 		The update equation for E is then 
 		\begin{align}
 			\Delta E_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k} = &
-			\frac{\Delta t}{\kappa_{z}}\times\bigg(\frac{\epsilon_{yy}\epsilon_{zz} - \epsilon_{yz}\epsilon_{zy}}{||\epsilon||}\bigg)\bigg|_{i, j, k}\times\dots \nonumber \\
+			\frac{\Delta t}{\epsilon_{0}\kappa_{z}}\times\bigg(\frac{\epsilon_{yy}\epsilon_{zz} - \epsilon_{yz}\epsilon_{zy}}{||\epsilon||}\bigg)\bigg|_{i, j, k}\times\dots \nonumber \\
 			&\bigg(\frac{\kappa_{x}\Delta D_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k}}{\Delta t} + \frac{\sigma_{x}D_{x, store}^{(t + \frac{(n-1)\Delta t}{4})}}{\epsilon_{0}}\bigg) - \frac{\Delta t}{\kappa_{z}}\frac{\sigma_{z}E_{x, store}^{(t + \frac{(n-1)\Delta t}{4})}}{\epsilon_{0}}
 		\end{align}
+				
+		\begin{align}
+			\pdv{}{t}\begin{bmatrix}
+				\kappa_{x} & 0 & 0 \\[4pt]
+				0 & \kappa_{y} & 0 \\[4pt] 
+				0 & 0 & \kappa_{z}
+			\end{bmatrix}
+			\begin{bmatrix}
+				B_{x} \\[4pt]
+				B_{y} \\[4pt]
+				B_{z} 
+			\end{bmatrix} + 
+			\frac{1}{\epsilon_{0}}
+			\begin{bmatrix}
+				\sigma_{x} & 0 & 0 \\[4pt]
+				0 & \sigma_{y} & 0 \\[4pt] 
+				0 & 0 & \sigma_{z}
+			\end{bmatrix}
+			\begin{bmatrix}
+				B_{x} \\[4pt]
+				B_{y} \\[4pt]
+				B_{z} 
+			\end{bmatrix} = &
+			\pdv{}{t}
+			\begin{bmatrix}
+				\mu_{xx} & \mu_{xy} & \mu_{xz} \\[4pt]
+				\mu_{yx} & \mu_{yy} & \mu_{yz} \\[4pt] 
+				\mu_{zx} & \mu_{zy} & \mu_{zz}
+			\end{bmatrix}
+			\begin{bmatrix}
+				\kappa_{z} & 0 & 0 \\[4pt]
+				0 & \kappa_{x} & 0 \\[4pt] 
+				0 & 0 & \kappa_{y}
+			\end{bmatrix}
+			\begin{bmatrix}
+				H_{x} \\[4pt]
+				H_{y} \\[4pt]
+				H_{z} 
+			\end{bmatrix} + \dots \\ &
+			\frac{1}{\epsilon_{0}}			
+			\begin{bmatrix}
+				\mu_{xx} & \mu_{xy} & \mu_{xz} \\[4pt]
+				\mu_{yx} & \mu_{yy} & \mu_{yz} \\[4pt] 
+				\mu_{zx} & \mu_{zy} & \mu_{zz}
+			\end{bmatrix}
+			\begin{bmatrix}
+				\sigma_{z} & 0 & 0 \\[4pt]
+				0 & \sigma_{x} & 0 \\[4pt] 
+				0 & 0 & \sigma_{y}
+			\end{bmatrix}
+			\begin{bmatrix}
+				H_{x} \\[4pt]
+				H_{y} \\[4pt]
+				H_{z} 
+			\end{bmatrix}
+		\end{align}
+		
+		Similarly, the update equation for H is
+		\begin{align}
+			\Delta H_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k} = &
+			\frac{\Delta t}{\mu_{0}\kappa_{z}}\times\bigg(\frac{\mu_{yy}\mu_{zz} - \mu_{yz}\mu_{zy}}{||\mu||}\bigg)\bigg|_{i, j, k}\times\dots \nonumber \\
+			&\bigg(\frac{\kappa_{x}\Delta B_{x}^{(t+\frac{n\Delta t}{4})}|_{i, j, k}}{\Delta t} + \frac{\sigma_{x}B_{x, store}^{(t + \frac{(n-1)\Delta t}{4})}}{\epsilon_{0}}\bigg) - \frac{\Delta t}{\kappa_{z}}\frac{\sigma_{z}H_{x, store}^{(t + \frac{(n-1)\Delta t}{4})}}{\epsilon_{0}}
+		\end{align}
+
 \end{document}

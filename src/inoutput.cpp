@@ -5,6 +5,10 @@
 #include <stdio.h>
 #include"mathlib.h"
 
+//---------------------------------//
+//				INPUT				//
+//---------------------------------//
+
 /*
  *  1. matrix3d data
  *  2. Time step to write.
@@ -101,7 +105,6 @@ bool inoutput::saveVTK_Vector(matrix3d<double> data1, matrix3d<double> data2, ma
         std::cerr << "Invalid input parameters." << std::endl;
         return false;
     }
-
     std::string fileName = fileRoot + '_' + std::to_string(t) + ".vtk";
 
     std::ofstream vtkFile;
@@ -150,11 +153,6 @@ bool inoutput::saveVTK_Vector(matrix3d<double> data1, matrix3d<double> data2, ma
     vtkFile.close();
     return true;
 }
-
-//---------------------------------//
-//				INPUT				//
-//---------------------------------//
-
 void inoutput::input_m(magnetic_system* mag) {
 	long x = 0;
 	long y = 0;
