@@ -1,0 +1,35 @@
+Geometry Parameters:
+pt_nz_layer_unit: 30 40 30 
+num_periods: 1
+nx_work: 4
+ny_work: 4
+nz_work: 100
+periodicX: true
+periodicY: true
+periodicZ: false
+num_layer_unit: 3
+id_lastlayer_unit: 0
+id_firstlayer: 0
+id_lastlayer: 0
+num_layer: 3
+idxi_work: 0
+idyi_work: 0
+idzi_work: 10
+idxf_work: 3
+idyf_work: 3
+idzf_work: 109
+dx: 1e-09
+dy: 1e-09
+dz: 1e-09
+
+PML Parameters:
+if_PML: true
+if_PML_Xs: false
+if_PML_Xe: false
+if_PML_Ys: false
+if_PML_Ye: false
+if_PML_Zs: true
+if_PML_Ze: true
+PML_size: 10
+PML_materialType: 0
+PML boundaries - xS: 0, xE: 4, yS: 0, yE: 4, zS: 10, zE: 110

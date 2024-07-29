@@ -1,0 +1,92 @@
+//Material 1 Air
+1. 1. 1.				//Elastic stiffness c11, c12, c44
+1.						//Mass density
+0.	0.					//Elastic mass damping
+
+false								//If magnetic
+0.	0.	0.							//Ms, gyromagnetic ratio and magnetic damping
+0									//Magnetocrystalline anisotropy type: 0 for null, 1 for cubic, 2 for perpendicular
+0.	0.								//K1, K2
+0.									//Aex
+0.									//Interfacial DMI strength D
+0.	0.								//Lamda100, lamda111
+
+false								//If anti-ferromagnetic
+0.	0.								//Saturation magnetization Ms in two sublattices
+0.	0.								//Gyromagnetic ratio for two sub-lattices
+0.	0.								//Magnetic damping for two sub-lattices
+0.	0.								//K1 for uniaxial anisotropy in two sub-lattices
+0.	0.	1.							//Direction of uniaxial anisotropy
+0.	0.								//Intra-lattice exchange stiffness Aex for two sublattices
+0.									//Inter-lattice exchange coupling J
+0.	0.								//Lamda100 for two sub-lattices
+0.	0.								//Lamda111 for two sub-lattices
+
+false								//If spin pumping (from both FM and AFM)
+0.	0.	0.							//Spin Hall angle, spin mixing conductance, spin diffusion length
+
+false								//If ferroelectrics (FE)
+0.	0.								//FE mass and FE damping
+0.                                  //a1
+0.	0.                              //a11,a12
+0.	0.	0.                          //a111,a112,a123
+0.	0.	0.	0.                      //a1111,a1112,a1122,a1123
+0.									//G11
+0.	0.	0.							//Q11,Q12,Q44
+0.	0.	0.							//f11,f12,f44
+
+1.  0.  0.							//Relative permittivity er11, er12, er13
+0.  1.  0.							//Relative permittivity er21, er22, er23
+0.  0.  1.							//Relative permittivity er31, er32, er33
+0.	0.	0.							//Electrical Conductivity cond11, cond12, cond13
+0.	0.	0.							//Electrical Conductivity cond21, cond22, cond23
+0.	0.	0.							//Electrical Conductivity cond31, cond32, cond33
+1.	0.	1.							//Component n1, plasma frequency in rad, electron relation time
+0.  0.  1.                  		//Component n2, plasma frequency in rad, electron relation time
+0.  0.  1.                  		//Component n3, plasma frequency in rad, electron relation time
+//Material 2 (BTO)
+1.78e11 0.964e11 1.22e11			//Elastic stiffness c11, c12, c44
+6020.							//Mass density
+0.	0.									//Elastic mass damping
+
+false								//If magnetic
+0.	0.	0.							//Ms, gyromagnetic ratio and magnetic damping
+0									//Magnetocrystalline anisotropy type: 0 for null, 1 for cubic, 2 for perpendicular
+0.	0.								//K1, K2
+0.									//Aex
+0.									//Interfacial DMI strength D
+0.	0.								//Lamda100, lamda111
+
+false								//If anti-ferromagnetic
+0.	0.								//Saturation magnetization Ms in two sublattices
+0.	0.								//Gyromagnetic ratio for two sub-lattices
+0.	0.								//Magnetic damping for two sub-lattices
+0.	0.								//K1 for uniaxial anisotropy in two sub-lattices
+0.	0.	1.							//Direction of uniaxial anisotropy
+0.	0.								//Intra-lattice exchange stiffness Aex for two sublattices
+0.									//Inter-lattice exchange coupling J
+0.	0.								//Lamda100 for two sub-lattices
+0.	0.								//Lamda111 for two sub-lattices
+
+false								//If spin pumping (from both FM and AFM)
+0.	0.	0.							//Spin Hall angle, spin mixing conductance, spin diffusion length
+
+false								//If ferroelectrics (FE)
+1.35e-18	2.e-7						//FE mass and FE damping
+4.00027999e6                           //a1
+-2.097e8 7.974e8                 	//a11,a12
+1.294e9	-1.95e9	-2.5e9              //a111,a112,a123
+3.863e10 2.529e10 1.637e10 1.367e10 //a1111,a1112,a1122,a1123
+5.1e-10									//G11
+0.1	-0.034 0.029					//Q11,Q12,Q44
+0.	0.	0.							//f11,f12,f44
+
+2.  1.  0.							//Relative permittivity er11, er12, er13
+1.  8.  0.							//Relative permittivity er21, er22, er23
+0.  0.  8.							//Relative permittivity er31, er32, er33
+0.	0.	0.							//Electrical Conductivity cond11, cond12, cond13
+0.	0.	0.							//Electrical Conductivity cond21, cond22, cond23
+0.	0.	0.							//Electrical Conductivity cond31, cond32, cond33
+1.	0.	1.							//Component n1, plasma frequency in rad, electron relation time
+0.  0.  1.                  		//Component n2, plasma frequency in rad, electron relation time
+0.  0.  1.                  		//Component n3, plasma frequency in rad, electron relation time

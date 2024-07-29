@@ -48,6 +48,8 @@ int main() {
 	_GEO.loggeo();
 	_GLB.log_global();
 
+	_IO.output_matcell(nstep);
+
 	//------------Physical quantities input-------------//
 	{
 		// magnetization
@@ -122,90 +124,6 @@ int main() {
 	fe.initialize_device();
 	em.initialize_device();
 	elasto.initialize_device();
-
-	// _IO.saveVTK_Scalar(em.sigma_x_n, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	_GEO.nx_system, 1, 1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"sigma_x_PML", "sigma_x", 0);
-
-	// _IO.saveVTK_Scalar(em.sigma_y_n, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	1, _GEO.ny_system, 1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"sigma_y_PML", "sigma_y", 0);
-
-	// _IO.saveVTK_Scalar(em.sigma_z_n, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	1, 1, _GEO.nz_system,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"sigma_z_PML", "sigma_z", 0);
-
-	// _IO.saveVTK_Scalar(em.kappa_x_n, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	_GEO.nx_system, 1, 1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"kappa_x_PML", "kappa_x", 0);
-
-	// _IO.saveVTK_Scalar(em.kappa_y_n, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	1, _GEO.ny_system, 1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"kappa_y_PML", "kappa_y", 0);
-
-	// _IO.saveVTK_Scalar(em.kappa_z_n, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	1, 1, _GEO.nz_system,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"kappa_z_PML", "kappa_z", 0);
-
-	// _IO.saveVTK_Scalar(em.sigma_x_np1, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	_GEO.nx_system+1, 1, 1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"sigma2_x_PML", "sigma_x", 0);
-
-	// _IO.saveVTK_Scalar(em.sigma_y_np1, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	1, _GEO.ny_system+1, 1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"sigma2_y_PML", "sigma_y", 0);
-
-	// _IO.saveVTK_Scalar(em.sigma_z_np1, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	1, 1, _GEO.nz_system+1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"sigma2_z_PML", "sigma_z", 0);
-
-	// _IO.saveVTK_Scalar(em.kappa_x_np1, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	_GEO.nx_system, 1, 1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"kappa2_x_PML", "kappa_x", 0);
-
-	// _IO.saveVTK_Scalar(em.kappa_y_np1, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	1, _GEO.ny_system+1, 1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"kappa2_y_PML", "kappa_y", 0);
-
-	// _IO.saveVTK_Scalar(em.kappa_z_np1, \
-	// 	0,
-	// 	0, 0, 0,
-	// 	1, 1, _GEO.nz_system+1,
-	// 	_GEO.dx, _GEO.dy, _GEO.dz,
-	// 	"kappa2_z_PML", "kappa_z", 0);
 
 #pragma acc wait
 

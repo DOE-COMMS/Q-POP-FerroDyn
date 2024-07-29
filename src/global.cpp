@@ -41,8 +41,8 @@ void global_parameters::set_global() {
 	PML_size = pt_geo->PML_size;
 	PML_materialType = pt_geo->PML_materialType;
 	
-	kappaMax = 1.1;
-	PML_m = 3.5;
+	kappaMax = pt_geo->kappaMax;
+	PML_m = pt_geo->PML_m;
 
 	if (PML_materialType > 0 && PML_materialType < num_materials)
 	{

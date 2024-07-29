@@ -14,7 +14,7 @@ void global_parameters::read_global() {
 
 	std::ifstream file("system_setting.in");
 	if (file.is_open()) {
-		for (long int i = 0; i < 11;) {
+		for (long int i = 0; i < 12;) {
 			std::getline(file, aline);
 			if (aline.length() > 0) {
 				i = i + 1;
@@ -284,7 +284,9 @@ void geometry_parameters::readgeo() {
 		file >> std::boolalpha >> if_PML; file.ignore(1000, '\n');
 		file >> std::boolalpha >> if_PML_Xs >> if_PML_Xe >> if_PML_Ys >> if_PML_Ye >> if_PML_Zs >> if_PML_Ze; file.ignore(1000, '\n');
 		file >> PML_size >> PML_materialType; file.ignore(1000, '\n');
+		file >> kappaMax >> PML_m; file.ignore(1000, '\n');
 	}
+	
 	file.close();
 
 	set_geometry();

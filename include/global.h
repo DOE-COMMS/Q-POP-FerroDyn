@@ -131,7 +131,8 @@ public:
 	bool if_PML, if_PML_Xs, if_PML_Xe, if_PML_Ys, if_PML_Ye, if_PML_Zs, if_PML_Ze;
 	// PML parameters
 	long int PML_size;
-	double sigmaMax, kappaMax; 	// Maximum conductivity in the PML medium
+	double sigmaMax;	// Maximum loss in the PML medium
+	double kappaMax; 	// Maximum conductivity in the PML medium
 	double PML_d, PML_m, eta0;
 	double maxReflErr;
 	long int xS, xE, yS, yE, zS, zE;

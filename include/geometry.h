@@ -37,6 +37,7 @@ public:
 	// PML parameters
 	long int PML_size;
 	int PML_materialType;
+	double PML_m, kappaMax;
 	// Flags for a cell-level check to see if PML is active there
 	// matrix3d<bool> isPML;
 

@@ -20,6 +20,14 @@ public:
 		const std::string& fileRoot, const std::string& varName,
 		int appendFlag);
 
+	bool saveVTK_Scalar(matrix3d<unsigned int> data,
+		int t,
+		long int xS, long int yS, long int zS,
+		long int xE, long int yE, long int zE,
+		double dx, double dy, double dz,
+		const std::string& fileRoot, const std::string& varName,
+		int appendFlag);
+	
 	bool saveVTK_Vector(matrix3d<double> data1, matrix3d<double> data2, matrix3d<double> data3,
 		int t,
 		long int xS, long int yS, long int zS,
@@ -40,6 +48,8 @@ public:
 	void input_eigenstraint0(elastic_system*);
 	void input_Jp(EMdynamic_system*);
 
+	void output_matcell(unsigned long long int&);
+	
 	void output_m(unsigned long long int&, magnetic_system*);
 	void output_magcell(unsigned long long int&, magnetic_system*);
 	void output_AFMm(unsigned long long int&, magnetic_system*);

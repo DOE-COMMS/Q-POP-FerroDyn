@@ -1,0 +1,1850 @@
+<ParaView>
+  <ServerManagerState version="5.12.0">
+    <Proxy group="animation" type="AnimationScene" id="263" servers="16">
+      <Property name="AnimationTime" id="263.AnimationTime" number_of_elements="1">
+        <Element index="0" value="10"/>
+      </Property>
+      <Property name="Cues" id="263.Cues" number_of_elements="1">
+        <Proxy value="265"/>
+        <Domain name="groups" id="263.Cues.groups"/>
+      </Property>
+      <Property name="EndTime" id="263.EndTime" number_of_elements="1">
+        <Element index="0" value="10"/>
+      </Property>
+      <Property name="FramesPerTimestep" id="263.FramesPerTimestep" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="range" id="263.FramesPerTimestep.range"/>
+      </Property>
+      <Property name="GoToFirst" id="263.GoToFirst"/>
+      <Property name="GoToLast" id="263.GoToLast"/>
+      <Property name="GoToNext" id="263.GoToNext"/>
+      <Property name="GoToPrevious" id="263.GoToPrevious"/>
+      <Property name="LockEndTime" id="263.LockEndTime" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="263.LockEndTime.bool"/>
+      </Property>
+      <Property name="LockStartTime" id="263.LockStartTime" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="263.LockStartTime.bool"/>
+      </Property>
+      <Property name="Loop" id="263.Loop" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="263.Loop.bool"/>
+      </Property>
+      <Property name="NumberOfFrames" id="263.NumberOfFrames" number_of_elements="1">
+        <Element index="0" value="10"/>
+        <Domain name="range" id="263.NumberOfFrames.range"/>
+      </Property>
+      <Property name="Play" id="263.Play"/>
+      <Property name="PlayMode" id="263.PlayMode" number_of_elements="1">
+        <Element index="0" value="2"/>
+        <Domain name="enum" id="263.PlayMode.enum">
+          <Entry value="0" text="Sequence"/>
+          <Entry value="2" text="Snap To TimeSteps"/>
+        </Domain>
+      </Property>
+      <Property name="Reverse" id="263.Reverse"/>
+      <Property name="StartTime" id="263.StartTime" number_of_elements="1">
+        <Element index="0" value="0"/>
+      </Property>
+      <Property name="Stop" id="263.Stop"/>
+      <Property name="Stride" id="263.Stride" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="range" id="263.Stride.range"/>
+      </Property>
+      <Property name="TimeKeeper" id="263.TimeKeeper" number_of_elements="1">
+        <Proxy value="256"/>
+      </Property>
+      <Property name="ViewModules" id="263.ViewModules" number_of_elements="1">
+        <Proxy value="9995"/>
+        <Domain name="groups" id="263.ViewModules.groups"/>
+      </Property>
+    </Proxy>
+    <Proxy group="animation" type="TimeAnimationCue" id="265" servers="16">
+      <Property name="AnimatedDomainName" id="265.AnimatedDomainName" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="AnimatedElement" id="265.AnimatedElement" number_of_elements="1">
+        <Element index="0" value="0"/>
+      </Property>
+      <Property name="AnimatedPropertyName" id="265.AnimatedPropertyName" number_of_elements="1">
+        <Element index="0" value="Time"/>
+      </Property>
+      <Property name="AnimatedProxy" id="265.AnimatedProxy" number_of_elements="1">
+        <Proxy value="256"/>
+        <Domain name="groups" id="265.AnimatedProxy.groups"/>
+      </Property>
+      <Property name="Enabled" id="265.Enabled" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="265.Enabled.bool"/>
+      </Property>
+      <Property name="EndTime" id="265.EndTime" number_of_elements="1">
+        <Element index="0" value="1"/>
+      </Property>
+      <Property name="KeyFrames" id="265.KeyFrames">
+        <Domain name="groups" id="265.KeyFrames.groups"/>
+      </Property>
+      <Property name="LastAddedKeyFrameIndex" id="265.LastAddedKeyFrameIndex"/>
+      <Property name="StartTime" id="265.StartTime" number_of_elements="1">
+        <Element index="0" value="0"/>
+      </Property>
+      <Property name="TimeMode" id="265.TimeMode" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="enum" id="265.TimeMode.enum">
+          <Entry value="0" text="Normalized"/>
+          <Entry value="1" text="Relative"/>
+        </Domain>
+      </Property>
+      <Property name="UseAnimationTime" id="265.UseAnimationTime" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="265.UseAnimationTime.bool"/>
+      </Property>
+    </Proxy>
+    <Proxy group="misc" type="ViewLayout" id="6681" servers="20">
+      <Property name="PreviewMode" id="6681.PreviewMode" number_of_elements="2">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+      </Property>
+      <Property name="SeparatorColor" id="6681.SeparatorColor" number_of_elements="3">
+        <Element index="0" value="0.937"/>
+        <Element index="1" value="0.922"/>
+        <Element index="2" value="0.906"/>
+        <Domain name="range" id="6681.SeparatorColor.range"/>
+      </Property>
+      <Property name="SeparatorWidth" id="6681.SeparatorWidth" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="range" id="6681.SeparatorWidth.range"/>
+      </Property>
+      <Layout number_of_elements="1">
+        <Item direction="0" fraction="0.5" view="9995"/>
+      </Layout>
+    </Proxy>
+    <Proxy group="materials" type="MaterialLibrary" id="261" servers="21">
+      <Property name="LoadMaterials" id="261.LoadMaterials" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+    </Proxy>
+    <Proxy group="misc" type="RepresentationAnimationHelper" id="10057" servers="16">
+      <Property name="Source" id="10057.Source" number_of_elements="1">
+        <Proxy value="10046"/>
+      </Property>
+    </Proxy>
+    <Proxy group="misc" type="RepresentationAnimationHelper" id="10069" servers="16">
+      <Property name="Source" id="10069.Source" number_of_elements="1">
+        <Proxy value="10058"/>
+      </Property>
+    </Proxy>
+    <Proxy group="misc" type="RepresentationAnimationHelper" id="9402" servers="16">
+      <Property name="Source" id="9402.Source" number_of_elements="1">
+        <Proxy value="9390"/>
+      </Property>
+    </Proxy>
+    <Proxy group="misc" type="RepresentationAnimationHelper" id="9744" servers="16">
+      <Property name="Source" id="9744.Source" number_of_elements="1">
+        <Proxy value="9733"/>
+      </Property>
+    </Proxy>
+    <Proxy group="representations" type="XYChartRepresentation" id="10018" servers="21">
+      <Property name="AttributeType" id="10018.AttributeType" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="enum" id="10018.AttributeType.enum">
+          <Entry value="0" text="Point Data"/>
+          <Entry value="1" text="Cell Data"/>
+          <Entry value="2" text="Field Data"/>
+        </Domain>
+      </Property>
+      <Property name="Color" id="10018.Color" number_of_elements="3">
+        <Element index="0" value="1"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="1"/>
+        <Domain name="range" id="10018.Color.range"/>
+      </Property>
+      <Property name="CompositeDataSetIndex" id="10018.CompositeDataSetIndex" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="tree" id="10018.CompositeDataSetIndex.tree"/>
+      </Property>
+      <Property name="Input" id="10018.Input" number_of_elements="1">
+        <Proxy value="9733" output_port="0"/>
+        <Domain name="input_type" id="10018.Input.input_type"/>
+      </Property>
+      <Property name="LastPresetName" id="10018.LastPresetName" number_of_elements="1">
+        <Element index="0" value="Spectrum"/>
+      </Property>
+      <Property name="SeriesColor" id="10018.SeriesColor" number_of_elements="40">
+        <Element index="0" value="arc_length"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Element index="3" value="0"/>
+        <Element index="4" value="Eem_X"/>
+        <Element index="5" value="0.8899977111467154"/>
+        <Element index="6" value="0.10000762951094835"/>
+        <Element index="7" value="0.1100022888532845"/>
+        <Element index="8" value="Eem_Y"/>
+        <Element index="9" value="0.220004577706569"/>
+        <Element index="10" value="0.4899977111467155"/>
+        <Element index="11" value="0.7199969481956207"/>
+        <Element index="12" value="Eem_Z"/>
+        <Element index="13" value="0.30000762951094834"/>
+        <Element index="14" value="0.6899977111467155"/>
+        <Element index="15" value="0.2899977111467155"/>
+        <Element index="16" value="Eem_Magnitude"/>
+        <Element index="17" value="0.6"/>
+        <Element index="18" value="0.3100022888532845"/>
+        <Element index="19" value="0.6399938963912413"/>
+        <Element index="20" value="vtkValidPointMask"/>
+        <Element index="21" value="1"/>
+        <Element index="22" value="0.5000076295109483"/>
+        <Element index="23" value="0"/>
+        <Element index="24" value="Points_X"/>
+        <Element index="25" value="0.6500038147554742"/>
+        <Element index="26" value="0.3400015259021897"/>
+        <Element index="27" value="0.16000610360875867"/>
+        <Element index="28" value="Points_Y"/>
+        <Element index="29" value="0"/>
+        <Element index="30" value="0"/>
+        <Element index="31" value="0"/>
+        <Element index="32" value="Points_Z"/>
+        <Element index="33" value="0.8899977111467154"/>
+        <Element index="34" value="0.10000762951094835"/>
+        <Element index="35" value="0.1100022888532845"/>
+        <Element index="36" value="Points_Magnitude"/>
+        <Element index="37" value="0.220004577706569"/>
+        <Element index="38" value="0.4899977111467155"/>
+        <Element index="39" value="0.7199969481956207"/>
+        <Domain name="array_list" id="10018.SeriesColor.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesLabel" id="10018.SeriesLabel" number_of_elements="20">
+        <Element index="0" value="arc_length"/>
+        <Element index="1" value="arc_length"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="Eem_X"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="Eem_Y"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="Eem_Z"/>
+        <Element index="8" value="Eem_Magnitude"/>
+        <Element index="9" value="Eem_Magnitude"/>
+        <Element index="10" value="vtkValidPointMask"/>
+        <Element index="11" value="vtkValidPointMask"/>
+        <Element index="12" value="Points_X"/>
+        <Element index="13" value="Points_X"/>
+        <Element index="14" value="Points_Y"/>
+        <Element index="15" value="Points_Y"/>
+        <Element index="16" value="Points_Z"/>
+        <Element index="17" value="Points_Z"/>
+        <Element index="18" value="Points_Magnitude"/>
+        <Element index="19" value="Points_Magnitude"/>
+        <Domain name="array_list" id="10018.SeriesLabel.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesLabelPrefix" id="10018.SeriesLabelPrefix" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="SeriesLineStyle" id="10018.SeriesLineStyle" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="1"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="1"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="1"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="1"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="1"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="1"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="1"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="1"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="1"/>
+        <Domain name="array_list" id="10018.SeriesLineStyle.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesLineThickness" id="10018.SeriesLineThickness" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="2"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="2"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="2"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="2"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="2"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="2"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="2"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="2"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="2"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="2"/>
+        <Domain name="array_list" id="10018.SeriesLineThickness.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesMarkerSize" id="10018.SeriesMarkerSize" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="4"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="4"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="4"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="4"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="4"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="4"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="4"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="4"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="4"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="4"/>
+        <Domain name="array_list" id="10018.SeriesMarkerSize.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesMarkerStyle" id="10018.SeriesMarkerStyle" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="0"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="0"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="0"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="0"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="0"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="0"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="0"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="0"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="0"/>
+        <Domain name="array_list" id="10018.SeriesMarkerStyle.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesOpacity" id="10018.SeriesOpacity" number_of_elements="20">
+        <Element index="0" value="arc_length"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="1"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="1"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="1"/>
+        <Element index="8" value="Eem_Magnitude"/>
+        <Element index="9" value="1"/>
+        <Element index="10" value="vtkValidPointMask"/>
+        <Element index="11" value="1"/>
+        <Element index="12" value="Points_X"/>
+        <Element index="13" value="1"/>
+        <Element index="14" value="Points_Y"/>
+        <Element index="15" value="1"/>
+        <Element index="16" value="Points_Z"/>
+        <Element index="17" value="1"/>
+        <Element index="18" value="Points_Magnitude"/>
+        <Element index="19" value="1"/>
+        <Domain name="array_list" id="10018.SeriesOpacity.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesPlotCorner" id="10018.SeriesPlotCorner" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="0"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="0"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="0"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="0"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="0"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="0"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="0"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="0"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="0"/>
+        <Domain name="array_list" id="10018.SeriesPlotCorner.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesVisibility" id="10018.SeriesVisibility" number_of_elements="20">
+        <Element index="0" value="arc_length"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="Eem_Magnitude"/>
+        <Element index="3" value="0"/>
+        <Element index="4" value="Eem_X"/>
+        <Element index="5" value="1"/>
+        <Element index="6" value="Eem_Y"/>
+        <Element index="7" value="1"/>
+        <Element index="8" value="Eem_Z"/>
+        <Element index="9" value="0"/>
+        <Element index="10" value="Points_Magnitude"/>
+        <Element index="11" value="0"/>
+        <Element index="12" value="Points_X"/>
+        <Element index="13" value="0"/>
+        <Element index="14" value="Points_Y"/>
+        <Element index="15" value="0"/>
+        <Element index="16" value="Points_Z"/>
+        <Element index="17" value="0"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="0"/>
+        <Domain name="array_list" id="10018.SeriesVisibility.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="UseIndexForXAxis" id="10018.UseIndexForXAxis" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="10018.UseIndexForXAxis.bool"/>
+      </Property>
+      <Property name="Visibility" id="10018.Visibility" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="10018.Visibility.bool"/>
+      </Property>
+      <Property name="XArrayName" id="10018.XArrayName" number_of_elements="1">
+        <Element index="0" value="arc_length"/>
+        <Domain name="array_list" id="10018.XArrayName.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+    </Proxy>
+    <Proxy group="representations" type="XYChartRepresentation" id="10084" servers="21">
+      <Property name="AttributeType" id="10084.AttributeType" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="enum" id="10084.AttributeType.enum">
+          <Entry value="0" text="Point Data"/>
+          <Entry value="1" text="Cell Data"/>
+          <Entry value="2" text="Field Data"/>
+        </Domain>
+      </Property>
+      <Property name="Color" id="10084.Color" number_of_elements="3">
+        <Element index="0" value="1"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="1"/>
+        <Domain name="range" id="10084.Color.range"/>
+      </Property>
+      <Property name="CompositeDataSetIndex" id="10084.CompositeDataSetIndex" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="tree" id="10084.CompositeDataSetIndex.tree"/>
+      </Property>
+      <Property name="Input" id="10084.Input" number_of_elements="1">
+        <Proxy value="10058" output_port="0"/>
+        <Domain name="input_type" id="10084.Input.input_type"/>
+      </Property>
+      <Property name="LastPresetName" id="10084.LastPresetName" number_of_elements="1">
+        <Element index="0" value="Spectrum"/>
+      </Property>
+      <Property name="SeriesColor" id="10084.SeriesColor" number_of_elements="40">
+        <Element index="0" value="arc_length"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Element index="3" value="0"/>
+        <Element index="4" value="Eem_X"/>
+        <Element index="5" value="0.8899977111467154"/>
+        <Element index="6" value="0.10000762951094835"/>
+        <Element index="7" value="0.1100022888532845"/>
+        <Element index="8" value="Eem_Y"/>
+        <Element index="9" value="0.220004577706569"/>
+        <Element index="10" value="0.4899977111467155"/>
+        <Element index="11" value="0.7199969481956207"/>
+        <Element index="12" value="Eem_Z"/>
+        <Element index="13" value="0.30000762951094834"/>
+        <Element index="14" value="0.6899977111467155"/>
+        <Element index="15" value="0.2899977111467155"/>
+        <Element index="16" value="Eem_Magnitude"/>
+        <Element index="17" value="0.6"/>
+        <Element index="18" value="0.3100022888532845"/>
+        <Element index="19" value="0.6399938963912413"/>
+        <Element index="20" value="vtkValidPointMask"/>
+        <Element index="21" value="1"/>
+        <Element index="22" value="0.5000076295109483"/>
+        <Element index="23" value="0"/>
+        <Element index="24" value="Points_X"/>
+        <Element index="25" value="0.6500038147554742"/>
+        <Element index="26" value="0.3400015259021897"/>
+        <Element index="27" value="0.16000610360875867"/>
+        <Element index="28" value="Points_Y"/>
+        <Element index="29" value="0"/>
+        <Element index="30" value="0"/>
+        <Element index="31" value="0"/>
+        <Element index="32" value="Points_Z"/>
+        <Element index="33" value="0.8899977111467154"/>
+        <Element index="34" value="0.10000762951094835"/>
+        <Element index="35" value="0.1100022888532845"/>
+        <Element index="36" value="Points_Magnitude"/>
+        <Element index="37" value="0.220004577706569"/>
+        <Element index="38" value="0.4899977111467155"/>
+        <Element index="39" value="0.7199969481956207"/>
+        <Domain name="array_list" id="10084.SeriesColor.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesLabel" id="10084.SeriesLabel" number_of_elements="20">
+        <Element index="0" value="arc_length"/>
+        <Element index="1" value="arc_length"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="Eem_X"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="Eem_Y"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="Eem_Z"/>
+        <Element index="8" value="Eem_Magnitude"/>
+        <Element index="9" value="Eem_Magnitude"/>
+        <Element index="10" value="vtkValidPointMask"/>
+        <Element index="11" value="vtkValidPointMask"/>
+        <Element index="12" value="Points_X"/>
+        <Element index="13" value="Points_X"/>
+        <Element index="14" value="Points_Y"/>
+        <Element index="15" value="Points_Y"/>
+        <Element index="16" value="Points_Z"/>
+        <Element index="17" value="Points_Z"/>
+        <Element index="18" value="Points_Magnitude"/>
+        <Element index="19" value="Points_Magnitude"/>
+        <Domain name="array_list" id="10084.SeriesLabel.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesLabelPrefix" id="10084.SeriesLabelPrefix" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="SeriesLineStyle" id="10084.SeriesLineStyle" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="1"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="1"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="1"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="1"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="1"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="1"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="1"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="1"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="1"/>
+        <Domain name="array_list" id="10084.SeriesLineStyle.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesLineThickness" id="10084.SeriesLineThickness" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="2"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="2"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="2"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="2"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="2"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="2"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="2"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="2"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="2"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="2"/>
+        <Domain name="array_list" id="10084.SeriesLineThickness.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesMarkerSize" id="10084.SeriesMarkerSize" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="4"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="4"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="4"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="4"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="4"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="4"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="4"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="4"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="4"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="4"/>
+        <Domain name="array_list" id="10084.SeriesMarkerSize.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesMarkerStyle" id="10084.SeriesMarkerStyle" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="0"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="0"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="0"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="0"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="0"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="0"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="0"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="0"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="0"/>
+        <Domain name="array_list" id="10084.SeriesMarkerStyle.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesOpacity" id="10084.SeriesOpacity" number_of_elements="20">
+        <Element index="0" value="arc_length"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="1"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="1"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="1"/>
+        <Element index="8" value="Eem_Magnitude"/>
+        <Element index="9" value="1"/>
+        <Element index="10" value="vtkValidPointMask"/>
+        <Element index="11" value="1"/>
+        <Element index="12" value="Points_X"/>
+        <Element index="13" value="1"/>
+        <Element index="14" value="Points_Y"/>
+        <Element index="15" value="1"/>
+        <Element index="16" value="Points_Z"/>
+        <Element index="17" value="1"/>
+        <Element index="18" value="Points_Magnitude"/>
+        <Element index="19" value="1"/>
+        <Domain name="array_list" id="10084.SeriesOpacity.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesPlotCorner" id="10084.SeriesPlotCorner" number_of_elements="20">
+        <Element index="0" value="Eem_Magnitude"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="Eem_X"/>
+        <Element index="3" value="0"/>
+        <Element index="4" value="Eem_Y"/>
+        <Element index="5" value="0"/>
+        <Element index="6" value="Eem_Z"/>
+        <Element index="7" value="0"/>
+        <Element index="8" value="Points_Magnitude"/>
+        <Element index="9" value="0"/>
+        <Element index="10" value="Points_X"/>
+        <Element index="11" value="0"/>
+        <Element index="12" value="Points_Y"/>
+        <Element index="13" value="0"/>
+        <Element index="14" value="Points_Z"/>
+        <Element index="15" value="0"/>
+        <Element index="16" value="arc_length"/>
+        <Element index="17" value="0"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="0"/>
+        <Domain name="array_list" id="10084.SeriesPlotCorner.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="SeriesVisibility" id="10084.SeriesVisibility" number_of_elements="20">
+        <Element index="0" value="arc_length"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="Eem_Magnitude"/>
+        <Element index="3" value="0"/>
+        <Element index="4" value="Eem_X"/>
+        <Element index="5" value="1"/>
+        <Element index="6" value="Eem_Y"/>
+        <Element index="7" value="1"/>
+        <Element index="8" value="Eem_Z"/>
+        <Element index="9" value="0"/>
+        <Element index="10" value="Points_Magnitude"/>
+        <Element index="11" value="0"/>
+        <Element index="12" value="Points_X"/>
+        <Element index="13" value="0"/>
+        <Element index="14" value="Points_Y"/>
+        <Element index="15" value="0"/>
+        <Element index="16" value="Points_Z"/>
+        <Element index="17" value="0"/>
+        <Element index="18" value="vtkValidPointMask"/>
+        <Element index="19" value="0"/>
+        <Domain name="array_list" id="10084.SeriesVisibility.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+      <Property name="UseIndexForXAxis" id="10084.UseIndexForXAxis" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="10084.UseIndexForXAxis.bool"/>
+      </Property>
+      <Property name="Visibility" id="10084.Visibility" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="10084.Visibility.bool"/>
+      </Property>
+      <Property name="XArrayName" id="10084.XArrayName" number_of_elements="1">
+        <Element index="0" value="arc_length"/>
+        <Domain name="array_list" id="10084.XArrayName.array_list">
+          <String text="arc_length"/>
+          <String text="Eem_X"/>
+          <String text="Eem_Y"/>
+          <String text="Eem_Z"/>
+          <String text="Eem_Magnitude"/>
+          <String text="vtkValidPointMask"/>
+          <String text="Points_X"/>
+          <String text="Points_Y"/>
+          <String text="Points_Z"/>
+          <String text="Points_Magnitude"/>
+        </Domain>
+      </Property>
+    </Proxy>
+    <Proxy group="settings" type="ColorPalette" id="267" servers="21">
+      <Property name="BackgroundColor" id="267.BackgroundColor" number_of_elements="3">
+        <Element index="0" value="0.32"/>
+        <Element index="1" value="0.34"/>
+        <Element index="2" value="0.43"/>
+        <Domain name="range" id="267.BackgroundColor.range"/>
+      </Property>
+      <Property name="BackgroundColor2" id="267.BackgroundColor2" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0.16"/>
+        <Domain name="range" id="267.BackgroundColor2.range"/>
+      </Property>
+      <Property name="BackgroundColorMode" id="267.BackgroundColorMode" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="enum" id="267.BackgroundColorMode.enum">
+          <Entry value="0" text="Single Color"/>
+          <Entry value="1" text="Gradient"/>
+        </Domain>
+      </Property>
+      <Property name="BorderColor" id="267.BorderColor" number_of_elements="3">
+        <Element index="0" value="1"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="1"/>
+        <Domain name="range" id="267.BorderColor.range"/>
+      </Property>
+      <Property name="EdgeColor" id="267.EdgeColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0.5"/>
+        <Domain name="range" id="267.EdgeColor.range"/>
+      </Property>
+      <Property name="ForegroundColor" id="267.ForegroundColor" number_of_elements="3">
+        <Element index="0" value="1"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="1"/>
+        <Domain name="range" id="267.ForegroundColor.range"/>
+      </Property>
+      <Property name="InteractiveSelectionColor" id="267.InteractiveSelectionColor" number_of_elements="3">
+        <Element index="0" value="0.5"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="1"/>
+        <Domain name="range" id="267.InteractiveSelectionColor.range"/>
+      </Property>
+      <Property name="InteractiveWidgetColor" id="267.InteractiveWidgetColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="267.InteractiveWidgetColor.range"/>
+      </Property>
+      <Property name="LoadPalette" id="267.LoadPalette"/>
+      <Property name="SelectionColor" id="267.SelectionColor" number_of_elements="3">
+        <Element index="0" value="1"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="1"/>
+        <Domain name="range" id="267.SelectionColor.range"/>
+      </Property>
+      <Property name="SurfaceColor" id="267.SurfaceColor" number_of_elements="3">
+        <Element index="0" value="1"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="1"/>
+        <Domain name="range" id="267.SurfaceColor.range"/>
+      </Property>
+      <Property name="TextAnnotationColor" id="267.TextAnnotationColor" number_of_elements="3">
+        <Element index="0" value="1"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="1"/>
+        <Domain name="range" id="267.TextAnnotationColor.range"/>
+      </Property>
+      <Property name="WidgetColor" id="267.WidgetColor" number_of_elements="3">
+        <Element index="0" value="1"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="267.WidgetColor.range"/>
+      </Property>
+    </Proxy>
+    <Proxy group="sources" type="LegacyVTKFileReader" id="9390" servers="1">
+      <Property name="FileNameInfo" id="9390.FileNameInfo" number_of_elements="1">
+        <Element index="0" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_1000.vtk"/>
+      </Property>
+      <Property name="FileNames" id="9390.FileNames" number_of_elements="11">
+        <Element index="0" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_0.vtk"/>
+        <Element index="1" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_100.vtk"/>
+        <Element index="2" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_200.vtk"/>
+        <Element index="3" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_300.vtk"/>
+        <Element index="4" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_400.vtk"/>
+        <Element index="5" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_500.vtk"/>
+        <Element index="6" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_600.vtk"/>
+        <Element index="7" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_700.vtk"/>
+        <Element index="8" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_800.vtk"/>
+        <Element index="9" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_900.vtk"/>
+        <Element index="10" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\pml\Eem_1000.vtk"/>
+        <Domain name="files" id="9390.FileNames.files"/>
+      </Property>
+      <Property name="TimestepValues" id="9390.TimestepValues" number_of_elements="11">
+        <Element index="0" value="0"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="2"/>
+        <Element index="3" value="3"/>
+        <Element index="4" value="4"/>
+        <Element index="5" value="5"/>
+        <Element index="6" value="6"/>
+        <Element index="7" value="7"/>
+        <Element index="8" value="8"/>
+        <Element index="9" value="9"/>
+        <Element index="10" value="10"/>
+      </Property>
+    </Proxy>
+    <Proxy group="sources" type="LegacyVTKFileReader" id="10046" servers="1">
+      <Property name="FileNameInfo" id="10046.FileNameInfo" number_of_elements="1">
+        <Element index="0" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_1000.vtk"/>
+      </Property>
+      <Property name="FileNames" id="10046.FileNames" number_of_elements="11">
+        <Element index="0" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_0.vtk"/>
+        <Element index="1" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_100.vtk"/>
+        <Element index="2" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_200.vtk"/>
+        <Element index="3" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_300.vtk"/>
+        <Element index="4" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_400.vtk"/>
+        <Element index="5" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_500.vtk"/>
+        <Element index="6" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_600.vtk"/>
+        <Element index="7" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_700.vtk"/>
+        <Element index="8" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_800.vtk"/>
+        <Element index="9" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_900.vtk"/>
+        <Element index="10" value="\\wsl.localhost\Ubuntu\home\shenoy\Q-POP-FerroDyn\bin\tests\1\abc\Eem_1000.vtk"/>
+        <Domain name="files" id="10046.FileNames.files"/>
+      </Property>
+      <Property name="TimestepValues" id="10046.TimestepValues" number_of_elements="11">
+        <Element index="0" value="0"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="2"/>
+        <Element index="3" value="3"/>
+        <Element index="4" value="4"/>
+        <Element index="5" value="5"/>
+        <Element index="6" value="6"/>
+        <Element index="7" value="7"/>
+        <Element index="8" value="8"/>
+        <Element index="9" value="9"/>
+        <Element index="10" value="10"/>
+      </Property>
+    </Proxy>
+    <Proxy group="filters" type="ProbeLine" id="9733" servers="1">
+      <Property name="ComputeTolerance" id="9733.ComputeTolerance" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9733.ComputeTolerance.bool"/>
+      </Property>
+      <Property name="Input" id="9733.Input" number_of_elements="1">
+        <Proxy value="9390" output_port="0"/>
+        <Domain name="groups" id="9733.Input.groups"/>
+        <Domain name="input_array" id="9733.Input.input_array"/>
+        <Domain name="input_type" id="9733.Input.input_type"/>
+      </Property>
+      <Property name="PassCellArrays" id="9733.PassCellArrays" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9733.PassCellArrays.bool"/>
+      </Property>
+      <Property name="PassFieldArrays" id="9733.PassFieldArrays" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9733.PassFieldArrays.bool"/>
+      </Property>
+      <Property name="PassPartialArrays" id="9733.PassPartialArrays" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9733.PassPartialArrays.bool"/>
+      </Property>
+      <Property name="PassPointArrays" id="9733.PassPointArrays" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9733.PassPointArrays.bool"/>
+      </Property>
+      <Property name="Point1" id="9733.Point1" number_of_elements="3">
+        <Element index="0" value="5e-10"/>
+        <Element index="1" value="5e-10"/>
+        <Element index="2" value="1e-8"/>
+        <Domain name="range" id="9733.Point1.range"/>
+      </Property>
+      <Property name="Point2" id="9733.Point2" number_of_elements="3">
+        <Element index="0" value="5e-10"/>
+        <Element index="1" value="5e-10"/>
+        <Element index="2" value="1.09e-7"/>
+        <Domain name="range" id="9733.Point2.range"/>
+      </Property>
+      <Property name="Resolution" id="9733.Resolution" number_of_elements="1">
+        <Element index="0" value="1000"/>
+      </Property>
+      <Property name="SamplingPattern" id="9733.SamplingPattern" number_of_elements="1">
+        <Element index="0" value="2"/>
+        <Domain name="enum" id="9733.SamplingPattern.enum">
+          <Entry value="0" text="Sample At Cell Boundaries"/>
+          <Entry value="1" text="Sample At Segment Centers"/>
+          <Entry value="2" text="Sample Uniformly"/>
+        </Domain>
+      </Property>
+      <Property name="Tolerance" id="9733.Tolerance" number_of_elements="1">
+        <Element index="0" value="2.220446049250313e-16"/>
+        <Domain name="range" id="9733.Tolerance.range"/>
+      </Property>
+    </Proxy>
+    <Proxy group="filters" type="ProbeLine" id="10058" servers="1">
+      <Property name="ComputeTolerance" id="10058.ComputeTolerance" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="10058.ComputeTolerance.bool"/>
+      </Property>
+      <Property name="Input" id="10058.Input" number_of_elements="1">
+        <Proxy value="10046" output_port="0"/>
+        <Domain name="groups" id="10058.Input.groups"/>
+        <Domain name="input_array" id="10058.Input.input_array"/>
+        <Domain name="input_type" id="10058.Input.input_type"/>
+      </Property>
+      <Property name="PassCellArrays" id="10058.PassCellArrays" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="10058.PassCellArrays.bool"/>
+      </Property>
+      <Property name="PassFieldArrays" id="10058.PassFieldArrays" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="10058.PassFieldArrays.bool"/>
+      </Property>
+      <Property name="PassPartialArrays" id="10058.PassPartialArrays" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="10058.PassPartialArrays.bool"/>
+      </Property>
+      <Property name="PassPointArrays" id="10058.PassPointArrays" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="10058.PassPointArrays.bool"/>
+      </Property>
+      <Property name="Point1" id="10058.Point1" number_of_elements="3">
+        <Element index="0" value="5e-10"/>
+        <Element index="1" value="5e-10"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="10058.Point1.range"/>
+      </Property>
+      <Property name="Point2" id="10058.Point2" number_of_elements="3">
+        <Element index="0" value="5e-10"/>
+        <Element index="1" value="5e-10"/>
+        <Element index="2" value="9.9e-8"/>
+        <Domain name="range" id="10058.Point2.range"/>
+      </Property>
+      <Property name="Resolution" id="10058.Resolution" number_of_elements="1">
+        <Element index="0" value="1000"/>
+      </Property>
+      <Property name="SamplingPattern" id="10058.SamplingPattern" number_of_elements="1">
+        <Element index="0" value="2"/>
+        <Domain name="enum" id="10058.SamplingPattern.enum">
+          <Entry value="0" text="Sample At Cell Boundaries"/>
+          <Entry value="1" text="Sample At Segment Centers"/>
+          <Entry value="2" text="Sample Uniformly"/>
+        </Domain>
+      </Property>
+      <Property name="Tolerance" id="10058.Tolerance" number_of_elements="1">
+        <Element index="0" value="2.220446049250313e-16"/>
+        <Domain name="range" id="10058.Tolerance.range"/>
+      </Property>
+    </Proxy>
+    <Proxy group="misc" type="TimeKeeper" id="256" servers="16">
+      <Property name="SuppressedTimeSources" id="256.SuppressedTimeSources"/>
+      <Property name="Time" id="256.Time" number_of_elements="1">
+        <Element index="0" value="10"/>
+        <Domain name="range" id="256.Time.range"/>
+      </Property>
+      <Property name="TimeLabel" id="256.TimeLabel" number_of_elements="1">
+        <Element index="0" value="Time"/>
+      </Property>
+      <Property name="TimeRange" id="256.TimeRange" number_of_elements="2">
+        <Element index="0" value="0"/>
+        <Element index="1" value="10"/>
+      </Property>
+      <Property name="TimeSources" id="256.TimeSources" number_of_elements="4">
+        <Proxy value="9390"/>
+        <Proxy value="9733"/>
+        <Proxy value="10046"/>
+        <Proxy value="10058"/>
+      </Property>
+      <Property name="TimestepValues" id="256.TimestepValues" number_of_elements="11">
+        <Element index="0" value="0"/>
+        <Element index="1" value="1"/>
+        <Element index="2" value="2"/>
+        <Element index="3" value="3"/>
+        <Element index="4" value="4"/>
+        <Element index="5" value="5"/>
+        <Element index="6" value="6"/>
+        <Element index="7" value="7"/>
+        <Element index="8" value="8"/>
+        <Element index="9" value="9"/>
+        <Element index="10" value="10"/>
+      </Property>
+      <Property name="Views" id="256.Views" number_of_elements="1">
+        <Proxy value="9995"/>
+      </Property>
+    </Proxy>
+    <Proxy group="views" type="XYChartView" id="9995" servers="21">
+      <Property name="BottomAxisColor" id="9995.BottomAxisColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.BottomAxisColor.range"/>
+      </Property>
+      <Property name="BottomAxisGridColor" id="9995.BottomAxisGridColor" number_of_elements="3">
+        <Element index="0" value="0.95"/>
+        <Element index="1" value="0.95"/>
+        <Element index="2" value="0.95"/>
+        <Domain name="range" id="9995.BottomAxisGridColor.range"/>
+      </Property>
+      <Property name="BottomAxisLabelBold" id="9995.BottomAxisLabelBold" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.BottomAxisLabelBold.bool"/>
+      </Property>
+      <Property name="BottomAxisLabelColor" id="9995.BottomAxisLabelColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.BottomAxisLabelColor.range"/>
+      </Property>
+      <Property name="BottomAxisLabelFontFamily" id="9995.BottomAxisLabelFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.BottomAxisLabelFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="BottomAxisLabelFontFile" id="9995.BottomAxisLabelFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="BottomAxisLabelFontSize" id="9995.BottomAxisLabelFontSize" number_of_elements="1">
+        <Element index="0" value="12"/>
+      </Property>
+      <Property name="BottomAxisLabelItalic" id="9995.BottomAxisLabelItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.BottomAxisLabelItalic.bool"/>
+      </Property>
+      <Property name="BottomAxisLabelNotation" id="9995.BottomAxisLabelNotation" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="enum" id="9995.BottomAxisLabelNotation.enum">
+          <Entry value="0" text="Mixed"/>
+          <Entry value="1" text="Scientific"/>
+          <Entry value="2" text="Fixed"/>
+        </Domain>
+      </Property>
+      <Property name="BottomAxisLabelPrecision" id="9995.BottomAxisLabelPrecision" number_of_elements="1">
+        <Element index="0" value="2"/>
+        <Domain name="range" id="9995.BottomAxisLabelPrecision.range"/>
+      </Property>
+      <Property name="BottomAxisLabels" id="9995.BottomAxisLabels"/>
+      <Property name="BottomAxisLogScale" id="9995.BottomAxisLogScale" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.BottomAxisLogScale.bool"/>
+      </Property>
+      <Property name="BottomAxisRangeMaximum" id="9995.BottomAxisRangeMaximum" number_of_elements="1">
+        <Element index="0" value="1.0999999999999999e-7"/>
+      </Property>
+      <Property name="BottomAxisRangeMinimum" id="9995.BottomAxisRangeMinimum" number_of_elements="1">
+        <Element index="0" value="-1e-8"/>
+      </Property>
+      <Property name="BottomAxisTitle" id="9995.BottomAxisTitle" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="BottomAxisTitleBold" id="9995.BottomAxisTitleBold" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.BottomAxisTitleBold.bool"/>
+      </Property>
+      <Property name="BottomAxisTitleColor" id="9995.BottomAxisTitleColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.BottomAxisTitleColor.range"/>
+      </Property>
+      <Property name="BottomAxisTitleFontFamily" id="9995.BottomAxisTitleFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.BottomAxisTitleFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="BottomAxisTitleFontFile" id="9995.BottomAxisTitleFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="BottomAxisTitleFontSize" id="9995.BottomAxisTitleFontSize" number_of_elements="1">
+        <Element index="0" value="18"/>
+      </Property>
+      <Property name="BottomAxisTitleItalic" id="9995.BottomAxisTitleItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.BottomAxisTitleItalic.bool"/>
+      </Property>
+      <Property name="BottomAxisUseCustomLabels" id="9995.BottomAxisUseCustomLabels" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.BottomAxisUseCustomLabels.bool"/>
+      </Property>
+      <Property name="BottomAxisUseCustomRange" id="9995.BottomAxisUseCustomRange" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.BottomAxisUseCustomRange.bool"/>
+      </Property>
+      <Property name="CacheKey" id="9995.CacheKey" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="range" id="9995.CacheKey.range"/>
+      </Property>
+      <Property name="ChartTitle" id="9995.ChartTitle" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="ChartTitleAlignment" id="9995.ChartTitleAlignment" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="enum" id="9995.ChartTitleAlignment.enum">
+          <Entry value="0" text="Left"/>
+          <Entry value="1" text="Center"/>
+          <Entry value="2" text="Right"/>
+        </Domain>
+      </Property>
+      <Property name="ChartTitleBold" id="9995.ChartTitleBold" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.ChartTitleBold.bool"/>
+      </Property>
+      <Property name="ChartTitleColor" id="9995.ChartTitleColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.ChartTitleColor.range"/>
+      </Property>
+      <Property name="ChartTitleFontFamily" id="9995.ChartTitleFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.ChartTitleFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="ChartTitleFontFile" id="9995.ChartTitleFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="ChartTitleFontSize" id="9995.ChartTitleFontSize" number_of_elements="1">
+        <Element index="0" value="18"/>
+      </Property>
+      <Property name="ChartTitleItalic" id="9995.ChartTitleItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.ChartTitleItalic.bool"/>
+      </Property>
+      <Property name="HideTimeMarker" id="9995.HideTimeMarker" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.HideTimeMarker.bool"/>
+      </Property>
+      <Property name="LeftAxisColor" id="9995.LeftAxisColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.LeftAxisColor.range"/>
+      </Property>
+      <Property name="LeftAxisGridColor" id="9995.LeftAxisGridColor" number_of_elements="3">
+        <Element index="0" value="0.95"/>
+        <Element index="1" value="0.95"/>
+        <Element index="2" value="0.95"/>
+        <Domain name="range" id="9995.LeftAxisGridColor.range"/>
+      </Property>
+      <Property name="LeftAxisLabelBold" id="9995.LeftAxisLabelBold" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.LeftAxisLabelBold.bool"/>
+      </Property>
+      <Property name="LeftAxisLabelColor" id="9995.LeftAxisLabelColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.LeftAxisLabelColor.range"/>
+      </Property>
+      <Property name="LeftAxisLabelFontFamily" id="9995.LeftAxisLabelFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.LeftAxisLabelFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="LeftAxisLabelFontFile" id="9995.LeftAxisLabelFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="LeftAxisLabelFontSize" id="9995.LeftAxisLabelFontSize" number_of_elements="1">
+        <Element index="0" value="12"/>
+      </Property>
+      <Property name="LeftAxisLabelItalic" id="9995.LeftAxisLabelItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.LeftAxisLabelItalic.bool"/>
+      </Property>
+      <Property name="LeftAxisLabelNotation" id="9995.LeftAxisLabelNotation" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="enum" id="9995.LeftAxisLabelNotation.enum">
+          <Entry value="0" text="Mixed"/>
+          <Entry value="1" text="Scientific"/>
+          <Entry value="2" text="Fixed"/>
+        </Domain>
+      </Property>
+      <Property name="LeftAxisLabelPrecision" id="9995.LeftAxisLabelPrecision" number_of_elements="1">
+        <Element index="0" value="2"/>
+        <Domain name="range" id="9995.LeftAxisLabelPrecision.range"/>
+      </Property>
+      <Property name="LeftAxisLabels" id="9995.LeftAxisLabels"/>
+      <Property name="LeftAxisLogScale" id="9995.LeftAxisLogScale" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.LeftAxisLogScale.bool"/>
+      </Property>
+      <Property name="LeftAxisRangeMaximum" id="9995.LeftAxisRangeMaximum" number_of_elements="1">
+        <Element index="0" value="1450000"/>
+      </Property>
+      <Property name="LeftAxisRangeMinimum" id="9995.LeftAxisRangeMinimum" number_of_elements="1">
+        <Element index="0" value="-9950000"/>
+      </Property>
+      <Property name="LeftAxisTitle" id="9995.LeftAxisTitle" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="LeftAxisTitleBold" id="9995.LeftAxisTitleBold" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.LeftAxisTitleBold.bool"/>
+      </Property>
+      <Property name="LeftAxisTitleColor" id="9995.LeftAxisTitleColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.LeftAxisTitleColor.range"/>
+      </Property>
+      <Property name="LeftAxisTitleFontFamily" id="9995.LeftAxisTitleFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.LeftAxisTitleFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="LeftAxisTitleFontFile" id="9995.LeftAxisTitleFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="LeftAxisTitleFontSize" id="9995.LeftAxisTitleFontSize" number_of_elements="1">
+        <Element index="0" value="18"/>
+      </Property>
+      <Property name="LeftAxisTitleItalic" id="9995.LeftAxisTitleItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.LeftAxisTitleItalic.bool"/>
+      </Property>
+      <Property name="LeftAxisUseCustomLabels" id="9995.LeftAxisUseCustomLabels" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.LeftAxisUseCustomLabels.bool"/>
+      </Property>
+      <Property name="LeftAxisUseCustomRange" id="9995.LeftAxisUseCustomRange" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.LeftAxisUseCustomRange.bool"/>
+      </Property>
+      <Property name="LegendBold" id="9995.LegendBold" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.LegendBold.bool"/>
+      </Property>
+      <Property name="LegendFontFamily" id="9995.LegendFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.LegendFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="LegendFontFile" id="9995.LegendFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="LegendFontSize" id="9995.LegendFontSize" number_of_elements="1">
+        <Element index="0" value="12"/>
+      </Property>
+      <Property name="LegendItalic" id="9995.LegendItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.LegendItalic.bool"/>
+      </Property>
+      <Property name="LegendLocation" id="9995.LegendLocation" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="enum" id="9995.LegendLocation.enum">
+          <Entry value="0" text="TopLeft"/>
+          <Entry value="1" text="TopRight"/>
+          <Entry value="2" text="BottomRight"/>
+          <Entry value="3" text="BottomLeft"/>
+          <Entry value="4" text="Left"/>
+          <Entry value="5" text="Top"/>
+          <Entry value="6" text="Right"/>
+          <Entry value="7" text="Bottom"/>
+          <Entry value="8" text="Custom"/>
+        </Domain>
+      </Property>
+      <Property name="LegendPosition" id="9995.LegendPosition" number_of_elements="2">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+      </Property>
+      <Property name="LegendSymbolWidth" id="9995.LegendSymbolWidth" number_of_elements="1">
+        <Element index="0" value="25"/>
+      </Property>
+      <Property name="PPI" id="9995.PPI" number_of_elements="1">
+        <Element index="0" value="72"/>
+      </Property>
+      <Property name="Representations" id="9995.Representations" number_of_elements="2">
+        <Proxy value="10018"/>
+        <Proxy value="10084"/>
+      </Property>
+      <Property name="RightAxisColor" id="9995.RightAxisColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.RightAxisColor.range"/>
+      </Property>
+      <Property name="RightAxisGridColor" id="9995.RightAxisGridColor" number_of_elements="3">
+        <Element index="0" value="0.95"/>
+        <Element index="1" value="0.95"/>
+        <Element index="2" value="0.95"/>
+        <Domain name="range" id="9995.RightAxisGridColor.range"/>
+      </Property>
+      <Property name="RightAxisLabelBold" id="9995.RightAxisLabelBold" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.RightAxisLabelBold.bool"/>
+      </Property>
+      <Property name="RightAxisLabelColor" id="9995.RightAxisLabelColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.RightAxisLabelColor.range"/>
+      </Property>
+      <Property name="RightAxisLabelFontFamily" id="9995.RightAxisLabelFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.RightAxisLabelFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="RightAxisLabelFontFile" id="9995.RightAxisLabelFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="RightAxisLabelFontSize" id="9995.RightAxisLabelFontSize" number_of_elements="1">
+        <Element index="0" value="12"/>
+      </Property>
+      <Property name="RightAxisLabelItalic" id="9995.RightAxisLabelItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.RightAxisLabelItalic.bool"/>
+      </Property>
+      <Property name="RightAxisLabelNotation" id="9995.RightAxisLabelNotation" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="enum" id="9995.RightAxisLabelNotation.enum">
+          <Entry value="0" text="Mixed"/>
+          <Entry value="1" text="Scientific"/>
+          <Entry value="2" text="Fixed"/>
+        </Domain>
+      </Property>
+      <Property name="RightAxisLabelPrecision" id="9995.RightAxisLabelPrecision" number_of_elements="1">
+        <Element index="0" value="2"/>
+        <Domain name="range" id="9995.RightAxisLabelPrecision.range"/>
+      </Property>
+      <Property name="RightAxisLabels" id="9995.RightAxisLabels"/>
+      <Property name="RightAxisLogScale" id="9995.RightAxisLogScale" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.RightAxisLogScale.bool"/>
+      </Property>
+      <Property name="RightAxisRangeMaximum" id="9995.RightAxisRangeMaximum" number_of_elements="1">
+        <Element index="0" value="7.3260000000000005"/>
+      </Property>
+      <Property name="RightAxisRangeMinimum" id="9995.RightAxisRangeMinimum" number_of_elements="1">
+        <Element index="0" value="-0.666"/>
+      </Property>
+      <Property name="RightAxisTitle" id="9995.RightAxisTitle" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="RightAxisTitleBold" id="9995.RightAxisTitleBold" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.RightAxisTitleBold.bool"/>
+      </Property>
+      <Property name="RightAxisTitleColor" id="9995.RightAxisTitleColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.RightAxisTitleColor.range"/>
+      </Property>
+      <Property name="RightAxisTitleFontFamily" id="9995.RightAxisTitleFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.RightAxisTitleFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="RightAxisTitleFontFile" id="9995.RightAxisTitleFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="RightAxisTitleFontSize" id="9995.RightAxisTitleFontSize" number_of_elements="1">
+        <Element index="0" value="18"/>
+      </Property>
+      <Property name="RightAxisTitleItalic" id="9995.RightAxisTitleItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.RightAxisTitleItalic.bool"/>
+      </Property>
+      <Property name="RightAxisUseCustomLabels" id="9995.RightAxisUseCustomLabels" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.RightAxisUseCustomLabels.bool"/>
+      </Property>
+      <Property name="RightAxisUseCustomRange" id="9995.RightAxisUseCustomRange" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.RightAxisUseCustomRange.bool"/>
+      </Property>
+      <Property name="ShowBottomAxisGrid" id="9995.ShowBottomAxisGrid" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.ShowBottomAxisGrid.bool"/>
+      </Property>
+      <Property name="ShowBottomAxisLabels" id="9995.ShowBottomAxisLabels" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.ShowBottomAxisLabels.bool"/>
+      </Property>
+      <Property name="ShowLeftAxisGrid" id="9995.ShowLeftAxisGrid" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.ShowLeftAxisGrid.bool"/>
+      </Property>
+      <Property name="ShowLeftAxisLabels" id="9995.ShowLeftAxisLabels" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.ShowLeftAxisLabels.bool"/>
+      </Property>
+      <Property name="ShowLegend" id="9995.ShowLegend" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.ShowLegend.bool"/>
+      </Property>
+      <Property name="ShowRightAxisGrid" id="9995.ShowRightAxisGrid" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.ShowRightAxisGrid.bool"/>
+      </Property>
+      <Property name="ShowRightAxisLabels" id="9995.ShowRightAxisLabels" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.ShowRightAxisLabels.bool"/>
+      </Property>
+      <Property name="ShowTopAxisGrid" id="9995.ShowTopAxisGrid" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.ShowTopAxisGrid.bool"/>
+      </Property>
+      <Property name="ShowTopAxisLabels" id="9995.ShowTopAxisLabels" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.ShowTopAxisLabels.bool"/>
+      </Property>
+      <Property name="SortByXAxis" id="9995.SortByXAxis" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.SortByXAxis.bool"/>
+      </Property>
+      <Property name="TooltipLabelFormat" id="9995.TooltipLabelFormat" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="TooltipNotation" id="9995.TooltipNotation" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="enum" id="9995.TooltipNotation.enum">
+          <Entry value="0" text="Mixed"/>
+          <Entry value="1" text="Scientific"/>
+          <Entry value="2" text="Fixed"/>
+        </Domain>
+      </Property>
+      <Property name="TooltipPrecision" id="9995.TooltipPrecision" number_of_elements="1">
+        <Element index="0" value="6"/>
+        <Domain name="range" id="9995.TooltipPrecision.range"/>
+      </Property>
+      <Property name="TopAxisColor" id="9995.TopAxisColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.TopAxisColor.range"/>
+      </Property>
+      <Property name="TopAxisGridColor" id="9995.TopAxisGridColor" number_of_elements="3">
+        <Element index="0" value="0.95"/>
+        <Element index="1" value="0.95"/>
+        <Element index="2" value="0.95"/>
+        <Domain name="range" id="9995.TopAxisGridColor.range"/>
+      </Property>
+      <Property name="TopAxisLabelBold" id="9995.TopAxisLabelBold" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.TopAxisLabelBold.bool"/>
+      </Property>
+      <Property name="TopAxisLabelColor" id="9995.TopAxisLabelColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.TopAxisLabelColor.range"/>
+      </Property>
+      <Property name="TopAxisLabelFontFamily" id="9995.TopAxisLabelFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.TopAxisLabelFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="TopAxisLabelFontFile" id="9995.TopAxisLabelFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="TopAxisLabelFontSize" id="9995.TopAxisLabelFontSize" number_of_elements="1">
+        <Element index="0" value="12"/>
+      </Property>
+      <Property name="TopAxisLabelItalic" id="9995.TopAxisLabelItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.TopAxisLabelItalic.bool"/>
+      </Property>
+      <Property name="TopAxisLabelNotation" id="9995.TopAxisLabelNotation" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="enum" id="9995.TopAxisLabelNotation.enum">
+          <Entry value="0" text="Mixed"/>
+          <Entry value="1" text="Scientific"/>
+          <Entry value="2" text="Fixed"/>
+        </Domain>
+      </Property>
+      <Property name="TopAxisLabelPrecision" id="9995.TopAxisLabelPrecision" number_of_elements="1">
+        <Element index="0" value="2"/>
+        <Domain name="range" id="9995.TopAxisLabelPrecision.range"/>
+      </Property>
+      <Property name="TopAxisLabels" id="9995.TopAxisLabels"/>
+      <Property name="TopAxisLogScale" id="9995.TopAxisLogScale" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.TopAxisLogScale.bool"/>
+      </Property>
+      <Property name="TopAxisRangeMaximum" id="9995.TopAxisRangeMaximum" number_of_elements="1">
+        <Element index="0" value="7.3260000000000005"/>
+      </Property>
+      <Property name="TopAxisRangeMinimum" id="9995.TopAxisRangeMinimum" number_of_elements="1">
+        <Element index="0" value="-0.666"/>
+      </Property>
+      <Property name="TopAxisTitle" id="9995.TopAxisTitle" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="TopAxisTitleBold" id="9995.TopAxisTitleBold" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.TopAxisTitleBold.bool"/>
+      </Property>
+      <Property name="TopAxisTitleColor" id="9995.TopAxisTitleColor" number_of_elements="3">
+        <Element index="0" value="0"/>
+        <Element index="1" value="0"/>
+        <Element index="2" value="0"/>
+        <Domain name="range" id="9995.TopAxisTitleColor.range"/>
+      </Property>
+      <Property name="TopAxisTitleFontFamily" id="9995.TopAxisTitleFontFamily" number_of_elements="1">
+        <Element index="0" value="Arial"/>
+        <Domain name="list" id="9995.TopAxisTitleFontFamily.list">
+          <String text="Arial"/>
+          <String text="Courier"/>
+          <String text="Times"/>
+          <String text="File"/>
+        </Domain>
+      </Property>
+      <Property name="TopAxisTitleFontFile" id="9995.TopAxisTitleFontFile" number_of_elements="1">
+        <Element index="0" value=""/>
+      </Property>
+      <Property name="TopAxisTitleFontSize" id="9995.TopAxisTitleFontSize" number_of_elements="1">
+        <Element index="0" value="18"/>
+      </Property>
+      <Property name="TopAxisTitleItalic" id="9995.TopAxisTitleItalic" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.TopAxisTitleItalic.bool"/>
+      </Property>
+      <Property name="TopAxisUseCustomLabels" id="9995.TopAxisUseCustomLabels" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.TopAxisUseCustomLabels.bool"/>
+      </Property>
+      <Property name="TopAxisUseCustomRange" id="9995.TopAxisUseCustomRange" number_of_elements="1">
+        <Element index="0" value="1"/>
+        <Domain name="bool" id="9995.TopAxisUseCustomRange.bool"/>
+      </Property>
+      <Property name="UseCache" id="9995.UseCache" number_of_elements="1">
+        <Element index="0" value="0"/>
+        <Domain name="bool" id="9995.UseCache.bool"/>
+      </Property>
+      <Property name="ViewSize" id="9995.ViewSize" number_of_elements="2">
+        <Element index="0" value="1612"/>
+        <Element index="1" value="782"/>
+      </Property>
+      <Property name="ViewTime" id="9995.ViewTime" number_of_elements="1">
+        <Element index="0" value="10"/>
+        <Domain name="range" id="9995.ViewTime.range"/>
+      </Property>
+    </Proxy>
+    <ProxyCollection name="animation">
+      <Item id="263" name="AnimationScene1"/>
+      <Item id="265" name="TimeAnimationCue1"/>
+    </ProxyCollection>
+    <ProxyCollection name="layouts">
+      <Item id="6681" name="Layout #1"/>
+    </ProxyCollection>
+    <ProxyCollection name="materiallibrary">
+      <Item id="261" name="MaterialLibrary1"/>
+    </ProxyCollection>
+    <ProxyCollection name="pq_helper_proxies.10046">
+      <Item id="10057" name="RepresentationAnimationHelper"/>
+    </ProxyCollection>
+    <ProxyCollection name="pq_helper_proxies.10058">
+      <Item id="10069" name="RepresentationAnimationHelper"/>
+    </ProxyCollection>
+    <ProxyCollection name="pq_helper_proxies.9390">
+      <Item id="9402" name="RepresentationAnimationHelper"/>
+    </ProxyCollection>
+    <ProxyCollection name="pq_helper_proxies.9733">
+      <Item id="9744" name="RepresentationAnimationHelper"/>
+    </ProxyCollection>
+    <ProxyCollection name="representations">
+      <Item id="10018" name="XYChartRepresentation1" logname="XYChartRepresentation1"/>
+      <Item id="10084" name="XYChartRepresentation2" logname="XYChartRepresentation2"/>
+    </ProxyCollection>
+    <ProxyCollection name="settings">
+      <Item id="267" name="ColorPalette"/>
+    </ProxyCollection>
+    <ProxyCollection name="sources">
+      <Item id="9390" name="Eem_0.vtk*" logname="Eem_0.vtk*"/>
+      <Item id="10046" name="Eem_0.vtk*" logname="Eem_0.vtk*"/>
+      <Item id="9733" name="PlotOverLine1" logname="PlotOverLine1"/>
+      <Item id="10058" name="PlotOverLine2" logname="PlotOverLine2"/>
+    </ProxyCollection>
+    <ProxyCollection name="timekeeper">
+      <Item id="256" name="TimeKeeper1"/>
+    </ProxyCollection>
+    <ProxyCollection name="views">
+      <Item id="9995" name="LineChartView1" logname="LineChartView1"/>
+    </ProxyCollection>
+    <CustomProxyDefinitions/>
+    <Links/>
+    <Settings>
+      <SettingsProxy group="settings" type="ColorPalette">
+        <Links>
+          <Property source_property="ForegroundColor" target_id="9769" target_property="ForegroundWidgetColor" unlink_if_modified="1"/>
+          <Property source_property="InteractiveWidgetColor" target_id="9769" target_property="InteractiveWidgetColor" unlink_if_modified="1"/>
+          <Property source_property="SelectionColor" target_id="10018" target_property="Color" unlink_if_modified="1"/>
+          <Property source_property="ForegroundColor" target_id="10072" target_property="ForegroundWidgetColor" unlink_if_modified="1"/>
+          <Property source_property="InteractiveWidgetColor" target_id="10072" target_property="InteractiveWidgetColor" unlink_if_modified="1"/>
+          <Property source_property="SelectionColor" target_id="10084" target_property="Color" unlink_if_modified="1"/>
+        </Links>
+      </SettingsProxy>
+      <SettingsProxy group="settings" type="GeneralSettings">
+        <Links>
+          <Property source_property="ScreenPixelsPerInch" target_id="9995" target_property="PPI" unlink_if_modified="0"/>
+        </Links>
+      </SettingsProxy>
+      <SettingsProxy group="settings" type="IOSettings">
+        <Links/>
+      </SettingsProxy>
+      <SettingsProxy group="settings" type="RenderViewInteractionSettings">
+        <Links/>
+      </SettingsProxy>
+      <SettingsProxy group="settings" type="RenderViewSettings">
+        <Links/>
+      </SettingsProxy>
+      <SettingsProxy group="settings" type="RepresentedArrayListSettings">
+        <Links/>
+      </SettingsProxy>
+    </Settings>
+  </ServerManagerState>
+  <InteractiveViewLinks/>
+  <CameraWidgetViewLinks/>
+</ParaView>

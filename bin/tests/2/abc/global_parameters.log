@@ -1,0 +1,175 @@
+Global Parameters:
+nx: 4
+ny: 4
+nz: 100
+n: 1600
+step: 1000
+dt: 2e-18
+time_device: 0
+prescribe_index_E: 0
+prescribe_index_H: 0
+num_materials: 2
+NFE: 0
+NFM: 0
+NAFM: 0
+Hext: 0 0 0
+Hext_stat: 0 0 0
+Hext_altr: 0 0 0
+H_altr_freq: 0 0 0
+if_read_Hext_nonunif: false
+if_prescribe_Hext: false
+num_prescribe_Hext: 0
+Eext: 0 0 0
+Eext_stat: 0 0 0
+Eext_altr: 0 0 0
+E_altr_freq: 0 0 0
+if_prescribe_Eext: false
+num_prescribe_Eext: 12001
+if_magnetostatics: false
+if_mag_1Dmodel: false
+if_elec_1Dmodel: true
+if_demag_factor: false
+if_elec_1D_compensate: false
+if_EM_backaction_on_P: true
+if_EM_backaction_on_M: true
+if_EMdynamic: true
+if_input_planeEM_E: false
+planeEM_E: 0 0 0
+planeEM_E_freq: 0 0 0
+if_EM_fromP: true
+if_EM_fromM: true
+if_elastodynamics: false
+if_elasto_backaction_from_pORm: false
+if_elasto_on_pORm: false
+if_OrientRotate: false
+Tg2c: 1 0 0
+ 0 1 0
+ 0 0 1
+Tc2g: 1 0 0
+ 0 1 0
+ 0 0 1
+demag_fac_x: -0.333333
+demag_fac_y: -0.333333
+demag_fac_z: -0.333333
+if_elastostatic: false
+if_elastostatic_1D: false
+if_elastostatic_film: false
+free_charge_nzi: 1
+free_charge_nzf: 2
+free_charge: 0
+if_read_strain_ext: false
+strain_ext_nzi: 1
+strain_ext_nzf: 1
+exx_ext_glb: 0
+eyy_ext_glb: 0
+exy_ext_glb: 0
+scale_elec: 1
+scale_elasto: 1
+elec_solver_limit: 300
+elec_solver_tol: 1e-06
+elasto_solver_limit: 300
+elasto_solver_tol: 1e-06
+if_gaussian_strain_pulse: false
+input_strain_type: 3
+input_strain_sourcez: 64
+input_strain_component: z
+sigma_gauss: 1.2e-12
+amplitude_gauss: 3e+09
+num_strain_cycles: 0
+if_FM_all: false
+if_FE_all: false
+if_AFM_all: false
+if_periodic_allsurface: false
+if_1D_ABC: true
+if_1D_ABC_ELAST_onlytop: false
+if_1D_ABC_EM_onlytop: false
+if_PEC_XY: false
+if_PEC_Z: false
+weighting_factor_fourth_Liao: 0.5
+if_PML: false
+if_PML_Xs: false
+if_PML_Xe: false
+if_PML_Ys: false
+if_PML_Ye: false
+if_PML_Zs: false
+if_PML_Ze: false
+PML_size: 0
+sigmaMax: 0
+kappaMax: 1
+PML_d: 0
+PML_m: 3.5
+eta0: 376.73
+maxReflErr: 1.12535e-07
+xS: 0
+xE: 4
+yS: 0
+yE: 4
+zS: 0
+zE: 100
+if_flexo: false
+if_spin_pumping: false
+if_output_ave: false
+output_step_ave: 25
+if_output_uandv: false
+output_step_uandv: 1000000
+if_output_m: false
+output_step_m: 40000
+if_output_AFMm: false
+output_step_AFMm: 200000
+if_output_p: false
+output_step_p: 25
+if_output_q: false
+output_step_q: 25
+if_output_em: true
+output_step_em: 100
+if_output_strain: false
+output_step_strain: 1000000
+if_output_only_magcell: false
+output_step_magcell: 100
+if_output_em_onecell: true
+em_onecell_index: 100
+output_step_em_onecell: 25
+if_output_Hstat: false
+output_step_Hstat: 5000000
+if_output_Estat: false
+output_step_Estat: 1000000
+if_output_eigenstraint0_crt: false
+output_step_eigenstraint0_crt: 1000000
+if_output_elastoforce: false
+output_step_elastoforce: 50000000
+if_output_emYee: false
+output_step_emYee: 50000000
+if_output_Jp: false
+output_step_Jp: 40000
+if_output_Jishe: false
+output_step_Jishe: 40000
+if_input_m: false
+if_input_AFMm: false
+if_input_pandq: false
+if_input_em: false
+if_input_uandv: false
+if_input_Hstat: false
+if_input_Estat: false
+if_input_straint0: false
+if_input_eigenstraint0_crt: false
+if_input_Jp: false
+if_input_elastoforce: false
+if_Jf_input: true
+Jf_input_type: 0
+Jfin_xi: 0
+Jfin_yi: 0
+Jfin_zi: 19
+Jfin_xf: 3
+Jfin_yf: 3
+Jfin_zf: 19
+Jf_input_component: x
+Jf_input_amp: 5e+13
+Jf_input_freq: 5.996e+14
+num_Jf_cycles: 0
+Jf_rotate_xy: 0
+if_prescribed_m: false
+precess_angle: 5
+precess_frequency: 1e+11
+dkx: 1.5708e+09
+dky: 1.5708e+09
+dkz: 6.28319e+07
