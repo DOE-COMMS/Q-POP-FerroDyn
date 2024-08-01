@@ -613,8 +613,8 @@ void inoutput::output_Estat(unsigned long long int& nstep, ferroelectric_system*
 void inoutput::output_Eem(unsigned long long int& nstep, EMdynamic_system* pt_em) {
 	saveVTK_Vector(pt_em->DEx_em_cell, pt_em->DEy_em_cell, pt_em->DEz_em_cell, \
 		nstep,
-		0, 0, 0,
-		nx, ny, nz,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
 		pt_geo->dx, pt_geo->dy, pt_geo->dz,
 		"Eem", "Eem", 0);
 }
@@ -668,8 +668,8 @@ void inoutput::output_Hstat(unsigned long long int& nstep, magnetic_system* pt_m
 void inoutput::output_Hem(unsigned long long int& nstep, EMdynamic_system* pt_em) {
 	saveVTK_Vector(pt_em->DHx_em_cell, pt_em->DHy_em_cell, pt_em->DHz_em_cell, \
 		nstep,
-		0, 0, 0,
-		nx, ny, nz,
+		pt_geo->xS, pt_geo->yS, pt_geo->zS,
+		pt_geo->xE, pt_geo->yE, pt_geo->zE,
 		pt_geo->dx, pt_geo->dy, pt_geo->dz,
 		"Hem", "Hem", 0);
 }

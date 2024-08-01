@@ -1278,6 +1278,8 @@ P_count) default(present)async(1)
 		er21 = er21 / 8.; er22 = er22 / 8.; er23 = er23 / 8.;
 		er31 = er31 / 8.; er32 = er32 / 8.; er33 = er33 / 8.;
 
+		//printf("%ld\t%ld\t%ld\t%le\t%le\t%le\n", i, j, k, er11, er22, er33);
+
 
 		Denominator = -er13 * er22 * er31 + er12 * er23 * er31 + er13 * er21 * er32 - \
 			er11 * er23 * er32 - er12 * er21 * er33 + er11 * er22 * er33;
@@ -4904,7 +4906,21 @@ void EMdynamic_system::update_Jf_input() {
 					DJfz(i, j, k) = pt_glb->Jf_input_amp * sin(2. * PI * pt_glb->Jf_input_freq * temporal_var);
 				}
 			}
+			else if (pt_glb->Jf_input_type == 7) {
+				temporal_var = (pt_glb->time_device - pt_glb->dt) * (4.0 * PI * pt_glb->Jf_input_freq);
+				temporal_var = temporal_var * temporal_var * temporal_var * (4.0 - temporal_var) * exp(-temporal_var);
+				temporal_var = temporal_var / (pt_geo->dx * pt_geo->dy * pt_geo->dz);
 
+				if (pt_glb->Jf_input_component == 'x') {
+					DJfx(i, j, k) = temporal_var;
+				}
+				else if (pt_glb->Jf_input_component == 'y') {
+					DJfy(i, j, k) = temporal_var;
+				}
+				else if (pt_glb->Jf_input_component == 'z') {
+					DJfz(i, j, k) = temporal_var;
+				}				
+			}
 		}
 	}
 	//	{
@@ -5045,7 +5061,21 @@ void EMdynamic_system::update_Jf_input_half() {
 					DJfz(i, j, k) = pt_glb->Jf_input_amp * sin(2. * PI * pt_glb->Jf_input_freq * temporal_var);
 				}
 			}
+			else if (pt_glb->Jf_input_type == 7) {
+				temporal_var = (pt_glb->time_device - 0.5 * pt_glb->dt) * (4.0 * PI * pt_glb->Jf_input_freq);
+				temporal_var = temporal_var * temporal_var * temporal_var * (4.0 - temporal_var) * exp(-temporal_var);
+				temporal_var = temporal_var / (pt_geo->dx * pt_geo->dy * pt_geo->dz);
 
+				if (pt_glb->Jf_input_component == 'x') {
+					DJfx(i, j, k) = temporal_var;
+				}
+				else if (pt_glb->Jf_input_component == 'y') {
+					DJfy(i, j, k) = temporal_var;
+				}
+				else if (pt_glb->Jf_input_component == 'z') {
+					DJfz(i, j, k) = temporal_var;
+				}				
+			}
 		}
 	}
 
@@ -5188,7 +5218,26 @@ void EMdynamic_system::update_Jf_input_full() {
 					DJfz(i, j, k) = pt_glb->Jf_input_amp * sin(2. * PI * pt_glb->Jf_input_freq * temporal_var);
 				}
 			}
+			else if (pt_glb->Jf_input_type == 7) {
+				temporal_var = pt_glb->time_device * (4.0 * PI * pt_glb->Jf_input_freq);
+				// printf("update_Jf_input_full: (time_device - dt) = %le, Jf_input_freq = %le, temporal_var = %le\n", pt_glb->time_device - pt_glb->dt, pt_glb->Jf_input_freq, temporal_var);
 
+				temporal_var = temporal_var * temporal_var * temporal_var * (4.0 - temporal_var) * exp(-temporal_var);
+				// printf("update_Jf_input_full: temporal_var = %le\n", temporal_var);
+
+				temporal_var = temporal_var / (pt_geo->dx * pt_geo->dy * pt_geo->dz);
+				// printf("update_Jf_input_full: Jf_input_amp = %le, dx = %le, dy = %le, dz = %le, temporal_var = %le\n", pt_glb->Jf_input_amp, pt_geo->dx, pt_geo->dy, pt_geo->dz, temporal_var);
+
+				if (pt_glb->Jf_input_component == 'x') {
+					DJfx(i, j, k) = temporal_var;
+				}
+				else if (pt_glb->Jf_input_component == 'y') {
+					DJfy(i, j, k) = temporal_var;
+				}
+				else if (pt_glb->Jf_input_component == 'z') {
+					DJfz(i, j, k) = temporal_var;
+				}				
+			}
 		}
 	}
 	//	unsigned int i, j;
