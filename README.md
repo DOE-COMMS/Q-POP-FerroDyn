@@ -31,6 +31,7 @@ The user may then create a fresh directory to work from (or proceed from within 
 podman-hpc run --rm -it --gpu -v $PWD:/ferrodyn_run q-pop-ferrodyn:latest /bin/bash
 make
 cp bin/Q-POP-FerroDyn /ferrodyn_run
+cp input/system_setting.in input/materials.in /ferrodyn_run
 cd /ferrodyn_run
 ./Q-POP-FerroDyn
 ```
