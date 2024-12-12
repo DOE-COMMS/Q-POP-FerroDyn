@@ -23,10 +23,15 @@ Navigate to the root directory of the repository. The Dockerfile located here ca
 ```
 podman-hpc build -t q-pop-ferrodyn:latest .
 podman-hpc migrate q-pop-ferrodyn:latest
-podman-hpc run --rm -it -gpu -v $PWD:/ferrodyn q-pop-ferrodyn:latest /bin/bash
-cd /ferrodyn
+```
+The above commands build a container and then migrate it to the user's scratch space on Perlmutter. 
+
+The user may then create a fresh directory to work from (or proceed from within the repository). This directory then needs to be mounted to the container's filesystem when the container is booted up.
+```
+podman-hpc run --rm -it --gpu -v $PWD:/ferrodyn_run q-pop-ferrodyn:latest /bin/bash
 make
-cd bin
+cp bin/Q-POP-FerroDyn /ferrodyn_run
+cd /ferrodyn_run
 ./Q-POP-FerroDyn
 ```
 
