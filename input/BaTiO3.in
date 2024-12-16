@@ -1,0 +1,73 @@
+### BaTiO3 (BTO, Barium Titanate)
+MATERIAL = {BaTiO3};
+## Ferroelectric Properties
+IS_FERROELECTRIC = { TRUE };
+# Dynamical Equation Coefficients
+FE_MASS = { 1.35e-18 };
+FE_DAMPING = { 2.0e-7 };
+# Landau Parameters
+FE_a1 = { 4.00027999e6 };
+FE_a11 = { -2.097e8 };
+FE_a12 = { 7.974e8 };
+FE_a111 = { 1.294e9 };
+FE_a112 = { -1.95e9 };
+FE_a123 = { -2.5e9 };
+FE_a1111 = { 3.863e10 };
+FE_a1112 = { 2.529e10 };
+FE_a1122 = { 1.637e10 };
+FE_a1123 = { 1.367e10 };
+# Gradient, electrostriction, flexo
+FE_G11 = { 5.1e-10 };
+FE_Q11 = { 0.1 };
+FE_Q12 = { -0.034 };
+FE_Q44 = { 0.029 };
+FE_f11 = { 0.0 };
+FE_f12 = { 0.0 };
+FE_f44 = { 0.0 };
+
+## Mechanical Properties
+C11 = { 1.78e11 };
+C12 = { 0.964e11 };
+C44 = { 1.22e11 };
+DENSITY = { 6020. };
+# Elastodynamics
+ELASTODYNAMIC_MASS = { 0. };
+ELASTODYNAMIC_DAMPING = { 0. };
+
+## Magnetic Properties
+# Ferromagnetic
+IS_MAGNETIC = { FALSE };
+FM_SATURATION_MAGNETIZATION = { 0. };
+FM_GYROMAGNETIC_RATIO = { 0. };
+FM_DAMPING = { 0. };
+FM_MAG_ANISO_TYPE = { 0 };
+FM_K1 = { 0. };
+FM_K2 = { 0. };
+FM_EXCHANGE_ANISO = { 0. };
+FM_DMI_STRENGTH = { 0. };
+FM_LAMBDA_100 = { 0. };
+FM_LAMBDA_111 = { 0. };
+
+# Antiferromagnetic
+IS_ANTIFERROMAGNETIC = { FALSE };
+AFM_SATURATION_MAGNETIZATION = { 0., 0. };
+AFM_GYROMAGNETIC_RATIO = { 0., 0. };
+AFM_DAMPING = { 0., 0. };
+AFM_MAG_ANISO_TYPE = { 0, 0 };
+AFM_K1 = { 0., 0. };
+AFM_UNIAXIAL_ANISO = { 0., 0., 1.};
+AFM_EXCHANGE_ANISO = { 0., 0. };
+AFM_EXCHANGE_COUPLING = { 0. };
+AFM_LAMBDA_100 = { 0., 0. };
+AFM_LAMBDA_111 = { 0., 0. };
+
+## Spin-pump
+IF_SPIN_PUMPING = { FALSE };
+SPIN_HALL_ANGLE = { 0. };
+SPIN_MIXING_CONDUCTANCE = { 0. };
+SPIN_DIFFUSION_LENGTH = { 0. };
+
+## Electromagnetic Properties
+RELATIVE_PERMITTIVITY = {{2., 0., 0.}, {0., 8., 0.}, {0., 0., 8.}};
+ELECTRICAL_CONDUCTIVITY = {{1., 0., 0.}, {0., 1., 0.}, {0., 0., 1.}};
+PLASMA_OSCILLATION = {{1., 0., 1.}, {0., 0., 1.}, {0., 0., 1.}};

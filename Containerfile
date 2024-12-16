@@ -13,5 +13,6 @@ COPY ./src /Q-POP-FerroDyn/src
 COPY ./include /Q-POP-FerroDyn/include
 COPY ./Makefile /Q-POP-FerroDyn/Makefile
 COPY ./input /Q-POP-FerroDyn/input
+RUN mkdir bin
 
 CMD ["bash"]

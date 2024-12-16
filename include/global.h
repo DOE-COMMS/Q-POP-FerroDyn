@@ -3,6 +3,7 @@
 #include <complex>
 #include <fstream>
 #include <string>
+#include <vector>
 #include "material.h"
 #include "matrix.h"
 #include "geometry.h"
@@ -21,6 +22,7 @@ private:
 	double dx, dy, dz;
 private:
 	void set_global();
+	void read_material(std::string);
 	void read_materials();
 	void read_struct();
 	void check_material(material& mat);
@@ -91,6 +93,7 @@ public:
 	double demag_fac_x, demag_fac_y, demag_fac_z;
 
 	material* material_parameters;
+	std::vector<std::string> material_names;
 	matrix3d<unsigned int> material_cell;
 
 	bool if_elastostatic, if_elastostatic_1D, if_elastostatic_film;

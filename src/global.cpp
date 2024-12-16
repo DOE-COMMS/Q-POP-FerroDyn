@@ -178,8 +178,8 @@ void global_parameters::set_global() {
 	if_periodic_allsurface = false;
 	if (pt_geo->periodicX == true && pt_geo->periodicY == true && pt_geo->periodicZ == true) {
 		if_periodic_allsurface = true;
-		pt_geo->if_PML = false;
-		if_PML = false;
+		//pt_geo->if_PML = false;
+		//if_PML = false;
 	}
 
 	/* Prioritize PML over ABC */

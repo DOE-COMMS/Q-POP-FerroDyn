@@ -75,26 +75,26 @@ void geometry_parameters::set_PML()
 	}
 	else
 	{
-		if (periodicX && (if_PML_Xs || if_PML_Xe))
-		{
-			std::cout << "Cannot have PML and periodicity both in X direction. Defaulting to periodic." << std::endl;
-			if_PML_Xs = false;
-			if_PML_Xe = false;
-		}
+		// if (periodicX && (if_PML_Xs || if_PML_Xe))
+		// {
+		// 	std::cout << "Cannot have PML and periodicity both in X direction. Defaulting to periodic." << std::endl;
+		// 	if_PML_Xs = false;
+		// 	if_PML_Xe = false;
+		// }
 
-		if (periodicY && (if_PML_Ys || if_PML_Ye))
-		{
-			std::cout << "Cannot have PML and periodicity both in Y direction. Defaulting to periodic." << std::endl;
-			if_PML_Ys = false;
-			if_PML_Ye = false;
-		}
+		// if (periodicY && (if_PML_Ys || if_PML_Ye))
+		// {
+		// 	std::cout << "Cannot have PML and periodicity both in Y direction. Defaulting to periodic." << std::endl;
+		// 	if_PML_Ys = false;
+		// 	if_PML_Ye = false;
+		// }
 
-		if (periodicZ && (if_PML_Zs || if_PML_Ze))
-		{
-			std::cout << "Cannot have PML and periodicity both in Z direction. Defaulting to periodic." << std::endl;
-			if_PML_Zs = false;
-			if_PML_Ze = false;
-		}
+		// if (periodicZ && (if_PML_Zs || if_PML_Ze))
+		// {
+		// 	std::cout << "Cannot have PML and periodicity both in Z direction. Defaulting to periodic." << std::endl;
+		// 	if_PML_Zs = false;
+		// 	if_PML_Ze = false;
+		// }
 
 		if (if_PML_Xs == false && if_PML_Xe == false \
 			&& if_PML_Ys == false && if_PML_Ye == false \

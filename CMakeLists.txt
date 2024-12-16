@@ -35,20 +35,20 @@ add_executable(3DMultiPhysics ${SOURCES} ${MAIN})
 
 set_target_properties(3DMultiPhysics PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-target_compile_options(3DMultiPhysics PRIVATE $<$<COMPILE_LANGUAGE:CXX>:
+target_compile_options(3DMultiPhysics PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
   -acc
   -Wall
-  -O0
-  -g
+  -O3
+  -fast
   -gpu=cc80,cuda11.5
   -cudalib=cufft,curand
 >)
 
-target_link_options(3DMultiPhysics PRIVATE $<$<COMPILE_LANGUAGE:CXX>:
+target_link_options(3DMultiPhysics PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
   -acc
   -Wall
-  -O0
-  -g
+  -O3
+  -fast
   -gpu=cc80,cuda11.5
   -cudalib=cufft,curand
 >)
