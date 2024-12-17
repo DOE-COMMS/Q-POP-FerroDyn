@@ -1,7 +1,7 @@
 ### PbTiO3 (PTO, Lead Titanate)
 MATERIAL = {PbTiO3};
 ## Ferroelectric Properties
-IS_FERROELECTRIC = { TRUE };
+IS_FERROELECTRIC = { FALSE };
 # Dynamical Equation Coefficients
 FE_MASS = { 1.35e-18 };
 FE_DAMPING = { 2.0e-7 };

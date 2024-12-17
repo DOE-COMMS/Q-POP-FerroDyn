@@ -125,7 +125,7 @@ void elastic_system::get_dudxyz_glb() {
 				duydx_glb_surfYZ(i, j, k) = (Duy_glb_store(pt_geo->xS, j, k) - Duy_glb_store(pt_geo->xE - 1, j, k)) / dx;
 				duzdx_glb_surfYZ(i, j, k) = (Duz_glb_store(pt_geo->xS, j, k) - Duz_glb_store(pt_geo->xE - 1, j, k)) / dx;
 			}
-			else {
+			else if (i > pt_geo->xS && i < pt_geo->xE) {
 				duxdx_glb_surfYZ(i, j, k) = (Dux_glb_store(i, j, k) - Dux_glb_store(i - 1, j, k)) / dx;
 				duydx_glb_surfYZ(i, j, k) = (Duy_glb_store(i, j, k) - Duy_glb_store(i - 1, j, k)) / dx;
 				duzdx_glb_surfYZ(i, j, k) = (Duz_glb_store(i, j, k) - Duz_glb_store(i - 1, j, k)) / dx;
@@ -151,7 +151,7 @@ void elastic_system::get_dudxyz_glb() {
 				duydy_glb_surfXZ(i, j, k) = (Duy_glb_store(i, pt_geo->yS, k) - Duy_glb_store(i, pt_geo->yE - 1, k)) / dy;
 				duzdy_glb_surfXZ(i, j, k) = (Duz_glb_store(i, pt_geo->yS, k) - Duz_glb_store(i, pt_geo->yE - 1, k)) / dy;
 			}
-			else {
+			else if (j > pt_geo->yS && j < pt_geo->yE) {
 				duxdy_glb_surfXZ(i, j, k) = (Dux_glb_store(i, j, k) - Dux_glb_store(i, j - 1, k)) / dy;
 				duydy_glb_surfXZ(i, j, k) = (Duy_glb_store(i, j, k) - Duy_glb_store(i, j - 1, k)) / dy;
 				duzdy_glb_surfXZ(i, j, k) = (Duz_glb_store(i, j, k) - Duz_glb_store(i, j - 1, k)) / dy;
@@ -177,7 +177,7 @@ void elastic_system::get_dudxyz_glb() {
 				duydz_glb_surfXY(i, j, k) = (Duy_glb_store(i, j, pt_geo->zS) - Duy_glb_store(i, j, pt_geo->zE - 1)) / dz;
 				duzdz_glb_surfXY(i, j, k) = (Duz_glb_store(i, j, pt_geo->zS) - Duz_glb_store(i, j, pt_geo->zE - 1)) / dz;
 			}
-			else {
+			else if (k > pt_geo->zS && k < pt_geo->zE) {
 				duxdz_glb_surfXY(i, j, k) = (Dux_glb_store(i, j, k) - Dux_glb_store(i, j, k - 1)) / dz;
 				duydz_glb_surfXY(i, j, k) = (Duy_glb_store(i, j, k) - Duy_glb_store(i, j, k - 1)) / dz;
 				duzdz_glb_surfXY(i, j, k) = (Duz_glb_store(i, j, k) - Duz_glb_store(i, j, k - 1)) / dz;
@@ -258,13 +258,13 @@ void elastic_system::get_Dstrain_gradient() {
 					if (i == pt_geo->xS) {
 						bwd = pt_geo->xE - 1;
 					}
-					else {
+					else if (i > pt_geo->xS && i < pt_geo->xE) {
 						bwd = i - 1;
 					}
 					if (i == pt_geo->xE - 1) {
 						fwd = pt_geo->xS;
 					}
-					else {
+					else if (i >= pt_geo->xS && i < pt_geo->xE - 1) {
 						fwd = i + 1;
 					}
 				}
@@ -275,7 +275,7 @@ void elastic_system::get_Dstrain_gradient() {
 					if (i == pt_geo->xE - 1) {
 						fwd = pt_geo->xS;
 					}
-					else {
+					else if (i >= pt_geo->xS && i < pt_geo->xE - 1) {
 						fwd = i + 1;
 					}
 				}
@@ -284,7 +284,7 @@ void elastic_system::get_Dstrain_gradient() {
 					if (i == pt_geo->xS) {
 						bwd = pt_geo->xE - 1;
 					}
-					else {
+					else if (i > pt_geo->xS && i < pt_geo->xE) {
 						bwd = i - 1;
 					}
 				}
@@ -307,13 +307,13 @@ void elastic_system::get_Dstrain_gradient() {
 					if (j == pt_geo->yS) {
 						bwd = pt_geo->yE - 1;
 					}
-					else {
+					else if (j > pt_geo->yS && j < pt_geo->yE) {
 						bwd = j - 1;
 					}
 					if (j == pt_geo->yE - 1) {
 						fwd = pt_geo->yS;
 					}
-					else {
+					else if (j >= pt_geo->yS && j < pt_geo->yE - 1) {
 						fwd = j + 1;
 					}
 				}
@@ -324,7 +324,7 @@ void elastic_system::get_Dstrain_gradient() {
 					if (j == pt_geo->yE - 1) {
 						fwd = pt_geo->yS;
 					}
-					else {
+					else if (j >= pt_geo->yS && j < pt_geo->yE - 1) {
 						fwd = j + 1;
 					}
 				}
@@ -333,7 +333,7 @@ void elastic_system::get_Dstrain_gradient() {
 					if (j == pt_geo->yS) {
 						bwd = pt_geo->yE - 1;
 					}
-					else {
+					else if (j > pt_geo->yS && j < pt_geo->yE) {
 						bwd = j - 1;
 					}
 				}
@@ -356,13 +356,13 @@ void elastic_system::get_Dstrain_gradient() {
 					if (k == pt_geo->zS) {
 						bwd = pt_geo->zE - 1;
 					}
-					else {
+					else if (k > pt_geo->zS && k < pt_geo->zE) {
 						bwd = k - 1;
 					}
 					if (k == pt_geo->zE - 1) {
 						fwd = pt_geo->zS;
 					}
-					else {
+					else if (k >= pt_geo->zS && k < pt_geo->zE - 1) {
 						fwd = k + 1;
 					}
 				}
@@ -373,7 +373,7 @@ void elastic_system::get_Dstrain_gradient() {
 					if (k == pt_geo->zE - 1) {
 						fwd = pt_geo->zS;
 					}
-					else {
+					else if (k >= pt_geo->zS && k < pt_geo->zE - 1) {
 						fwd = k + 1;
 					}
 				}
@@ -382,7 +382,7 @@ void elastic_system::get_Dstrain_gradient() {
 					if (k == pt_geo->zS) {
 						bwd = pt_geo->zE - 1;
 					}
-					else {
+					else if (k > pt_geo->zS && k < pt_geo->zE) {
 						bwd = k - 1;
 					}
 				}
@@ -397,446 +397,6 @@ void elastic_system::get_Dstrain_gradient() {
 		}
 	}
 }
-
-//void elastic_system::get_dv() {
-//	double stress1_surfYZ[6], stress2_surfYZ[6];
-//	double stress1_surfXZ[6], stress2_surfXZ[6];
-//	double stress1_surfXY[6], stress2_surfXY[6];
-//	double strain[6], stress[6];
-//	unsigned int mat_type;
-//	material* mat;
-//	double density, damping;
-//	long int i, j, k;
-//
-//	if (pt_glb->if_elasto_backaction_from_pORm == true) {
-//#pragma acc parallel default(present)
-//		{
-//			get_eigenstrain_dynamic();
-//		}
-//	}
-//
-//#pragma acc parallel default(present)
-//	{
-//#pragma acc loop gang vector private(stress1_surfYZ,stress2_surfYZ,stress1_surfXZ,stress2_surfXZ,stress1_surfXY,stress2_surfXY,\
-//strain,stress,mat_type,density,damping, mat,i,j,k)
-//		for (long int id = 0; id < n; id++) {
-//			i = id / (ny * nz);
-//			j = (id - i * (ny * nz)) / nz;
-//			k = id - i * (ny * nz) - j * nz;
-//
-//			mat_type = (pt_glb->material_cell(id));
-//			if (mat_type == 0) {
-//				dvx_glb(id) = 0.;
-//				dvy_glb(id) = 0.;
-//				dvz_glb(id) = 0.;
-//			}
-//			else {
-//				//----------YZ surface in -X direction-----//
-//				if (stress_free_surfYZ(i, j, k) == true) {
-//					stress1_surfYZ[0] = 0.; stress1_surfYZ[1] = 0.; stress1_surfYZ[2] = 0.;
-//					stress1_surfYZ[3] = 0.; stress1_surfYZ[4] = 0.; stress1_surfYZ[5] = 0.;
-//				}
-//				else {
-//					mat_type = (pt_glb->material_cell(i, j, k));
-//					mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//					strain[0] = duxdx_glb_surfYZ(i, j, k) - Dexx0_glb(i, j, k);
-//					strain[1] = Deyy_glb(i, j, k) - Deyy0_glb(i, j, k);
-//					strain[2] = Dezz_glb(i, j, k) - Dezz0_glb(i, j, k);
-//					strain[3] = (Deyz_glb(i, j, k) - Deyz0_glb(i, j, k)) * 2.;
-//					strain[4] = ((duxdz_glb_surfXY(i, j, k) + duxdz_glb_surfXY(i, j, k + 1) + duzdx_glb_surfYZ(i, j, k) * 2.) / 4. \
-//						- Dexz0_glb(i, j, k)) * 2.;
-//					strain[5] = ((duxdy_glb_surfXZ(i, j, k) + duxdy_glb_surfXZ(i, j + 1, k) + duydx_glb_surfYZ(i, j, k) * 2.) / 4. \
-//						- Dexy0_glb(i, j, k)) * 2.;
-//
-//					pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress1_surfYZ);
-//
-//					if (i == 0) {
-//						mat_type = (pt_glb->material_cell(nx - 1, j, k));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = duxdx_glb_surfYZ(i, j, k) - Dexx0_glb(nx - 1, j, k);
-//						strain[1] = Deyy_glb(nx - 1, j, k) - Deyy0_glb(nx - 1, j, k);
-//						strain[2] = Dezz_glb(nx - 1, j, k) - Dezz0_glb(nx - 1, j, k);
-//						strain[3] = (Deyz_glb(nx - 1, j, k) - Deyz0_glb(nx - 1, j, k)) * 2.;
-//						strain[4] = ((duxdz_glb_surfXY(nx - 1, j, k) + duxdz_glb_surfXY(nx - 1, j, k + 1) + duzdx_glb_surfYZ(i, j, k) * 2.) / 4. \
-//							- Dexz0_glb(nx - 1, j, k)) * 2.;
-//						strain[5] = ((duxdy_glb_surfXZ(nx - 1, j, k) + duxdy_glb_surfXZ(nx - 1, j + 1, k) + duydx_glb_surfYZ(i, j, k) * 2.) / 4. \
-//							- Dexy0_glb(nx - 1, j, k)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					else {
-//						mat_type = (pt_glb->material_cell(i - 1, j, k));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = duxdx_glb_surfYZ(i, j, k) - Dexx0_glb(i - 1, j, k);
-//						strain[1] = Deyy_glb(i - 1, j, k) - Deyy0_glb(i - 1, j, k);
-//						strain[2] = Dezz_glb(i - 1, j, k) - Dezz0_glb(i - 1, j, k);
-//						strain[3] = (Deyz_glb(i - 1, j, k) - Deyz0_glb(i - 1, j, k)) * 2.;
-//						strain[4] = ((duxdz_glb_surfXY(i - 1, j, k) + duxdz_glb_surfXY(i - 1, j, k + 1) + duzdx_glb_surfYZ(i, j, k) * 2.) / 4. \
-//							- Dexz0_glb(i - 1, j, k)) * 2.;
-//						strain[5] = ((duxdy_glb_surfXZ(i - 1, j, k) + duxdy_glb_surfXZ(i - 1, j + 1, k) + duydx_glb_surfYZ(i, j, k) * 2.) / 4. \
-//							- Dexy0_glb(i - 1, j, k)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					stress1_surfYZ[0] = (stress1_surfYZ[0] + stress[0]) / 2.;
-//					stress1_surfYZ[1] = (stress1_surfYZ[1] + stress[1]) / 2.;
-//					stress1_surfYZ[2] = (stress1_surfYZ[2] + stress[2]) / 2.;
-//					stress1_surfYZ[3] = (stress1_surfYZ[3] + stress[3]) / 2.;
-//					stress1_surfYZ[4] = (stress1_surfYZ[4] + stress[4]) / 2.;
-//					stress1_surfYZ[5] = (stress1_surfYZ[5] + stress[5]) / 2.;
-//				}
-//
-//				//----------YZ surface in +X direction-----//
-//				if (stress_free_surfYZ(i + 1, j, k) == true) {
-//					stress2_surfYZ[0] = 0.; stress2_surfYZ[1] = 0.; stress2_surfYZ[2] = 0.;
-//					stress2_surfYZ[3] = 0.; stress2_surfYZ[4] = 0.; stress2_surfYZ[5] = 0.;
-//				}
-//				else {
-//					mat_type = (pt_glb->material_cell(i, j, k));
-//					mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//					strain[0] = duxdx_glb_surfYZ(i + 1, j, k) - Dexx0_glb(i, j, k);
-//					strain[1] = Deyy_glb(i, j, k) - Deyy0_glb(i, j, k);
-//					strain[2] = Dezz_glb(i, j, k) - Dezz0_glb(i, j, k);
-//					strain[3] = (Deyz_glb(i, j, k) - Deyz0_glb(i, j, k)) * 2.;
-//					strain[4] = ((duxdz_glb_surfXY(i, j, k) + duxdz_glb_surfXY(i, j, k + 1) + duzdx_glb_surfYZ(i + 1, j, k) * 2.) / 4. \
-//						- Dexz0_glb(i, j, k)) * 2.;
-//					strain[5] = ((duxdy_glb_surfXZ(i, j, k) + duxdy_glb_surfXZ(i, j + 1, k) + duydx_glb_surfYZ(i + 1, j, k) * 2.) / 4. \
-//						- Dexy0_glb(i, j, k)) * 2.;
-//
-//					pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress2_surfYZ);
-//
-//					if (i == nx - 1) {
-//						mat_type = (pt_glb->material_cell(0, j, k));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = duxdx_glb_surfYZ(i + 1, j, k) - Dexx0_glb(0, j, k);
-//						strain[1] = Deyy_glb(0, j, k) - Deyy0_glb(0, j, k);
-//						strain[2] = Dezz_glb(0, j, k) - Dezz0_glb(0, j, k);
-//						strain[3] = (Deyz_glb(0, j, k) - Deyz0_glb(0, j, k)) * 2.;
-//						strain[4] = ((duxdz_glb_surfXY(0, j, k) + duxdz_glb_surfXY(0, j, k + 1) + duzdx_glb_surfYZ(i + 1, j, k) * 2.) / 4. \
-//							- Dexz0_glb(0, j, k)) * 2.;
-//						strain[5] = ((duxdy_glb_surfXZ(0, j, k) + duxdy_glb_surfXZ(0, j + 1, k) + duydx_glb_surfYZ(i + 1, j, k) * 2.) / 4. \
-//							- Dexy0_glb(0, j, k)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					else {
-//						mat_type = (pt_glb->material_cell(i + 1, j, k));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = duxdx_glb_surfYZ(i + 1, j, k) - Dexx0_glb(i + 1, j, k);
-//						strain[1] = Deyy_glb(i + 1, j, k) - Deyy0_glb(i + 1, j, k);
-//						strain[2] = Dezz_glb(i + 1, j, k) - Dezz0_glb(i + 1, j, k);
-//						strain[3] = (Deyz_glb(i + 1, j, k) - Deyz0_glb(i + 1, j, k)) * 2.;
-//						strain[4] = ((duxdz_glb_surfXY(i + 1, j, k) + duxdz_glb_surfXY(i + 1, j, k + 1) + duzdx_glb_surfYZ(i + 1, j, k) * 2.) / 4. \
-//							- Dexz0_glb(i + 1, j, k)) * 2.;
-//						strain[5] = ((duxdy_glb_surfXZ(i + 1, j, k) + duxdy_glb_surfXZ(i + 1, j + 1, k) + duydx_glb_surfYZ(i + 1, j, k) * 2.) / 4. \
-//							- Dexy0_glb(i + 1, j, k)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					stress2_surfYZ[0] = (stress2_surfYZ[0] + stress[0]) / 2.;
-//					stress2_surfYZ[1] = (stress2_surfYZ[1] + stress[1]) / 2.;
-//					stress2_surfYZ[2] = (stress2_surfYZ[2] + stress[2]) / 2.;
-//					stress2_surfYZ[3] = (stress2_surfYZ[3] + stress[3]) / 2.;
-//					stress2_surfYZ[4] = (stress2_surfYZ[4] + stress[4]) / 2.;
-//					stress2_surfYZ[5] = (stress2_surfYZ[5] + stress[5]) / 2.;
-//				}
-//				//----------END YZ surface in +-X direction-----//
-//
-//				//----------XZ surface in -Y direction-----//
-//				if (stress_free_surfXZ(i, j, k) == true) {
-//					stress1_surfXZ[0] = 0.; stress1_surfXZ[1] = 0.; stress1_surfXZ[2] = 0.;
-//					stress1_surfXZ[3] = 0.; stress1_surfXZ[4] = 0.; stress1_surfXZ[5] = 0.;
-//				}
-//				else {
-//					mat_type = (pt_glb->material_cell(i, j, k));
-//					mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//					strain[0] = Dexx_glb(i, j, k) - Dexx0_glb(i, j, k);
-//					strain[1] = duydy_glb_surfXZ(i, j, k) - Deyy0_glb(i, j, k);
-//					strain[2] = Dezz_glb(i, j, k) - Dezz0_glb(i, j, k);
-//
-//					strain[3] = ((duydz_glb_surfXY(i, j, k) + duydz_glb_surfXY(i, j, k + 1) + \
-//						duzdy_glb_surfXZ(i, j, k) * 2.) / 4. - Deyz0_glb(i, j, k)) * 2.;
-//					strain[4] = (Dexz_glb(i, j, k) - Dexz0_glb(i, j, k)) * 2.;
-//					strain[5] = ((duxdy_glb_surfXZ(i, j, k) * 2. + \
-//						duydx_glb_surfYZ(i, j, k) + duydx_glb_surfYZ(i + 1, j, k)) / 4. - Dexy0_glb(i, j, k)) * 2.;
-//
-//					pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress1_surfXZ);
-//
-//					if (j == 0) {
-//						mat_type = (pt_glb->material_cell(i, ny - 1, k));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = Dexx_glb(i, ny - 1, k) - Dexx0_glb(i, ny - 1, k);
-//						strain[1] = duydy_glb_surfXZ(i, j, k) - Deyy0_glb(i, ny - 1, k);
-//						strain[2] = Dezz_glb(i, ny - 1, k) - Dezz0_glb(i, ny - 1, k);
-//
-//						strain[3] = ((duydz_glb_surfXY(i, ny - 1, k) + duydz_glb_surfXY(i, ny - 1, k + 1) + \
-//							duzdy_glb_surfXZ(i, j, k) * 2.) / 4. - Deyz0_glb(i, ny - 1, k)) * 2.;
-//
-//						strain[4] = (Dexz_glb(i, ny - 1, k) - Dexz0_glb(i, ny - 1, k)) * 2.;
-//
-//						strain[5] = ((duxdy_glb_surfXZ(i, j, k) * 2. + \
-//							duydx_glb_surfYZ(i, ny - 1, k) + duydx_glb_surfYZ(i + 1, ny - 1, k)) / 4. - Dexy0_glb(i, ny - 1, k)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					else {
-//						mat_type = (pt_glb->material_cell(i, j - 1, k));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = Dexx_glb(i, j - 1, k) - Dexx0_glb(i, j - 1, k);
-//						strain[1] = duydy_glb_surfXZ(i, j, k) - Deyy0_glb(i, j - 1, k);
-//						strain[2] = Dezz_glb(i, j - 1, k) - Dezz0_glb(i, j - 1, k);
-//
-//						strain[3] = ((duydz_glb_surfXY(i, j - 1, k) + duydz_glb_surfXY(i, j - 1, k + 1) + \
-//							duzdy_glb_surfXZ(i, j, k) * 2.) / 4. - Deyz0_glb(i, j - 1, k)) * 2.;
-//
-//						strain[4] = (Dexz_glb(i, j - 1, k) - Dexz0_glb(i, j - 1, k)) * 2.;
-//
-//						strain[5] = ((duxdy_glb_surfXZ(i, j, k) * 2. + \
-//							duydx_glb_surfYZ(i, j - 1, k) + duydx_glb_surfYZ(i + 1, j - 1, k)) / 4. - Dexy0_glb(i, j - 1, k)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					stress1_surfXZ[0] = (stress1_surfXZ[0] + stress[0]) / 2.;
-//					stress1_surfXZ[1] = (stress1_surfXZ[1] + stress[1]) / 2.;
-//					stress1_surfXZ[2] = (stress1_surfXZ[2] + stress[2]) / 2.;
-//					stress1_surfXZ[3] = (stress1_surfXZ[3] + stress[3]) / 2.;
-//					stress1_surfXZ[4] = (stress1_surfXZ[4] + stress[4]) / 2.;
-//					stress1_surfXZ[5] = (stress1_surfXZ[5] + stress[5]) / 2.;
-//				}
-//
-//				//----------XZ surface in +Y direction-----//
-//				if (stress_free_surfXZ(i, j + 1, k) == true) {
-//					stress2_surfXZ[0] = 0.; stress2_surfXZ[1] = 0.; stress2_surfXZ[2] = 0.;
-//					stress2_surfXZ[3] = 0.; stress2_surfXZ[4] = 0.; stress2_surfXZ[5] = 0.;
-//				}
-//				else {
-//					mat_type = (pt_glb->material_cell(i, j, k));
-//					mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//					strain[0] = Dexx_glb(i, j, k) - Dexx0_glb(i, j, k);
-//					strain[1] = duydy_glb_surfXZ(i, j + 1, k) - Deyy0_glb(i, j, k);
-//					strain[2] = Dezz_glb(i, j, k) - Dezz0_glb(i, j, k);
-//
-//					strain[3] = ((duydz_glb_surfXY(i, j, k) + duydz_glb_surfXY(i, j, k + 1) + \
-//						duzdy_glb_surfXZ(i, j + 1, k) * 2.) / 4. - Deyz0_glb(i, j, k)) * 2.;
-//
-//					strain[4] = (Dexz_glb(i, j, k) - Dexz0_glb(i, j, k)) * 2.;
-//
-//					strain[5] = ((duxdy_glb_surfXZ(i, j + 1, k) * 2. + \
-//						duydx_glb_surfYZ(i, j, k) + duydx_glb_surfYZ(i + 1, j, k)) / 4. - Dexy0_glb(i, j, k)) * 2.;
-//
-//					pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress2_surfXZ);
-//
-//					if (j == ny - 1) {
-//						mat_type = (pt_glb->material_cell(i, 0, k));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = Dexx_glb(i, 0, k) - Dexx0_glb(i, 0, k);
-//						strain[1] = duydy_glb_surfXZ(i, j + 1, k) - Deyy0_glb(i, 0, k);
-//						strain[2] = Dezz_glb(i, 0, k) - Dezz0_glb(i, 0, k);
-//
-//						strain[3] = ((duydz_glb_surfXY(i, 0, k) + duydz_glb_surfXY(i, 0, k + 1) + \
-//							duzdy_glb_surfXZ(i, j + 1, k) * 2.) / 4. - Deyz0_glb(i, 0, k)) * 2.;
-//
-//						strain[4] = (Dexz_glb(i, 0, k) - Dexz0_glb(i, 0, k)) * 2.;
-//
-//						strain[5] = ((duxdy_glb_surfXZ(i, j + 1, k) * 2. + \
-//							duydx_glb_surfYZ(i, 0, k) + duydx_glb_surfYZ(i + 1, 0, k)) / 4. - Dexy0_glb(i, 0, k)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					else {
-//						mat_type = (pt_glb->material_cell(i, j + 1, k));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = Dexx_glb(i, j + 1, k) - Dexx0_glb(i, j + 1, k);
-//						strain[1] = duydy_glb_surfXZ(i, j + 1, k) - Deyy0_glb(i, j + 1, k);
-//						strain[2] = Dezz_glb(i, j + 1, k) - Dezz0_glb(i, j + 1, k);
-//
-//						strain[3] = ((duydz_glb_surfXY(i, j + 1, k) + duydz_glb_surfXY(i, j + 1, k + 1) + \
-//							duzdy_glb_surfXZ(i, j + 1, k) * 2.) / 4. - Deyz0_glb(i, j + 1, k)) * 2.;
-//
-//						strain[4] = (Dexz_glb(i, j + 1, k) - Dexz0_glb(i, j + 1, k)) * 2.;
-//
-//						strain[5] = ((duxdy_glb_surfXZ(i, j + 1, k) * 2. + \
-//							duydx_glb_surfYZ(i, j + 1, k) + duydx_glb_surfYZ(i + 1, j + 1, k)) / 4. - Dexy0_glb(i, j + 1, k)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					stress2_surfXZ[0] = (stress2_surfXZ[0] + stress[0]) / 2.;
-//					stress2_surfXZ[1] = (stress2_surfXZ[1] + stress[1]) / 2.;
-//					stress2_surfXZ[2] = (stress2_surfXZ[2] + stress[2]) / 2.;
-//					stress2_surfXZ[3] = (stress2_surfXZ[3] + stress[3]) / 2.;
-//					stress2_surfXZ[4] = (stress2_surfXZ[4] + stress[4]) / 2.;
-//					stress2_surfXZ[5] = (stress2_surfXZ[5] + stress[5]) / 2.;
-//				}
-//				//----------END XZ surface in +-Y direction-----//
-//
-//				//----------XY surface in -Z direction-----//
-//				if (stress_free_surfXY(i, j, k) == true) {
-//					stress1_surfXY[0] = 0.; stress1_surfXY[1] = 0.; stress1_surfXY[2] = 0.;
-//					stress1_surfXY[3] = 0.; stress1_surfXY[4] = 0.; stress1_surfXY[5] = 0.;
-//				}
-//				else {
-//					mat_type = (pt_glb->material_cell(i, j, k));
-//					mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//					strain[0] = Dexx_glb(i, j, k) - Dexx0_glb(i, j, k);
-//					strain[1] = Deyy_glb(i, j, k) - Deyy0_glb(i, j, k);
-//					strain[2] = duzdz_glb_surfXY(i, j, k) - Dezz0_glb(i, j, k);
-//
-//					strain[3] = ((duydz_glb_surfXY(i, j, k) * 2. + \
-//						duzdy_glb_surfXZ(i, j, k) + duzdy_glb_surfXZ(i, j + 1, k)) / 4. - Deyz0_glb(i, j, k)) * 2.;
-//
-//					strain[4] = ((duxdz_glb_surfXY(i, j, k) * 2. + \
-//						duzdx_glb_surfYZ(i, j, k) + duzdx_glb_surfYZ(i + 1, j, k)) / 4. - Dexz0_glb(i, j, k)) * 2.;
-//
-//					strain[5] = (Dexy_glb(i, j, k) - Dexy0_glb(i, j, k)) * 2.;
-//
-//					pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress1_surfXY);
-//
-//					if (k == 0) {
-//						mat_type = (pt_glb->material_cell(i, j, nz - 1));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = Dexx_glb(i, j, nz - 1) - Dexx0_glb(i, j, nz - 1);
-//						strain[1] = Deyy_glb(i, j, nz - 1) - Deyy0_glb(i, j, nz - 1);
-//						strain[2] = duzdz_glb_surfXY(i, j, k) - Dezz0_glb(i, j, nz - 1);
-//
-//						strain[3] = ((duydz_glb_surfXY(i, j, k) * 2. + \
-//							duzdy_glb_surfXZ(i, j, nz - 1) + duzdy_glb_surfXZ(i, j + 1, nz - 1)) / 4. - Deyz0_glb(i, j, nz - 1)) * 2.;
-//
-//						strain[4] = ((duxdz_glb_surfXY(i, j, k) * 2. + \
-//							duzdx_glb_surfYZ(i, j, nz - 1) + duzdx_glb_surfYZ(i + 1, j, nz - 1)) / 4. - Dexz0_glb(i, j, nz - 1)) * 2.;
-//
-//						strain[5] = (Dexy_glb(i, j, nz - 1) - Dexy0_glb(i, j, nz - 1)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					else {
-//						mat_type = (pt_glb->material_cell(i, j, k - 1));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = Dexx_glb(i, j, k - 1) - Dexx0_glb(i, j, k - 1);
-//						strain[1] = Deyy_glb(i, j, k - 1) - Deyy0_glb(i, j, k - 1);
-//						strain[2] = duzdz_glb_surfXY(i, j, k) - Dezz0_glb(i, j, k - 1);
-//
-//						strain[3] = ((duydz_glb_surfXY(i, j, k) * 2. + \
-//							duzdy_glb_surfXZ(i, j, k - 1) + duzdy_glb_surfXZ(i, j + 1, k - 1)) / 4. - Deyz0_glb(i, j, k - 1)) * 2.;
-//
-//						strain[4] = ((duxdz_glb_surfXY(i, j, k) * 2. + \
-//							duzdx_glb_surfYZ(i, j, k - 1) + duzdx_glb_surfYZ(i + 1, j, k - 1)) / 4. - Dexz0_glb(i, j, k - 1)) * 2.;
-//
-//						strain[5] = (Dexy_glb(i, j, k - 1) - Dexy0_glb(i, j, k - 1)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					stress1_surfXY[0] = (stress1_surfXY[0] + stress[0]) / 2.;
-//					stress1_surfXY[1] = (stress1_surfXY[1] + stress[1]) / 2.;
-//					stress1_surfXY[2] = (stress1_surfXY[2] + stress[2]) / 2.;
-//					stress1_surfXY[3] = (stress1_surfXY[3] + stress[3]) / 2.;
-//					stress1_surfXY[4] = (stress1_surfXY[4] + stress[4]) / 2.;
-//					stress1_surfXY[5] = (stress1_surfXY[5] + stress[5]) / 2.;
-//				}
-//
-//				//----------XY surface in +Z direction-----//
-//				if (stress_free_surfXY(i, j, k + 1) == true) {
-//					stress2_surfXY[0] = 0.; stress2_surfXY[1] = 0.; stress2_surfXY[2] = 0.;
-//					stress2_surfXY[3] = 0.; stress2_surfXY[4] = 0.; stress2_surfXY[5] = 0.;
-//				}
-//				else {
-//					mat_type = (pt_glb->material_cell(i, j, k));
-//					mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//					strain[0] = Dexx_glb(i, j, k) - Dexx0_glb(i, j, k);
-//					strain[1] = Deyy_glb(i, j, k) - Deyy0_glb(i, j, k);
-//					strain[2] = duzdz_glb_surfXY(i, j, k + 1) - Dezz0_glb(i, j, k);
-//
-//					strain[3] = ((duydz_glb_surfXY(i, j, k + 1) * 2. + \
-//						duzdy_glb_surfXZ(i, j, k) + duzdy_glb_surfXZ(i, j + 1, k)) / 4. - Deyz0_glb(i, j, k)) * 2.;
-//
-//					strain[4] = ((duxdz_glb_surfXY(i, j, k + 1) * 2. + \
-//						duzdx_glb_surfYZ(i, j, k) + duzdx_glb_surfYZ(i + 1, j, k)) / 4. - Dexz0_glb(i, j, k)) * 2.;
-//
-//					strain[5] = (Dexy_glb(i, j, k) - Dexy0_glb(i, j, k)) * 2.;
-//
-//					pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress2_surfXY);
-//
-//					if (k == ny - 1) {
-//						mat_type = (pt_glb->material_cell(i, j, 0));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = Dexx_glb(i, j, 0) - Dexx0_glb(i, j, 0);
-//						strain[1] = Deyy_glb(i, j, 0) - Deyy0_glb(i, j, 0);
-//						strain[2] = duzdz_glb_surfXY(i, j, k + 1) - Dezz0_glb(i, j, 0);
-//
-//						strain[3] = ((duydz_glb_surfXY(i, j, k + 1) * 2. + \
-//							duzdy_glb_surfXZ(i, j, 0) + duzdy_glb_surfXZ(i, j + 1, 0)) / 4. - Deyz0_glb(i, j, 0)) * 2.;
-//
-//						strain[4] = ((duxdz_glb_surfXY(i, j, k + 1) * 2. + \
-//							duzdx_glb_surfYZ(i, j, 0) + duzdx_glb_surfYZ(i + 1, j, 0)) / 4. - Dexz0_glb(i, j, 0)) * 2.;
-//
-//						strain[5] = (Dexy_glb(i, j, 0) - Dexy0_glb(i, j, 0)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					else {
-//						mat_type = (pt_glb->material_cell(i, j, k + 1));
-//						mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//						strain[0] = Dexx_glb(i, j, k + 1) - Dexx0_glb(i, j, k + 1);
-//						strain[1] = Deyy_glb(i, j, k + 1) - Deyy0_glb(i, j, k + 1);
-//						strain[2] = duzdz_glb_surfXY(i, j, k + 1) - Dezz0_glb(i, j, k + 1);
-//
-//						strain[3] = ((duydz_glb_surfXY(i, j, k + 1) * 2. + \
-//							duzdy_glb_surfXZ(i, j, k + 1) + duzdy_glb_surfXZ(i, j + 1, k + 1)) / 4. - Deyz0_glb(i, j, k + 1)) * 2.;
-//
-//						strain[4] = ((duxdz_glb_surfXY(i, j, k + 1) * 2. + \
-//							duzdx_glb_surfYZ(i, j, k + 1) + duzdx_glb_surfYZ(i + 1, j, k + 1)) / 4. - Dexz0_glb(i, j, k + 1)) * 2.;
-//
-//						strain[5] = (Dexy_glb(i, j, k + 1) - Dexy0_glb(i, j, k + 1)) * 2.;
-//
-//						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
-//					}
-//					stress2_surfXY[0] = (stress2_surfXY[0] + stress[0]) / 2.;
-//					stress2_surfXY[1] = (stress2_surfXY[1] + stress[1]) / 2.;
-//					stress2_surfXY[2] = (stress2_surfXY[2] + stress[2]) / 2.;
-//					stress2_surfXY[3] = (stress2_surfXY[3] + stress[3]) / 2.;
-//					stress2_surfXY[4] = (stress2_surfXY[4] + stress[4]) / 2.;
-//					stress2_surfXY[5] = (stress2_surfXY[5] + stress[5]) / 2.;
-//				}
-//				//----------END XY surface in +-Z direction-----//
-//
-//				mat_type = (pt_glb->material_cell(i, j, k));
-//				mat = &(pt_glb->material_parameters[(mat_type)-1]);
-//
-//				density = pt_glb->dt / mat->density;
-//				damping = -density * mat->elast_mass_damping;
-//
-//				dvx_glb(i, j, k) = ((stress2_surfYZ[0] - stress1_surfYZ[0]) / dx + \
-//					(stress2_surfXZ[5] - stress1_surfXZ[5]) / dy + \
-//					(stress2_surfXY[4] - stress1_surfXY[4]) / dz) * density + damping * vx_glb(i, j, k);
-//
-//				dvy_glb(i, j, k) = ((stress2_surfYZ[5] - stress1_surfYZ[5]) / dx + \
-//					(stress2_surfXZ[1] - stress1_surfXZ[1]) / dy + \
-//					(stress2_surfXY[3] - stress1_surfXY[3]) / dz) * density + damping * vy_glb(i, j, k);
-//
-//				dvz_glb(i, j, k) = ((stress2_surfYZ[4] - stress1_surfYZ[4]) / dx + \
-//					(stress2_surfXZ[3] - stress1_surfXZ[3]) / dy + \
-//					(stress2_surfXY[2] - stress1_surfXY[2]) / dz) * density + damping * vz_glb(i, j, k);
-//			}
-//		}
-//	}
-//}
 
 void elastic_system::get_dv_RK1() {
 	double stress1_surfYZ[6], stress2_surfYZ[6];
@@ -908,7 +468,7 @@ strain,stress,mat_type,density,mass_damping, stiff_damping, mat,i,j,k,temporal_v
 
 						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
 					}
-					else {
+					else if (i > pt_geo->xS && i < pt_geo->xE) {
 						mat_type = (pt_glb->material_cell(i - 1, j, k));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -966,7 +526,7 @@ strain,stress,mat_type,density,mass_damping, stiff_damping, mat,i,j,k,temporal_v
 
 						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
 					}
-					else {
+					else if (i >= pt_geo->xS && i < pt_geo->xE - 1) {
 						mat_type = (pt_glb->material_cell(i + 1, j, k));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -1029,7 +589,7 @@ strain,stress,mat_type,density,mass_damping, stiff_damping, mat,i,j,k,temporal_v
 
 						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
 					}
-					else {
+					else if (j > pt_geo->yS && j < pt_geo->yE) {
 						mat_type = (pt_glb->material_cell(i, j - 1, k));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -1095,7 +655,7 @@ strain,stress,mat_type,density,mass_damping, stiff_damping, mat,i,j,k,temporal_v
 							duydx_glb_surfYZ(i, pt_geo->yS, k) + duydx_glb_surfYZ(i + 1, pt_geo->yS, k)) / 4. - Dexy0_glb(i, pt_geo->yS, k)) * 2.;
 						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
 					}
-					else {
+					else if (j >= pt_geo->yS && j < pt_geo->yE - 1) {
 						mat_type = (pt_glb->material_cell(i, j + 1, k));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -1162,7 +722,7 @@ strain,stress,mat_type,density,mass_damping, stiff_damping, mat,i,j,k,temporal_v
 						strain[5] = (Dexy_glb(i, j, pt_geo->zE - 1) - Dexy0_glb(i, j, pt_geo->zE - 1)) * 2.;
 						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
 					}
-					else {
+					else if (k > pt_geo->zS && k < pt_geo->zE) {
 						mat_type = (pt_glb->material_cell(i, j, k - 1));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -1260,7 +820,7 @@ strain,stress,mat_type,density,mass_damping, stiff_damping, mat,i,j,k,temporal_v
 
 						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
 					}
-					else {
+					else if (k >= pt_geo->zS && k < pt_geo->zE - 1) {
 						mat_type = (pt_glb->material_cell(i, j, k + 1));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -1879,7 +1439,7 @@ strain,stress,mat_type,density, mass_damping, stiff_damping, mat,i,j,k,temporal_
 							- Dexy0_glb(pt_geo->xE - 1, j, k)) * 2.;
 						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
 					}
-					else {
+					else if (i > pt_geo->xS && i < pt_geo->xE) {
 						mat_type = (pt_glb->material_cell(i - 1, j, k));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -1937,7 +1497,7 @@ strain,stress,mat_type,density, mass_damping, stiff_damping, mat,i,j,k,temporal_
 
 						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
 					}
-					else {
+					else if (i >= pt_geo->xS && i < pt_geo->xE - 1) {
 						mat_type = (pt_glb->material_cell(i + 1, j, k));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -1982,7 +1542,7 @@ strain,stress,mat_type,density, mass_damping, stiff_damping, mat,i,j,k,temporal_
 
 					pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress1_surfXZ);
 
-					if (j == pt_geo->yE) {
+					if (j == pt_geo->yE - 1) {
 						mat_type = (pt_glb->material_cell(i, pt_geo->yE - 1, k));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -2000,7 +1560,7 @@ strain,stress,mat_type,density, mass_damping, stiff_damping, mat,i,j,k,temporal_
 
 						pt_math->strain2stress_glb(mat->cijkl_glb, strain, stress);
 					}
-					else {
+					else if (j >= pt_geo->yS && j < pt_geo->yE - 1) {
 						mat_type = (pt_glb->material_cell(i, j - 1, k));
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
@@ -2608,7 +2168,7 @@ strain,stress,mat_type,density, mass_damping, stiff_damping, mat,i,j,k,temporal_
 						mat = &(pt_glb->material_parameters[(mat_type)-1]);
 
 						strain[0] = Dexx_glb(i, j, pt_geo->zE - 1) - Dexx0_glb(i, j, pt_geo->zE - 1);
-						strain[1] = Deyy_glb(i, j, pt_geo->zE - 1) - Deyy0_glb(i, j, nz - 1);
+						strain[1] = Deyy_glb(i, j, pt_geo->zE - 1) - Deyy0_glb(i, j, pt_geo->zE - 1);
 						strain[2] = duzdz_glb_surfXY(i, j, k) - Dezz0_glb(i, j, pt_geo->zE - 1);
 
 						strain[3] = ((duydz_glb_surfXY(i, j, k) * 2. + \

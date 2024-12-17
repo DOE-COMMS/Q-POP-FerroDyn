@@ -27,5 +27,5 @@ clear:
 	rm bin/*.vtk bin/*.dat bin/*log*
 
 clean:
-	rm $(OUT) $(OBJECTS)
+	rm $(OUT) $(OBJECTS) $(MAIN)
 

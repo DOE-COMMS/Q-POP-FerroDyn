@@ -232,9 +232,9 @@ void inoutput::input_m(magnetic_system* mag) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inx >> iny >> inz;
-			mag->mx_glb(x - 1, y - 1, z - 1) = inx;
-			mag->my_glb(x - 1, y - 1, z - 1) = iny;
-			mag->mz_glb(x - 1, y - 1, z - 1) = inz;
+			mag->mx_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			mag->my_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			mag->mz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	file.close();
@@ -251,13 +251,13 @@ void inoutput::input_AFMm(magnetic_system* mag) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inx1 >> iny1 >> inz1 >> inx2 >> iny2 >> inz2;
-			mag->mx_AFM1_glb(x - 1, y - 1, z - 1) = inx1;
-			mag->my_AFM1_glb(x - 1, y - 1, z - 1) = iny1;
-			mag->mz_AFM1_glb(x - 1, y - 1, z - 1) = inz1;
+			mag->mx_AFM1_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx1;
+			mag->my_AFM1_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny1;
+			mag->mz_AFM1_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz1;
 
-			mag->mx_AFM2_glb(x - 1, y - 1, z - 1) = inx2;
-			mag->my_AFM2_glb(x - 1, y - 1, z - 1) = iny2;
-			mag->mz_AFM2_glb(x - 1, y - 1, z - 1) = inz2;
+			mag->mx_AFM2_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx2;
+			mag->my_AFM2_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny2;
+			mag->mz_AFM2_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz2;
 		}
 	}
 	file.close();
@@ -274,9 +274,9 @@ void inoutput::input_Hstat(magnetic_system* mag) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inx >> iny >> inz;
-			mag->Hx_stat(x - 1, y - 1, z - 1) = inx;
-			mag->Hy_stat(x - 1, y - 1, z - 1) = iny;
-			mag->Hz_stat(x - 1, y - 1, z - 1) = inz;
+			mag->Hx_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			mag->Hy_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			mag->Hz_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	file.close();
@@ -293,9 +293,9 @@ void inoutput::input_pandq(ferroelectric_system* fe) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			filep >> x >> y >> z >> inx >> iny >> inz;
-			fe->px_glb(x - 1, y - 1, z - 1) = inx;
-			fe->py_glb(x - 1, y - 1, z - 1) = iny;
-			fe->pz_glb(x - 1, y - 1, z - 1) = inz;
+			fe->px_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			fe->py_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			fe->pz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	filep.close();
@@ -305,9 +305,9 @@ void inoutput::input_pandq(ferroelectric_system* fe) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			fileq >> x >> y >> z >> inx >> iny >> inz;
-			fe->qx_glb(x - 1, y - 1, z - 1) = inx;
-			fe->qy_glb(x - 1, y - 1, z - 1) = iny;
-			fe->qz_glb(x - 1, y - 1, z - 1) = inz;
+			fe->qx_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			fe->qy_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			fe->qz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	fileq.close();
@@ -324,9 +324,9 @@ void inoutput::input_Estat(ferroelectric_system* fe) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inx >> iny >> inz;
-			fe->Ex_stat(x - 1, y - 1, z - 1) = inx;
-			fe->Ey_stat(x - 1, y - 1, z - 1) = iny;
-			fe->Ez_stat(x - 1, y - 1, z - 1) = inz;
+			fe->Ex_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			fe->Ey_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			fe->Ez_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	file.close();
@@ -344,7 +344,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * (ny + 1) * (nz + 1); i++)
 		{
 			fileEx >> x >> y >> z >> inn;
-			em->DEx_em(x - 1, y - 1, z - 1) = inn;
+			em->DEx_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
 		}
 	}
 	fileEx.close();
@@ -354,7 +354,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < (nx + 1) * ny * (nz + 1); i++)
 		{
 			fileEy >> x >> y >> z >> inn;
-			em->DEy_em(x - 1, y - 1, z - 1) = inn;
+			em->DEy_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
 		}
 	}
 	fileEy.close();
@@ -364,7 +364,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < (nx + 1) * (ny + 1) * nz; i++)
 		{
 			fileEz >> x >> y >> z >> inn;
-			em->DEz_em(x - 1, y - 1, z - 1) = inn;
+			em->DEz_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
 		}
 	}
 	fileEz.close();
@@ -374,7 +374,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < (nx + 1) * ny * nz; i++)
 		{
 			fileHx >> x >> y >> z >> inn;
-			em->DHx_em(x - 1, y - 1, z - 1) = inn;
+			em->DHx_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
 		}
 	}
 	fileHx.close();
@@ -384,7 +384,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * (ny + 1) * nz; i++)
 		{
 			fileHy >> x >> y >> z >> inn;
-			em->DHy_em(x - 1, y - 1, z - 1) = inn;
+			em->DHy_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
 		}
 	}
 	fileHy.close();
@@ -394,7 +394,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * ny * (nz + 1); i++)
 		{
 			fileHz >> x >> y >> z >> inn;
-			em->DHz_em(x - 1, y - 1, z - 1) = inn;
+			em->DHz_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
 		}
 	}
 	fileHz.close();
@@ -411,9 +411,9 @@ void inoutput::input_uandv(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			fileu >> x >> y >> z >> inx >> iny >> inz;
-			elasto->Dux_glb(x - 1, y - 1, z - 1) = inx;
-			elasto->Duy_glb(x - 1, y - 1, z - 1) = iny;
-			elasto->Duz_glb(x - 1, y - 1, z - 1) = inz;
+			elasto->Dux_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			elasto->Duy_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			elasto->Duz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	fileu.close();
@@ -423,9 +423,9 @@ void inoutput::input_uandv(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			filev >> x >> y >> z >> inx >> iny >> inz;
-			elasto->vx_glb(x - 1, y - 1, z - 1) = inx;
-			elasto->vy_glb(x - 1, y - 1, z - 1) = iny;
-			elasto->vz_glb(x - 1, y - 1, z - 1) = inz;
+			elasto->vx_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			elasto->vy_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			elasto->vz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	filev.close();
@@ -442,9 +442,9 @@ void inoutput::input_elastoforce(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			filef >> x >> y >> z >> inx >> iny >> inz;
-			elasto->force_x_store(x - 1, y - 1, z - 1) = inx;
-			elasto->force_y_store(x - 1, y - 1, z - 1) = iny;
-			elasto->force_z_store(x - 1, y - 1, z - 1) = inz;
+			elasto->force_x_store(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			elasto->force_y_store(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			elasto->force_z_store(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	filef.close();
@@ -461,12 +461,12 @@ void inoutput::input_straint0(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inxx >> inyy >> inzz >> inyz >> inxz >> inxy;
-			elasto->exxt0_glb(x - 1, y - 1, z - 1) = inxx;
-			elasto->eyyt0_glb(x - 1, y - 1, z - 1) = inyy;
-			elasto->ezzt0_glb(x - 1, y - 1, z - 1) = inzz;
-			elasto->eyzt0_glb(x - 1, y - 1, z - 1) = inyz;
-			elasto->exzt0_glb(x - 1, y - 1, z - 1) = inxz;
-			elasto->exyt0_glb(x - 1, y - 1, z - 1) = inxy;
+			elasto->exxt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxx;
+			elasto->eyyt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inyy;
+			elasto->ezzt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inzz;
+			elasto->eyzt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inyz;
+			elasto->exzt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxz;
+			elasto->exyt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxy;
 		}
 	}
 	file.close();
@@ -483,12 +483,12 @@ void inoutput::input_eigenstraint0(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inxx >> inyy >> inzz >> inyz >> inxz >> inxy;
-			elasto->exx0t0_crt(x - 1, y - 1, z - 1) = inxx;
-			elasto->eyy0t0_crt(x - 1, y - 1, z - 1) = inyy;
-			elasto->ezz0t0_crt(x - 1, y - 1, z - 1) = inzz;
-			elasto->eyz0t0_crt(x - 1, y - 1, z - 1) = inyz;
-			elasto->exz0t0_crt(x - 1, y - 1, z - 1) = inxz;
-			elasto->exy0t0_crt(x - 1, y - 1, z - 1) = inxy;
+			elasto->exx0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxx;
+			elasto->eyy0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inyy;
+			elasto->ezz0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inzz;
+			elasto->eyz0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inyz;
+			elasto->exz0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxz;
+			elasto->exy0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxy;
 		}
 	}
 	file.close();
@@ -505,9 +505,9 @@ void inoutput::input_Jp(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file1 >> x >> y >> z >> inx >> iny >> inz;
-			em->Jpx_n1(x - 1, y - 1, z - 1) = inx;
-			em->Jpy_n1(x - 1, y - 1, z - 1) = iny;
-			em->Jpz_n1(x - 1, y - 1, z - 1) = inz;
+			em->Jpx_n1(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			em->Jpy_n1(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			em->Jpz_n1(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	file1.close();
@@ -517,9 +517,9 @@ void inoutput::input_Jp(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file2 >> x >> y >> z >> inx >> iny >> inz;
-			em->Jpx_n2(x - 1, y - 1, z - 1) = inx;
-			em->Jpy_n2(x - 1, y - 1, z - 1) = iny;
-			em->Jpz_n2(x - 1, y - 1, z - 1) = inz;
+			em->Jpx_n2(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			em->Jpy_n2(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			em->Jpz_n2(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	file2.close();
@@ -529,9 +529,9 @@ void inoutput::input_Jp(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file3 >> x >> y >> z >> inx >> iny >> inz;
-			em->Jpx_n3(x - 1, y - 1, z - 1) = inx;
-			em->Jpy_n3(x - 1, y - 1, z - 1) = iny;
-			em->Jpz_n3(x - 1, y - 1, z - 1) = inz;
+			em->Jpx_n3(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
+			em->Jpy_n3(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
+			em->Jpz_n3(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
 		}
 	}
 	file3.close();

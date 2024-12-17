@@ -243,11 +243,11 @@ void global_parameters::read_global() {
 					if (varValues[0] == "TRUE") if_EM_fromM = true;
 					else if_EM_fromM = false;
 				}
-				else if (varName == "EM_BACKACTION_ON_P") {
+				else if (varName == "EM_BACKACTION_P") {
 					if (varValues[0] == "TRUE") if_EM_backaction_on_P = true;
 					else if_EM_backaction_on_P = false;
 				}
-				else if (varName == "EM_BACKACTION_ON_M") {
+				else if (varName == "EM_BACKACTION_M") {
 					if (varValues[0] == "TRUE") if_EM_backaction_on_M = true;
 					else if_EM_backaction_on_M = false;
 				}
@@ -684,7 +684,7 @@ void global_parameters::read_materials() {
 					else if (varName == "SPIN_MIXING_CONDUCTANCE") mat.spin_mix_cond = std::stod(varValues[0]);
 					else if (varName == "SPIN_DIFFUSION_LENGTH") mat.spin_diffus_length = std::stod(varValues[0]);
 
-					else if (varName == "IF_FERROELECTRIC") {
+					else if (varName == "IS_FERROELECTRIC") {
 						if (varValues[0] == "TRUE") mat.if_FE = true;
 						else mat.if_FE = false;
 					}
