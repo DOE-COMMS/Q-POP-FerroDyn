@@ -67,55 +67,55 @@ Jfx,Jpx,Jishex, Jfy,Jpy,Jishey, Jfz,Jpz,\
 dPx,dPy,dPz,\
 mat_type,mat,\
 dHzdy,dHydz,dHxdz,dHzdx,dHxdy,dHydx,\
-i,j,k,isPML, \
-P_count) default(present) async(1)
+i,j,k,isPML,  \
+P_count) default(present)async(1)
 	for (long int id = 0; id < (nx + 1) * (ny + 1) * (nz + 1); id++) {
 		i = id / ((ny + 1) * (nz + 1));
 		j = (id - i * ((ny + 1) * (nz + 1))) / (nz + 1);
 		k = id - i * ((ny + 1) * (nz + 1)) - j * (nz + 1);
 
-		if ((i == 0 || i == nx) && pt_geo->periodicX == false) {
-			if (pt_geo->if_PML_Xe == false && pt_geo->if_PML_Xs == false) {
+		if ((i == 0 || i == nx) && periodicX_EM == false) {
+			if (if_PML_Xe == false && if_PML_Xs == false) {
 				continue;
 			}
 			else {
 				idx1 = i; idx2 = i; idx3 = i; idx4 = i; idx5 = i; idx6 = i; idx7 = i; idx8 = i;	
 			}
 		}
-		else if ((i == 0 || i == nx) && pt_geo->periodicX == true) {
+		else if ((i == 0 || i == nx) && periodicX_EM == true) {
 			idx1 = nx - 1; idx2 = nx - 1; idx3 = nx - 1; idx4 = nx - 1; idx5 = 0; idx6 = 0; idx7 = 0; idx8 = 0;
 		}
-		else {
+		else if (i < nx + 1) {
 			idx1 = i - 1; idx2 = i - 1; idx3 = i - 1; idx4 = i - 1; idx5 = i; idx6 = i; idx7 = i; idx8 = i;
 		}
 
-		if ((j == 0 || j == ny) && pt_geo->periodicY == false) {
-			if (pt_geo->if_PML_Ye == false && pt_geo->if_PML_Ys == false) {
+		if ((j == 0 || j == ny) && periodicY_EM == false) {
+			if (if_PML_Ye == false && if_PML_Ys == false) {
 				continue;
 			}
 			else {
 			idy1 = j; idy2 = j; idy3 = j; idy4 = j; idy5 = j; idy6 = j; idy7 = j; idy8 = j;
 			}
 		}
-		else if ((j == 0 || j == ny) && pt_geo->periodicY == true) {
+		else if ((j == 0 || j == ny) && periodicY_EM == true) {
 			idy1 = ny - 1; idy2 = ny - 1; idy3 = 0; idy4 = 0; idy5 = ny - 1; idy6 = ny - 1; idy7 = 0; idy8 = 0;
 		}
-		else {
+		else if (j < ny + 1) {
 			idy1 = j - 1; idy2 = j - 1; idy3 = j; idy4 = j; idy5 = j - 1; idy6 = j - 1; idy7 = j; idy8 = j;
 		}
 		
-		if ((k == 0 || k == nz) && pt_geo->periodicZ == false) {
-			if (pt_geo->if_PML_Ze == false && pt_geo->if_PML_Zs == false) {
+		if ((k == 0 || k == nz) && periodicZ_EM == false) {
+			if (if_PML_Ze == false && if_PML_Zs == false) {
 				continue;
 			}
 			else {
 				idz1 = k; idz2 = k; idz3 = k; idz4 = k; idz5 = k; idz6 = k; idz7 = k; idz8 = k;
 			}
 		}
-		else if ((k == 0 || k == nz) && pt_geo->periodicZ == true) {
+		else if ((k == 0 || k == nz) && periodicZ_EM == true) {
 			idz1 = nz - 1; idz2 = 0; idz3 = nz - 1; idz4 = 0; idz5 = nz - 1; idz6 = 0; idz7 = nz - 1; idz8 = 0;
 		}
-		else {
+		else if (k < nz + 1) {
 			idz1 = k - 1; idz2 = k; idz3 = k - 1; idz4 = k; idz5 = k - 1; idz6 = k; idz7 = k - 1; idz8 = k;
 		}
 
@@ -140,17 +140,16 @@ P_count) default(present) async(1)
 		//Jf_count = 0.; Jp_count = 0.; Ji_count = 0.; 
 		P_count = 0.;
 
-
 		//----------Polarization 1------//
 		mat_type = pt_glb->material_cell(idx1, idy1, idz1);
 
 		if (mat_type == 0) {
-			if ((idx1 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx1 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy1 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy1 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz1 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz1 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx1 < xS && true == if_PML_Xs) \
+			|| (idx1 >= xE && true == if_PML_Xe) \
+			|| (idy1 < yS && true == if_PML_Ys) \
+			|| (idy1 >= yE && true == if_PML_Ye) \
+			|| (idz1 < zS && true == if_PML_Zs) \
+			|| (idz1 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -177,6 +176,7 @@ P_count) default(present) async(1)
 			//if (mat->if_spin_pump == true) {
 			//	Ji_count = Ji_count + 1.;
 			//}
+
 			er11 = er11 + mat->r_permittivity11; er12 = er12 + mat->r_permittivity12; er13 = er13 + mat->r_permittivity13;
 			er21 = er21 + mat->r_permittivity21; er22 = er22 + mat->r_permittivity22; er23 = er23 + mat->r_permittivity23;
 			er31 = er31 + mat->r_permittivity31; er32 = er32 + mat->r_permittivity32; er33 = er33 + mat->r_permittivity33;
@@ -198,12 +198,12 @@ P_count) default(present) async(1)
 		mat_type = pt_glb->material_cell(idx2, idy2, idz2);
 
 		if (mat_type == 0) {
-			if ((idx2 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-				|| (idx2 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-				|| (idy2 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-				|| (idy2 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-				|| (idz2 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-				|| (idz2 >= pt_geo->zE && true == pt_geo->if_PML_Ze))
+			if ((idx2 < xS && true == if_PML_Xs) \
+				|| (idx2 >= xE && true == if_PML_Xe) \
+				|| (idy2 < yS && true == if_PML_Ys) \
+				|| (idy2 >= yE && true == if_PML_Ye) \
+				|| (idz2 < zS && true == if_PML_Zs) \
+				|| (idz2 >= zE && true == if_PML_Ze))
 			{
 				isPML = true;
 			}
@@ -252,12 +252,12 @@ P_count) default(present) async(1)
 		mat_type = pt_glb->material_cell(idx3, idy3, idz3);
 		////printf("mat_type3 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx3, idy3, idz3);
 		if (mat_type == 0) {
-			if ((idx3 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx3 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy3 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy3 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz3 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz3 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx3 < xS && true == if_PML_Xs) \
+			|| (idx3 >= xE && true == if_PML_Xe) \
+			|| (idy3 < yS && true == if_PML_Ys) \
+			|| (idy3 >= yE && true == if_PML_Ye) \
+			|| (idz3 < zS && true == if_PML_Zs) \
+			|| (idz3 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -306,12 +306,12 @@ P_count) default(present) async(1)
 		mat_type = pt_glb->material_cell(idx4, idy4, idz4);
 		//printf("mat_type4 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx4, idy4, idz4);
 		if (mat_type == 0) {
-			if ((idx4 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx4 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy4 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy4 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz4 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz4 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx4 < xS && true == if_PML_Xs) \
+			|| (idx4 >= xE && true == if_PML_Xe) \
+			|| (idy4 < yS && true == if_PML_Ys) \
+			|| (idy4 >= yE && true == if_PML_Ye) \
+			|| (idz4 < zS && true == if_PML_Zs) \
+			|| (idz4 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -358,12 +358,12 @@ P_count) default(present) async(1)
 		//----------Polarization 5------//
 		mat_type = pt_glb->material_cell(idx5, idy5, idz5);
 		if (mat_type == 0) {
-			if ((idx5 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx5 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy5 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy5 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz5 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz5 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx5 < xS && true == if_PML_Xs) \
+			|| (idx5 >= xE && true == if_PML_Xe) \
+			|| (idy5 < yS && true == if_PML_Ys) \
+			|| (idy5 >= yE && true == if_PML_Ye) \
+			|| (idz5 < zS && true == if_PML_Zs) \
+			|| (idz5 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -413,12 +413,12 @@ P_count) default(present) async(1)
 		//printf("mat_type6 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx6, idy6, idz6);
 
 		if (mat_type == 0) {
-			if ((idx6 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx6 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy6 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy6 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz6 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz6 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx6 < xS && true == if_PML_Xs) \
+			|| (idx6 >= xE && true == if_PML_Xe) \
+			|| (idy6 < yS && true == if_PML_Ys) \
+			|| (idy6 >= yE && true == if_PML_Ye) \
+			|| (idz6 < zS && true == if_PML_Zs) \
+			|| (idz6 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -468,12 +468,12 @@ P_count) default(present) async(1)
 		//printf("mat_type7 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx7, idy7, idz7);
 
 		if (mat_type == 0) {
-			if ((idx7 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx7 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy7 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy7 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz7 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz7 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx7 < xS && true == if_PML_Xs) \
+			|| (idx7 >= xE && true == if_PML_Xe) \
+			|| (idy7 < yS && true == if_PML_Ys) \
+			|| (idy7 >= yE && true == if_PML_Ye) \
+			|| (idz7 < zS && true == if_PML_Zs) \
+			|| (idz7 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -522,12 +522,12 @@ P_count) default(present) async(1)
 		//printf("mat_type8 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx8, idy8, idz8);
 		
 		if (mat_type == 0) {
-			if ((idx8 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx8 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy8 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy8 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz8 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz8 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx8 < xS && true == if_PML_Xs) \
+			|| (idx8 >= xE && true == if_PML_Xe) \
+			|| (idy8 < yS && true == if_PML_Ys) \
+			|| (idy8 >= yE && true == if_PML_Ye) \
+			|| (idz8 < zS && true == if_PML_Zs) \
+			|| (idz8 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -601,17 +601,17 @@ P_count) default(present) async(1)
 
 		isPML = false;
 
-		if (((true == pt_geo->if_PML_Xs && i < pt_geo->PML_size) || (true == pt_geo->if_PML_Xe && i >= nx - pt_geo->PML_size) && i < nx) \
-			|| ((true == pt_geo->if_PML_Ys && j < pt_geo->PML_size) || (true == pt_geo->if_PML_Ye && j >= ny - pt_geo->PML_size) && j < ny) \
-			|| ((true == pt_geo->if_PML_Zs && k < pt_geo->PML_size) || (true == pt_geo->if_PML_Ze && k >= nz - pt_geo->PML_size) && k < nz))
+		if (((true == if_PML_Xs && i < xS) || (true == if_PML_Xe && i >= xE)) \
+			|| ((true == if_PML_Ys && j < yS) || (true == if_PML_Ye && j >= yE)) \
+			|| ((true == if_PML_Zs && k < zS) || (true == if_PML_Ze && k >= zE)))
 		{
 			isPML = true;
 
-			if (i < nx)
+			if (i < nx) {
 				DEx_em_t1(idx8, j, k) = pt_glb->dt / kappa_y_np1(0, j, 0) \
 					* (dHzdy - dHydz - (sigma_y_np1(0, j, 0) / e0) * Dx_PML_store(idx8, j, k) \
 						- Jfx - Jpx - Jishex - dPx / pt_glb->dt);
-
+			}
 			if (j < ny)
 					DEy_em_t1(i, idy8, k) = pt_glb->dt / kappa_z_np1(0, 0, k) \
 					* (dHxdz - dHzdx - (sigma_z_np1(0, 0, k) / e0) * Dy_PML_store(i, idy8, k) \
@@ -727,7 +727,6 @@ void EMdynamic_system::get_dE_RK2() {
 	double P_count;
 
 	bool isPML = false;
-	double C1, C2, C3, C4, C5, C6;
 
 	if (pt_glb->if_Jf_input == true) {
 		update_Jf_input_half(); //RK
@@ -758,8 +757,7 @@ Jfx,Jpx,Jishex, Jfy,Jpy,Jishey, Jfz,Jpz,\
 dPx,dPy,dPz,\
 mat_type,mat,\
 dHzdy,dHydz,dHxdz,dHzdx,dHxdy,dHydx,\
-i,j,k,\
-isPML,C1,C2,C3,C4,C5,C6, \
+i,j,k,isPML,  \
 P_count) default(present)async(1)
 	for (long int id = 0; id < (nx + 1) * (ny + 1) * (nz + 1); id++) {
 		i = id / ((ny + 1) * (nz + 1));
@@ -767,46 +765,46 @@ P_count) default(present)async(1)
 		k = id - i * ((ny + 1) * (nz + 1)) - j * (nz + 1);
 
 
-		if ((i == 0 || i == nx) && pt_geo->periodicX == false) {
-			if (pt_geo->if_PML_Xe == false && pt_geo->if_PML_Xs == false) {
+		if ((i == 0 || i == nx) && periodicX_EM == false) {
+			if (if_PML_Xe == false && if_PML_Xs == false) {
 				continue;
 			}
 			else {
 				idx1 = i; idx2 = i; idx3 = i; idx4 = i; idx5 = i; idx6 = i; idx7 = i; idx8 = i;	
 			}
 		}
-		else if ((i == 0 || i == nx) && pt_geo->periodicX == true) {
+		else if ((i == 0 || i == nx) && periodicX_EM == true) {
 			idx1 = nx - 1; idx2 = nx - 1; idx3 = nx - 1; idx4 = nx - 1; idx5 = 0; idx6 = 0; idx7 = 0; idx8 = 0;
 		}
-		else {
+		else if (i < nx + 1) {
 			idx1 = i - 1; idx2 = i - 1; idx3 = i - 1; idx4 = i - 1; idx5 = i; idx6 = i; idx7 = i; idx8 = i;
 		}
-		if ((j == 0 || j == ny) && pt_geo->periodicY == false) {
-			if (pt_geo->if_PML_Ye == false && pt_geo->if_PML_Ys == false) {
+		if ((j == 0 || j == ny) && periodicY_EM == false) {
+			if (if_PML_Ye == false && if_PML_Ys == false) {
 				continue;
 			}
 			else {
 			idy1 = j; idy2 = j; idy3 = j; idy4 = j; idy5 = j; idy6 = j; idy7 = j; idy8 = j;
 			}
 		}
-		else if ((j == 0 || j == ny) && pt_geo->periodicY == true) {
+		else if ((j == 0 || j == ny) && periodicY_EM == true) {
 			idy1 = ny - 1; idy2 = ny - 1; idy3 = 0; idy4 = 0; idy5 = ny - 1; idy6 = ny - 1; idy7 = 0; idy8 = 0;
 		}
-		else {
+		else if (j < ny + 1) {
 			idy1 = j - 1; idy2 = j - 1; idy3 = j; idy4 = j; idy5 = j - 1; idy6 = j - 1; idy7 = j; idy8 = j;
 		}
-		if ((k == 0 || k == nz) && pt_geo->periodicZ == false) {
-			if (pt_geo->if_PML_Ze == false && pt_geo->if_PML_Zs == false) {
+		if ((k == 0 || k == nz) && periodicZ_EM == false) {
+			if (if_PML_Ze == false && if_PML_Zs == false) {
 				continue;
 			}
 			else {
 			idz1 = k; idz2 = k; idz3 = k; idz4 = k; idz5 = k; idz6 = k; idz7 = k; idz8 = k;
 			}
 		}
-		else if ((k == 0 || k == nz) && pt_geo->periodicZ == true) {
+		else if ((k == 0 || k == nz) && periodicZ_EM == true) {
 			idz1 = nz - 1; idz2 = 0; idz3 = nz - 1; idz4 = 0; idz5 = nz - 1; idz6 = 0; idz7 = nz - 1; idz8 = 0;
 		}
-		else {
+		else if (k < nz + 1) {
 			idz1 = k - 1; idz2 = k; idz3 = k - 1; idz4 = k; idz5 = k - 1; idz6 = k; idz7 = k - 1; idz8 = k;
 		}
 
@@ -837,12 +835,12 @@ P_count) default(present)async(1)
 		mat_type = pt_glb->material_cell(idx1, idy1, idz1);
 
 		if (mat_type == 0) {
-			if ((idx1 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx1 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy1 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy1 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz1 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz1 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx1 < xS && true == if_PML_Xs) \
+			|| (idx1 >= xE && true == if_PML_Xe) \
+			|| (idy1 < yS && true == if_PML_Ys) \
+			|| (idy1 >= yE && true == if_PML_Ye) \
+			|| (idz1 < zS && true == if_PML_Zs) \
+			|| (idz1 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -890,12 +888,12 @@ P_count) default(present)async(1)
 		mat_type = pt_glb->material_cell(idx2, idy2, idz2);
 
 		if (mat_type == 0) {
-			if ((idx2 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-				|| (idx2 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-				|| (idy2 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-				|| (idy2 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-				|| (idz2 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-				|| (idz2 >= pt_geo->zE && true == pt_geo->if_PML_Ze))
+			if ((idx2 < xS && true == if_PML_Xs) \
+				|| (idx2 >= xE && true == if_PML_Xe) \
+				|| (idy2 < yS && true == if_PML_Ys) \
+				|| (idy2 >= yE && true == if_PML_Ye) \
+				|| (idz2 < zS && true == if_PML_Zs) \
+				|| (idz2 >= zE && true == if_PML_Ze))
 			{
 				isPML = true;
 			}
@@ -944,12 +942,12 @@ P_count) default(present)async(1)
 		mat_type = pt_glb->material_cell(idx3, idy3, idz3);
 		////printf("mat_type3 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx3, idy3, idz3);
 		if (mat_type == 0) {
-			if ((idx3 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx3 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy3 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy3 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz3 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz3 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx3 < xS && true == if_PML_Xs) \
+			|| (idx3 >= xE && true == if_PML_Xe) \
+			|| (idy3 < yS && true == if_PML_Ys) \
+			|| (idy3 >= yE && true == if_PML_Ye) \
+			|| (idz3 < zS && true == if_PML_Zs) \
+			|| (idz3 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -998,12 +996,12 @@ P_count) default(present)async(1)
 		mat_type = pt_glb->material_cell(idx4, idy4, idz4);
 		//printf("mat_type4 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx4, idy4, idz4);
 		if (mat_type == 0) {
-			if ((idx4 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx4 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy4 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy4 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz4 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz4 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx4 < xS && true == if_PML_Xs) \
+			|| (idx4 >= xE && true == if_PML_Xe) \
+			|| (idy4 < yS && true == if_PML_Ys) \
+			|| (idy4 >= yE && true == if_PML_Ye) \
+			|| (idz4 < zS && true == if_PML_Zs) \
+			|| (idz4 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1050,12 +1048,12 @@ P_count) default(present)async(1)
 		//----------Polarization 5------//
 		mat_type = pt_glb->material_cell(idx5, idy5, idz5);
 		if (mat_type == 0) {
-			if ((idx5 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx5 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy5 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy5 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz5 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz5 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx5 < xS && true == if_PML_Xs) \
+			|| (idx5 >= xE && true == if_PML_Xe) \
+			|| (idy5 < yS && true == if_PML_Ys) \
+			|| (idy5 >= yE && true == if_PML_Ye) \
+			|| (idz5 < zS && true == if_PML_Zs) \
+			|| (idz5 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1105,12 +1103,12 @@ P_count) default(present)async(1)
 		//printf("mat_type6 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx6, idy6, idz6);
 
 		if (mat_type == 0) {
-			if ((idx6 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx6 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy6 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy6 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz6 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz6 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx6 < xS && true == if_PML_Xs) \
+			|| (idx6 >= xE && true == if_PML_Xe) \
+			|| (idy6 < yS && true == if_PML_Ys) \
+			|| (idy6 >= yE && true == if_PML_Ye) \
+			|| (idz6 < zS && true == if_PML_Zs) \
+			|| (idz6 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1160,12 +1158,12 @@ P_count) default(present)async(1)
 		//printf("mat_type7 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx7, idy7, idz7);
 
 		if (mat_type == 0) {
-			if ((idx7 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx7 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy7 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy7 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz7 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz7 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx7 < xS && true == if_PML_Xs) \
+			|| (idx7 >= xE && true == if_PML_Xe) \
+			|| (idy7 < yS && true == if_PML_Ys) \
+			|| (idy7 >= yE && true == if_PML_Ye) \
+			|| (idz7 < zS && true == if_PML_Zs) \
+			|| (idz7 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1213,12 +1211,12 @@ P_count) default(present)async(1)
 		mat_type = pt_glb->material_cell(idx8, idy8, idz8);
 		
 		if (mat_type == 0) {
-			if ((idx8 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx8 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy8 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy8 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz8 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz8 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx8 < xS && true == if_PML_Xs) \
+			|| (idx8 >= xE && true == if_PML_Xe) \
+			|| (idy8 < yS && true == if_PML_Ys) \
+			|| (idy8 >= yE && true == if_PML_Ye) \
+			|| (idz8 < zS && true == if_PML_Zs) \
+			|| (idz8 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1295,9 +1293,9 @@ P_count) default(present)async(1)
 
 		isPML = false;
 
-		if (((true == pt_geo->if_PML_Xs && i < pt_geo->PML_size) || (true == pt_geo->if_PML_Xe && i >= nx - pt_geo->PML_size) && i < nx) \
-			|| ((true == pt_geo->if_PML_Ys && j < pt_geo->PML_size) || (true == pt_geo->if_PML_Ye && j >= ny - pt_geo->PML_size) && j < ny) \
-			|| ((true == pt_geo->if_PML_Zs && k < pt_geo->PML_size) || (true == pt_geo->if_PML_Ze && k >= nz - pt_geo->PML_size) && k < nz))
+		if (((true == if_PML_Xs && i < xS) || (true == if_PML_Xe && i >= xE)) \
+			|| ((true == if_PML_Ys && j < yS) || (true == if_PML_Ye && j >= yE)) \
+			|| ((true == if_PML_Zs && k < zS) || (true == if_PML_Ze && k >= zE)))
 		{
 			isPML = true;
 
@@ -1420,7 +1418,6 @@ void EMdynamic_system::get_dE_RK3() {
 	double P_count;
 
 	bool isPML = false;
-	double C1, C2, C3, C4, C5, C6;
 
 	if (pt_glb->if_Jf_input == true) {
 		update_Jf_input_half(); //RK
@@ -1448,8 +1445,7 @@ Jfx,Jpx,Jishex, Jfy,Jpy,Jishey, Jfz,Jpz,\
 dPx,dPy,dPz,\
 mat_type,mat,\
 dHzdy,dHydz,dHxdz,dHzdx,dHxdy,dHydx,\
-i,j,k,\
-C1,C2,C3,C4,C5,C6,isPML,\
+i,j,k,isPML,  \
 P_count) default(present)async(1)
 	for (long int id = 0; id < (nx + 1) * (ny + 1) * (nz + 1); id++) {
 		i = id / ((ny + 1) * (nz + 1));
@@ -1457,46 +1453,46 @@ P_count) default(present)async(1)
 		k = id - i * ((ny + 1) * (nz + 1)) - j * (nz + 1);
 
 
-		if ((i == 0 || i == nx) && pt_geo->periodicX == false) {
-			if (pt_geo->if_PML_Xe == false && pt_geo->if_PML_Xs == false) {
+		if ((i == 0 || i == nx) && periodicX_EM == false) {
+			if (if_PML_Xe == false && if_PML_Xs == false) {
 				continue;
 			}
 			else {
 				idx1 = i; idx2 = i; idx3 = i; idx4 = i; idx5 = i; idx6 = i; idx7 = i; idx8 = i;	
 			}
 		}
-		else if ((i == 0 || i == nx) && pt_geo->periodicX == true) {
+		else if ((i == 0 || i == nx) && periodicX_EM == true) {
 			idx1 = nx - 1; idx2 = nx - 1; idx3 = nx - 1; idx4 = nx - 1; idx5 = 0; idx6 = 0; idx7 = 0; idx8 = 0;
 		}
-		else {
+		else if (i < nx + 1) {
 			idx1 = i - 1; idx2 = i - 1; idx3 = i - 1; idx4 = i - 1; idx5 = i; idx6 = i; idx7 = i; idx8 = i;
 		}
-		if ((j == 0 || j == ny) && pt_geo->periodicY == false) {
-			if (pt_geo->if_PML_Ye == false && pt_geo->if_PML_Ys == false) {
+		if ((j == 0 || j == ny) && periodicY_EM == false) {
+			if (if_PML_Ye == false && if_PML_Ys == false) {
 				continue;
 			}
 			else {
 			idy1 = j; idy2 = j; idy3 = j; idy4 = j; idy5 = j; idy6 = j; idy7 = j; idy8 = j;
 			}
 		}
-		else if ((j == 0 || j == ny) && pt_geo->periodicY == true) {
+		else if ((j == 0 || j == ny) && periodicY_EM == true) {
 			idy1 = ny - 1; idy2 = ny - 1; idy3 = 0; idy4 = 0; idy5 = ny - 1; idy6 = ny - 1; idy7 = 0; idy8 = 0;
 		}
-		else {
+		else if (j < ny + 1) {
 			idy1 = j - 1; idy2 = j - 1; idy3 = j; idy4 = j; idy5 = j - 1; idy6 = j - 1; idy7 = j; idy8 = j;
 		}
-		if ((k == 0 || k == nz) && pt_geo->periodicZ == false) {
-			if (pt_geo->if_PML_Ze == false && pt_geo->if_PML_Zs == false) {
+		if ((k == 0 || k == nz) && periodicZ_EM == false) {
+			if (if_PML_Ze == false && if_PML_Zs == false) {
 				continue;
 			}
 			else {
 			idz1 = k; idz2 = k; idz3 = k; idz4 = k; idz5 = k; idz6 = k; idz7 = k; idz8 = k;
 			}
 		}
-		else if ((k == 0 || k == nz) && pt_geo->periodicZ == true) {
+		else if ((k == 0 || k == nz) && periodicZ_EM == true) {
 			idz1 = nz - 1; idz2 = 0; idz3 = nz - 1; idz4 = 0; idz5 = nz - 1; idz6 = 0; idz7 = nz - 1; idz8 = 0;
 		}
-		else {
+		else if (k < nz + 1) {
 			idz1 = k - 1; idz2 = k; idz3 = k - 1; idz4 = k; idz5 = k - 1; idz6 = k; idz7 = k - 1; idz8 = k;
 		}
 
@@ -1527,12 +1523,12 @@ P_count) default(present)async(1)
 		mat_type = pt_glb->material_cell(idx1, idy1, idz1);
 
 		if (mat_type == 0) {
-			if ((idx1 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx1 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy1 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy1 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz1 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz1 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx1 < xS && true == if_PML_Xs) \
+			|| (idx1 >= xE && true == if_PML_Xe) \
+			|| (idy1 < yS && true == if_PML_Ys) \
+			|| (idy1 >= yE && true == if_PML_Ye) \
+			|| (idz1 < zS && true == if_PML_Zs) \
+			|| (idz1 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1580,12 +1576,12 @@ P_count) default(present)async(1)
 		mat_type = pt_glb->material_cell(idx2, idy2, idz2);
 
 		if (mat_type == 0) {
-			if ((idx2 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-				|| (idx2 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-				|| (idy2 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-				|| (idy2 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-				|| (idz2 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-				|| (idz2 >= pt_geo->zE && true == pt_geo->if_PML_Ze))
+			if ((idx2 < xS && true == if_PML_Xs) \
+				|| (idx2 >= xE && true == if_PML_Xe) \
+				|| (idy2 < yS && true == if_PML_Ys) \
+				|| (idy2 >= yE && true == if_PML_Ye) \
+				|| (idz2 < zS && true == if_PML_Zs) \
+				|| (idz2 >= zE && true == if_PML_Ze))
 			{
 				isPML = true;
 			}
@@ -1634,12 +1630,12 @@ P_count) default(present)async(1)
 		mat_type = pt_glb->material_cell(idx3, idy3, idz3);
 		////printf("mat_type3 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx3, idy3, idz3);
 		if (mat_type == 0) {
-			if ((idx3 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx3 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy3 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy3 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz3 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz3 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx3 < xS && true == if_PML_Xs) \
+			|| (idx3 >= xE && true == if_PML_Xe) \
+			|| (idy3 < yS && true == if_PML_Ys) \
+			|| (idy3 >= yE && true == if_PML_Ye) \
+			|| (idz3 < zS && true == if_PML_Zs) \
+			|| (idz3 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1688,12 +1684,12 @@ P_count) default(present)async(1)
 		mat_type = pt_glb->material_cell(idx4, idy4, idz4);
 		//printf("mat_type4 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx4, idy4, idz4);
 		if (mat_type == 0) {
-			if ((idx4 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx4 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy4 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy4 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz4 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz4 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx4 < xS && true == if_PML_Xs) \
+			|| (idx4 >= xE && true == if_PML_Xe) \
+			|| (idy4 < yS && true == if_PML_Ys) \
+			|| (idy4 >= yE && true == if_PML_Ye) \
+			|| (idz4 < zS && true == if_PML_Zs) \
+			|| (idz4 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1740,12 +1736,12 @@ P_count) default(present)async(1)
 		//----------Polarization 5------//
 		mat_type = pt_glb->material_cell(idx5, idy5, idz5);
 		if (mat_type == 0) {
-			if ((idx5 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx5 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy5 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy5 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz5 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz5 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx5 < xS && true == if_PML_Xs) \
+			|| (idx5 >= xE && true == if_PML_Xe) \
+			|| (idy5 < yS && true == if_PML_Ys) \
+			|| (idy5 >= yE && true == if_PML_Ye) \
+			|| (idz5 < zS && true == if_PML_Zs) \
+			|| (idz5 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1795,12 +1791,12 @@ P_count) default(present)async(1)
 		//printf("mat_type6 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx6, idy6, idz6);
 
 		if (mat_type == 0) {
-			if ((idx6 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx6 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy6 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy6 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz6 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz6 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx6 < xS && true == if_PML_Xs) \
+			|| (idx6 >= xE && true == if_PML_Xe) \
+			|| (idy6 < yS && true == if_PML_Ys) \
+			|| (idy6 >= yE && true == if_PML_Ye) \
+			|| (idz6 < zS && true == if_PML_Zs) \
+			|| (idz6 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1850,12 +1846,12 @@ P_count) default(present)async(1)
 		//printf("mat_type7 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx7, idy7, idz7);
 
 		if (mat_type == 0) {
-			if ((idx7 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx7 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy7 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy7 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz7 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz7 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx7 < xS && true == if_PML_Xs) \
+			|| (idx7 >= xE && true == if_PML_Xe) \
+			|| (idy7 < yS && true == if_PML_Ys) \
+			|| (idy7 >= yE && true == if_PML_Ye) \
+			|| (idz7 < zS && true == if_PML_Zs) \
+			|| (idz7 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1904,12 +1900,12 @@ P_count) default(present)async(1)
 		//printf("mat_type8 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx8, idy8, idz8);
 		
 		if (mat_type == 0) {
-			if ((idx8 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx8 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy8 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy8 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz8 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz8 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx8 < xS && true == if_PML_Xs) \
+			|| (idx8 >= xE && true == if_PML_Xe) \
+			|| (idy8 < yS && true == if_PML_Ys) \
+			|| (idy8 >= yE && true == if_PML_Ye) \
+			|| (idz8 < zS && true == if_PML_Zs) \
+			|| (idz8 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -1984,9 +1980,9 @@ P_count) default(present)async(1)
 
 		isPML = false;
 
-		if (((true == pt_geo->if_PML_Xs && i < pt_geo->PML_size) || (true == pt_geo->if_PML_Xe && i >= nx - pt_geo->PML_size) && i < nx) \
-			|| ((true == pt_geo->if_PML_Ys && j < pt_geo->PML_size) || (true == pt_geo->if_PML_Ye && j >= ny - pt_geo->PML_size) && j < ny) \
-			|| ((true == pt_geo->if_PML_Zs && k < pt_geo->PML_size) || (true == pt_geo->if_PML_Ze && k >= nz - pt_geo->PML_size) && k < nz))
+		if (((true == if_PML_Xs && i < xS) || (true == if_PML_Xe && i >= xE)) \
+			|| ((true == if_PML_Ys && j < yS) || (true == if_PML_Ye && j >= yE)) \
+			|| ((true == if_PML_Zs && k < zS) || (true == if_PML_Ze && k >= zE)))
 		{
 			isPML = true;
 
@@ -2108,7 +2104,6 @@ void EMdynamic_system::get_dE_RK4() {
 	//double Jf_count, Jp_count, Ji_count;
 	double P_count;
 
-	double C1, C2, C3, C4, C5, C6;
 	bool isPML = false;
 
 	if (pt_glb->if_Jf_input == true) {
@@ -2139,8 +2134,7 @@ Jfx,Jpx,Jishex, Jfy,Jpy,Jishey, Jfz,Jpz,\
 dPx,dPy,dPz,\
 mat_type,mat,\
 dHzdy,dHydz,dHxdz,dHzdx,dHxdy,dHydx,\
-i,j,k,\
-C1,C2,C3,C4,C5,C6,isPML,\
+i,j,k,isPML,  \
 P_count) default(present) async(1)
 	for (long int id = 0; id < (nx + 1) * (ny + 1) * (nz + 1); id++) {
 		i = id / ((ny + 1) * (nz + 1));
@@ -2148,46 +2142,46 @@ P_count) default(present) async(1)
 		k = id - i * ((ny + 1) * (nz + 1)) - j * (nz + 1);
 
 
-		if ((i == 0 || i == nx) && pt_geo->periodicX == false) {
-			if (pt_geo->if_PML_Xe == false && pt_geo->if_PML_Xs == false) {
+		if ((i == 0 || i == nx) && periodicX_EM == false) {
+			if (if_PML_Xe == false && if_PML_Xs == false) {
 				continue;
 			}
 			else {
 				idx1 = i; idx2 = i; idx3 = i; idx4 = i; idx5 = i; idx6 = i; idx7 = i; idx8 = i;	
 			}
 		}
-		else if ((i == 0 || i == nx) && pt_geo->periodicX == true) {
+		else if ((i == 0 || i == nx) && periodicX_EM == true) {
 			idx1 = nx - 1; idx2 = nx - 1; idx3 = nx - 1; idx4 = nx - 1; idx5 = 0; idx6 = 0; idx7 = 0; idx8 = 0;
 		}
-		else {
+		else if (i < nx + 1) {
 			idx1 = i - 1; idx2 = i - 1; idx3 = i - 1; idx4 = i - 1; idx5 = i; idx6 = i; idx7 = i; idx8 = i;
 		}
-		if ((j == 0 || j == ny) && pt_geo->periodicY == false) {
-			if (pt_geo->if_PML_Ye == false && pt_geo->if_PML_Ys == false) {
+		if ((j == 0 || j == ny) && periodicY_EM == false) {
+			if (if_PML_Ye == false && if_PML_Ys == false) {
 				continue;
 			}
 			else {
 			idy1 = j; idy2 = j; idy3 = j; idy4 = j; idy5 = j; idy6 = j; idy7 = j; idy8 = j;
 			}
 		}
-		else if ((j == 0 || j == ny) && pt_geo->periodicY == true) {
+		else if ((j == 0 || j == ny) && periodicY_EM == true) {
 			idy1 = ny - 1; idy2 = ny - 1; idy3 = 0; idy4 = 0; idy5 = ny - 1; idy6 = ny - 1; idy7 = 0; idy8 = 0;
 		}
-		else {
+		else if (j < ny + 1) {
 			idy1 = j - 1; idy2 = j - 1; idy3 = j; idy4 = j; idy5 = j - 1; idy6 = j - 1; idy7 = j; idy8 = j;
 		}
-		if ((k == 0 || k == nz) && pt_geo->periodicZ == false) {
-			if (pt_geo->if_PML_Ze == false && pt_geo->if_PML_Zs == false) {
+		if ((k == 0 || k == nz) && periodicZ_EM == false) {
+			if (if_PML_Ze == false && if_PML_Zs == false) {
 				continue;
 			}
 			else {
 			idz1 = k; idz2 = k; idz3 = k; idz4 = k; idz5 = k; idz6 = k; idz7 = k; idz8 = k;
 			}
 		}
-		else if ((k == 0 || k == nz) && pt_geo->periodicZ == true) {
+		else if ((k == 0 || k == nz) && periodicZ_EM == true) {
 			idz1 = nz - 1; idz2 = 0; idz3 = nz - 1; idz4 = 0; idz5 = nz - 1; idz6 = 0; idz7 = nz - 1; idz8 = 0;
 		}
-		else {
+		else if (k < nz + 1) {
 			idz1 = k - 1; idz2 = k; idz3 = k - 1; idz4 = k; idz5 = k - 1; idz6 = k; idz7 = k - 1; idz8 = k;
 		}
 
@@ -2218,12 +2212,12 @@ P_count) default(present) async(1)
 		mat_type = pt_glb->material_cell(idx1, idy1, idz1);
 
 		if (mat_type == 0) {
-			if ((idx1 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx1 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy1 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy1 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz1 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz1 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx1 < xS && true == if_PML_Xs) \
+			|| (idx1 >= xE && true == if_PML_Xe) \
+			|| (idy1 < yS && true == if_PML_Ys) \
+			|| (idy1 >= yE && true == if_PML_Ye) \
+			|| (idz1 < zS && true == if_PML_Zs) \
+			|| (idz1 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -2271,12 +2265,12 @@ P_count) default(present) async(1)
 		mat_type = pt_glb->material_cell(idx2, idy2, idz2);
 
 		if (mat_type == 0) {
-			if ((idx2 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-				|| (idx2 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-				|| (idy2 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-				|| (idy2 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-				|| (idz2 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-				|| (idz2 >= pt_geo->zE && true == pt_geo->if_PML_Ze))
+			if ((idx2 < xS && true == if_PML_Xs) \
+				|| (idx2 >= xE && true == if_PML_Xe) \
+				|| (idy2 < yS && true == if_PML_Ys) \
+				|| (idy2 >= yE && true == if_PML_Ye) \
+				|| (idz2 < zS && true == if_PML_Zs) \
+				|| (idz2 >= zE && true == if_PML_Ze))
 			{
 				isPML = true;
 			}
@@ -2325,12 +2319,12 @@ P_count) default(present) async(1)
 		mat_type = pt_glb->material_cell(idx3, idy3, idz3);
 		////printf("mat_type3 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx3, idy3, idz3);
 		if (mat_type == 0) {
-			if ((idx3 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx3 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy3 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy3 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz3 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz3 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx3 < xS && true == if_PML_Xs) \
+			|| (idx3 >= xE && true == if_PML_Xe) \
+			|| (idy3 < yS && true == if_PML_Ys) \
+			|| (idy3 >= yE && true == if_PML_Ye) \
+			|| (idz3 < zS && true == if_PML_Zs) \
+			|| (idz3 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -2379,12 +2373,12 @@ P_count) default(present) async(1)
 		mat_type = pt_glb->material_cell(idx4, idy4, idz4);
 		//printf("mat_type4 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx4, idy4, idz4);
 		if (mat_type == 0) {
-			if ((idx4 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx4 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy4 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy4 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz4 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz4 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx4 < xS && true == if_PML_Xs) \
+			|| (idx4 >= xE && true == if_PML_Xe) \
+			|| (idy4 < yS && true == if_PML_Ys) \
+			|| (idy4 >= yE && true == if_PML_Ye) \
+			|| (idz4 < zS && true == if_PML_Zs) \
+			|| (idz4 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -2431,12 +2425,12 @@ P_count) default(present) async(1)
 		//----------Polarization 5------//
 		mat_type = pt_glb->material_cell(idx5, idy5, idz5);
 		if (mat_type == 0) {
-			if ((idx5 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx5 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy5 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy5 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz5 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz5 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx5 < xS && true == if_PML_Xs) \
+			|| (idx5 >= xE && true == if_PML_Xe) \
+			|| (idy5 < yS && true == if_PML_Ys) \
+			|| (idy5 >= yE && true == if_PML_Ye) \
+			|| (idz5 < zS && true == if_PML_Zs) \
+			|| (idz5 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -2486,12 +2480,12 @@ P_count) default(present) async(1)
 		//printf("mat_type6 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx6, idy6, idz6);
 
 		if (mat_type == 0) {
-			if ((idx6 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx6 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy6 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy6 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz6 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz6 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx6 < xS && true == if_PML_Xs) \
+			|| (idx6 >= xE && true == if_PML_Xe) \
+			|| (idy6 < yS && true == if_PML_Ys) \
+			|| (idy6 >= yE && true == if_PML_Ye) \
+			|| (idz6 < zS && true == if_PML_Zs) \
+			|| (idz6 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -2541,12 +2535,12 @@ P_count) default(present) async(1)
 		//printf("mat_type7 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx7, idy7, idz7);
 
 		if (mat_type == 0) {
-			if ((idx7 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx7 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy7 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy7 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz7 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz7 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx7 < xS && true == if_PML_Xs) \
+			|| (idx7 >= xE && true == if_PML_Xe) \
+			|| (idy7 < yS && true == if_PML_Ys) \
+			|| (idy7 >= yE && true == if_PML_Ye) \
+			|| (idz7 < zS && true == if_PML_Zs) \
+			|| (idz7 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -2595,12 +2589,12 @@ P_count) default(present) async(1)
 		//printf("mat_type8 = %d\t$%ld\t%ld\t%ld\n", mat_type, idx8, idy8, idz8);
 		
 		if (mat_type == 0) {
-			if ((idx8 < pt_geo->xS && true == pt_geo->if_PML_Xs) \
-			|| (idx8 >= pt_geo->xE && true == pt_geo->if_PML_Xe) \
-			|| (idy8 < pt_geo->yS && true == pt_geo->if_PML_Ys) \
-			|| (idy8 >= pt_geo->yE && true == pt_geo->if_PML_Ye) \
-			|| (idz8 < pt_geo->zS && true == pt_geo->if_PML_Zs) \
-			|| (idz8 >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+			if ((idx8 < xS && true == if_PML_Xs) \
+			|| (idx8 >= xE && true == if_PML_Xe) \
+			|| (idy8 < yS && true == if_PML_Ys) \
+			|| (idy8 >= yE && true == if_PML_Ye) \
+			|| (idz8 < zS && true == if_PML_Zs) \
+			|| (idz8 >= zE && true == if_PML_Ze)) 
 			{
 				isPML = true;
 			}
@@ -2675,9 +2669,9 @@ P_count) default(present) async(1)
 
 		isPML = false;
 
-		if (((true == pt_geo->if_PML_Xs && i < pt_geo->PML_size) || (true == pt_geo->if_PML_Xe && i >= nx - pt_geo->PML_size) && i < nx) \
-			|| ((true == pt_geo->if_PML_Ys && j < pt_geo->PML_size) || (true == pt_geo->if_PML_Ye && j >= ny - pt_geo->PML_size) && j < ny) \
-			|| ((true == pt_geo->if_PML_Zs && k < pt_geo->PML_size) || (true == pt_geo->if_PML_Ze && k >= nz - pt_geo->PML_size) && k < nz))
+		if (((true == if_PML_Xs && i < xS) || (true == if_PML_Xe && i >= xE)) \
+			|| ((true == if_PML_Ys && j < yS) || (true == if_PML_Ye && j >= yE)) \
+			|| ((true == if_PML_Zs && k < zS) || (true == if_PML_Ze && k >= zE)))
 		{
 			isPML = true;
 
@@ -2800,12 +2794,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		j = (id - i * ((ny) * (nz))) / (nz);
 		k = id - i * ((ny) * (nz)) - j * (nz);
 		
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size + 1 && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= zE && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -2813,7 +2807,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			isPML = false;
 		
 		if (i == 0) {
-			if (pt_geo->periodicX == true) {
+			if (periodicX_EM == true) {
 				idx1 = nx - 1;
 			}
 			else {
@@ -2824,7 +2818,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			idx1 = i - 1;
 		}
 		if (i == nx) {
-			if (pt_geo->periodicX == true) {
+			if (periodicX_EM == true) {
 				idx2 = 0;
 			}
 			else {
@@ -2895,7 +2889,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (j < ny && k < nz) {
 				BHx_em_t1(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
 					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k)) \
@@ -2926,12 +2920,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		j = (id - i * ((ny + 1) * (nz))) / (nz);
 		k = id - i * ((ny + 1) * (nz)) - j * (nz);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size + 1 && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= zE && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -2940,7 +2934,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		
 		idx1 = i; idx2 = i;
 		if (j == 0) {
-			if (pt_geo->periodicY == true) {
+			if (periodicY_EM == true) {
 				idy1 = ny - 1;
 			}
 			else {
@@ -2951,7 +2945,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 			idy1 = j - 1;
 		}
 		if (j == ny) {
-			if (pt_geo->periodicY == true) {
+			if (periodicY_EM == true) {
 				idy2 = 0;
 			}
 			else {
@@ -3021,7 +3015,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (i < nx && k < nz) {
 				BHy_em_t1(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
 					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k)) \
@@ -3050,12 +3044,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		j = (id - i * ((ny) * (nz + 1))) / (nz + 1);
 		k = id - i * ((ny) * (nz + 1)) - j * (nz + 1);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= nz - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= nz - PML_size + 1 && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -3071,7 +3065,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		M_count = 0.;
 		//----------Magnetization 1------//
 		if (k == 0) {
-			if (pt_geo->periodicZ == true) {
+			if (periodicZ_EM == true) {
 				idz1 = nz - 1;
 			}
 			else {
@@ -3106,7 +3100,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		}
 		//----------Magnetization 2------//
 		if (k == nz) {
-			if (pt_geo->periodicZ == true) {
+			if (periodicZ_EM == true) {
 				idz2 = 0;
 			}
 			else {
@@ -3144,7 +3138,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (i < nx && j < ny) {
 				BHz_em_t1(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
 					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k)) \
@@ -3191,12 +3185,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		j = (id - i * ((ny) * (nz))) / (nz);
 		k = id - i * ((ny) * (nz)) - j * (nz);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size + 1 && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= zE && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -3204,7 +3198,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			isPML = false;
 		
 		if (i == 0) {
-			if (pt_geo->periodicX == true) {
+			if (periodicX_EM == true) {
 				idx1 = nx - 1;
 			}
 			else {
@@ -3215,7 +3209,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			idx1 = i - 1;
 		}
 		if (i == nx) {
-			if (pt_geo->periodicX == true) {
+			if (periodicX_EM == true) {
 				idx2 = 0;
 			}
 			else {
@@ -3286,7 +3280,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (j < ny && k < nz) {
 				BHx_em_t2(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
 					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k)) \
@@ -3316,12 +3310,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		j = (id - i * ((ny + 1) * (nz))) / (nz);
 		k = id - i * ((ny + 1) * (nz)) - j * (nz);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size + 1 && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= zE && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -3330,7 +3324,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		
 		idx1 = i; idx2 = i;
 		if (j == 0) {
-			if (pt_geo->periodicY == true) {
+			if (periodicY_EM == true) {
 				idy1 = ny - 1;
 			}
 			else {
@@ -3341,7 +3335,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 			idy1 = j - 1;
 		}
 		if (j == ny) {
-			if (pt_geo->periodicY == true) {
+			if (periodicY_EM == true) {
 				idy2 = 0;
 			}
 			else {
@@ -3411,7 +3405,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 			M_count = 1.;
 		}
 		
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (i < nx && k < nz) {
 				BHy_em_t2(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
 					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k)) \
@@ -3440,12 +3434,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		j = (id - i * ((ny) * (nz + 1))) / (nz + 1);
 		k = id - i * ((ny) * (nz + 1)) - j * (nz + 1);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= nz - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= nz - PML_size + 1 && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -3461,7 +3455,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		M_count = 0.;
 		//----------Magnetization 1------//
 		if (k == 0) {
-			if (pt_geo->periodicZ == true) {
+			if (periodicZ_EM == true) {
 				idz1 = nz - 1;
 			}
 			else {
@@ -3495,7 +3489,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		}
 		//----------Magnetization 2------//
 		if (k == nz) {
-			if (pt_geo->periodicZ == true) {
+			if (periodicZ_EM == true) {
 				idz2 = 0;
 			}
 			else {
@@ -3533,7 +3527,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (i < nx && j < ny) {
 				BHz_em_t2(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
 					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k)) \
@@ -3580,12 +3574,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		j = (id - i * ((ny) * (nz))) / (nz);
 		k = id - i * ((ny) * (nz)) - j * (nz);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size + 1 && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= zE && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -3593,7 +3587,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			isPML = false;
 		
 		if (i == 0) {
-			if (pt_geo->periodicX == true) {
+			if (periodicX_EM == true) {
 				idx1 = nx - 1;
 			}
 			else {
@@ -3604,7 +3598,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			idx1 = i - 1;
 		}
 		if (i == nx) {
-			if (pt_geo->periodicX == true) {
+			if (periodicX_EM == true) {
 				idx2 = 0;
 			}
 			else {
@@ -3675,7 +3669,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (j < ny && k < nz) {
 				BHx_em_t3(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
 					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k)) \
@@ -3706,12 +3700,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		j = (id - i * ((ny + 1) * (nz))) / (nz);
 		k = id - i * ((ny + 1) * (nz)) - j * (nz);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size + 1 && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= zE && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -3720,7 +3714,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		
 		idx1 = i; idx2 = i;
 		if (j == 0) {
-			if (pt_geo->periodicY == true) {
+			if (periodicY_EM == true) {
 				idy1 = ny - 1;
 			}
 			else {
@@ -3731,7 +3725,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 			idy1 = j - 1;
 		}
 		if (j == ny) {
-			if (pt_geo->periodicY == true) {
+			if (periodicY_EM == true) {
 				idy2 = 0;
 			}
 			else {
@@ -3801,7 +3795,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (i < nx && k < nz) {
 				BHy_em_t3(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
 					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k)) \
@@ -3830,12 +3824,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		j = (id - i * ((ny) * (nz + 1))) / (nz + 1);
 		k = id - i * ((ny) * (nz + 1)) - j * (nz + 1);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= nz - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= nz - PML_size + 1 && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -3851,7 +3845,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		M_count = 0.;
 		//----------Magnetization 1------//
 		if (k == 0) {
-			if (pt_geo->periodicZ == true) {
+			if (periodicZ_EM == true) {
 				idz1 = nz - 1;
 			}
 			else {
@@ -3885,7 +3879,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		}
 		//----------Magnetization 2------//
 		if (k == nz) {
-			if (pt_geo->periodicZ == true) {
+			if (periodicZ_EM == true) {
 				idz2 = 0;
 			}
 			else {
@@ -3923,7 +3917,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (i < nx && j < ny) {
 				BHz_em_t3(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
 					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k)) \
@@ -3970,12 +3964,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 		j = (id - i * ((ny) * (nz))) / (nz);
 		k = id - i * ((ny) * (nz)) - j * (nz);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size + 1 && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= zE && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -3983,7 +3977,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			isPML = false;
 		
 		if (i == 0) {
-			if (pt_geo->periodicX == true) {
+			if (periodicX_EM == true) {
 				idx1 = nx - 1;
 			}
 			else {
@@ -3994,7 +3988,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			idx1 = i - 1;
 		}
 		if (i == nx) {
-			if (pt_geo->periodicX == true) {
+			if (periodicX_EM == true) {
 				idx2 = 0;
 			}
 			else {
@@ -4065,7 +4059,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dEzdy,dEydz,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (j < ny && k < nz) {
 				BHx_em_t4(i, j, k) = -pt_glb->dt / kappa_y_n(0, j, 0) \
 					* (dEzdy - dEydz + (sigma_y_n(0, j, 0) / e0) * Bx_PML_store(i, j, k)) \
@@ -4095,12 +4089,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 		j = (id - i * ((ny + 1) * (nz))) / (nz);
 		k = id - i * ((ny + 1) * (nz)) - j * (nz);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= pt_geo->zE && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size + 1 && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= zE && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -4109,7 +4103,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 
 		idx1 = i; idx2 = i;
 		if (j == 0) {
-			if (pt_geo->periodicY == true) {
+			if (periodicY_EM == true) {
 				idy1 = ny - 1;
 			}
 			else {
@@ -4120,7 +4114,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 			idy1 = j - 1;
 		}
 		if (j == ny) {
-			if (pt_geo->periodicY == true) {
+			if (periodicY_EM == true) {
 				idy2 = 0;
 			}
 			else {
@@ -4190,7 +4184,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdz,dEzdx,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (i < nx && k < nz) {
 				BHy_em_t4(i, j, k) = -pt_glb->dt / kappa_z_n(0, 0, k) \
 					* (dExdz - dEzdx + (sigma_z_n(0, 0, k) / e0) * By_PML_store(i, j, k)) \
@@ -4219,12 +4213,12 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		j = (id - i * ((ny) * (nz + 1))) / (nz + 1);
 		k = id - i * ((ny) * (nz + 1)) - j * (nz + 1);
 
-		if ((i < pt_geo->PML_size && true == pt_geo->if_PML_Xs) \
-			|| (i >= nx - pt_geo->PML_size && true == pt_geo->if_PML_Xe) \
-			|| (j < pt_geo->PML_size && true == pt_geo->if_PML_Ys) \
-			|| (j >= ny - pt_geo->PML_size && true == pt_geo->if_PML_Ye) \
-			|| (k < pt_geo->PML_size && true == pt_geo->if_PML_Zs) \
-			|| (k >= nz - pt_geo->PML_size + 1 && true == pt_geo->if_PML_Ze)) 
+		if ((i < PML_size && true == if_PML_Xs) \
+			|| (i >= nx - PML_size && true == if_PML_Xe) \
+			|| (j < PML_size && true == if_PML_Ys) \
+			|| (j >= ny - PML_size && true == if_PML_Ye) \
+			|| (k < PML_size && true == if_PML_Zs) \
+			|| (k >= nz - PML_size + 1 && true == if_PML_Ze)) 
 		{
 			isPML = true;
 		}
@@ -4240,7 +4234,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		M_count = 0.;
 		//----------Magnetization 1------//
 		if (k == 0) {
-			if (pt_geo->periodicZ == true) {
+			if (periodicZ_EM == true) {
 				idz1 = nz - 1;
 			}
 			else {
@@ -4274,7 +4268,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 		}
 		//----------Magnetization 2------//
 		if (k == nz) {
-			if (pt_geo->periodicZ == true) {
+			if (periodicZ_EM == true) {
 				idz2 = 0;
 			}
 			else {
@@ -4312,7 +4306,7 @@ Ms1, Ms2,mat_type,idx1, idy1, idz1,idx2, idy2, idz2,mat,dExdy,dEydx,i,j,k,M_coun
 			M_count = 1.;
 		}
 
-		if (true == pt_geo->if_PML && true == isPML) {
+		if (true == if_PML && true == isPML) {
 			if (i < nx && j < ny) {
 				BHz_em_t4(i, j, k) = -pt_glb->dt / kappa_x_n(i, 0, 0) \
 					* (dEydx - dExdy + (sigma_x_n(i, 0, 0) / e0) * Bz_PML_store(i, j, k)) \
@@ -4341,21 +4335,21 @@ void EMdynamic_system::update_DH_RK1()
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * ny * nz; id++) {
 			DHx_em_store(id) = DHx_em(id) + dDHx_em_rk1(id) * 0.5;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Bx_PML_store(id) = Bx_PML(id) + BHx_em_t1(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * nz; id++) {
 			DHy_em_store(id) = DHy_em(id) + dDHy_em_rk1(id) * 0.5;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				By_PML_store(id) = By_PML(id) + BHy_em_t1(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * ny * (nz + 1); id++) {
 			DHz_em_store(id) = DHz_em(id) + dDHz_em_rk1(id) * 0.5;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Bz_PML_store(id) = Bz_PML(id) + BHz_em_t1(id) * 0.5;
 		}
 	}
@@ -4374,21 +4368,21 @@ void EMdynamic_system::update_DH_RK2()
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * ny * nz; id++) {
 			DHx_em_store(id) = DHx_em(id) + dDHx_em_rk2(id) * 0.5;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Bx_PML_store(id) = Bx_PML(id) + BHx_em_t2(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * nz; id++) {
 			DHy_em_store(id) = DHy_em(id) + dDHy_em_rk2(id) * 0.5;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				By_PML_store(id) = By_PML(id) + BHy_em_t2(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * ny * (nz + 1); id++) {
 			DHz_em_store(id) = DHz_em(id) + dDHz_em_rk2(id) * 0.5;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Bz_PML_store(id) = Bz_PML(id) + BHz_em_t2(id) * 0.5;
 		}
 	}
@@ -4407,21 +4401,21 @@ void EMdynamic_system::update_DH_RK3()
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * ny * nz; id++) {
 			DHx_em_store(id) = DHx_em(id) + dDHx_em_rk3(id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Bx_PML_store(id) = Bx_PML(id) + BHx_em_t3(id) ;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * nz; id++) {
 			DHy_em_store(id) = DHy_em(id) + dDHy_em_rk3(id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				By_PML_store(id) = By_PML(id) + BHy_em_t3(id);
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * ny * (nz + 1); id++) {
 			DHz_em_store(id) = DHz_em(id) + dDHz_em_rk3(id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Bz_PML_store(id) = Bz_PML(id) + BHz_em_t3(id);
 		}
 	}
@@ -4441,7 +4435,7 @@ void EMdynamic_system::update_DH()
 		for (long id = 0; id < (nx + 1) * ny * nz; id++) {
 			DHx_em(id) = DHx_em(id) + dDHx_em_rk1(id) / 6. + dDHx_em_rk2(id) / 3. + dDHx_em_rk3(id) / 3. + dDHx_em_rk4(id) / 6.;
 			DHx_em_store(id) = DHx_em(id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 			{
 				Bx_PML(id) = Bx_PML(id) + BHx_em_t1(id) / 6. + BHx_em_t2(id) / 3. + BHx_em_t3(id) / 3. + BHx_em_t4(id) / 6.;
 				Bx_PML_store(id) = Bx_PML(id);
@@ -4452,7 +4446,7 @@ void EMdynamic_system::update_DH()
 		for (long id = 0; id < nx * (ny + 1) * nz; id++) {
 			DHy_em(id) = DHy_em(id) + dDHy_em_rk1(id) / 6. + dDHy_em_rk2(id) / 3. + dDHy_em_rk3(id) / 3. + dDHy_em_rk4(id) / 6.;
 			DHy_em_store(id) = DHy_em(id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 			{
 				By_PML(id) = By_PML(id) + BHy_em_t1(id) / 6. + BHy_em_t2(id) / 3. + BHy_em_t3(id) / 3. + BHy_em_t4(id) / 6.;
 				By_PML_store(id) = By_PML(id);
@@ -4463,7 +4457,7 @@ void EMdynamic_system::update_DH()
 		for (long id = 0; id < nx * ny * (nz + 1); id++) {
 			DHz_em(id) = DHz_em(id) + dDHz_em_rk1(id) / 6. + dDHz_em_rk2(id) / 3. + dDHz_em_rk3(id) / 3. + dDHz_em_rk4(id) / 6.;
 			DHz_em_store(id) = DHz_em(id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 			{
 				Bz_PML(id) = Bz_PML(id) + BHz_em_t1(id) / 6. + BHz_em_t2(id) / 3. + BHz_em_t3(id) / 3. + BHz_em_t4(id) / 6.;
 				Bz_PML_store(id) = Bz_PML(id);
@@ -4486,7 +4480,7 @@ void EMdynamic_system::update_DE_RK1()
 		for (long id = 0; id < nx * (ny + 1) * (nz + 1); id++) {
 			DEx_em_store(id) = DEx_em(id) + dDEx_em_rk1(id) * 0.5;
 			//printf("DEx1: %le\t%le\t%ld\n", DEx_em(id), dDEx_em_rk1(id), id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dx_PML_store(id) = Dx_PML(id) + DEx_em_t1(id) * 0.5;
 		}
 
@@ -4494,7 +4488,7 @@ void EMdynamic_system::update_DE_RK1()
 		for (long id = 0; id < (nx + 1) * ny * (nz + 1); id++) {
 			DEy_em_store(id) = DEy_em(id) + dDEy_em_rk1(id) * 0.5;
 			//printf("DEy1: %le\t%le\t%ld\n", DEy_em(id), dDEy_em_rk1(id), id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dy_PML_store(id) = Dy_PML(id) + DEy_em_t1(id) * 0.5;
 		}
 
@@ -4502,7 +4496,7 @@ void EMdynamic_system::update_DE_RK1()
 		for (long id = 0; id < (nx + 1) * (ny + 1) * nz; id++) {
 			DEz_em_store(id) = DEz_em(id) + dDEz_em_rk1(id) * 0.5;
 			//printf("DEz1: %le\t%le\t%ld\n", DEz_em(id), dDEz_em_rk1(id), id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dz_PML_store(id) = Dz_PML(id) + DEz_em_t1(id) * 0.5;
 		}
 	}
@@ -4514,7 +4508,7 @@ if (pt_glb->if_input_planeEM_E == true) {
 	}
 }
 
-if (pt_glb->if_periodic_allsurface == false && pt_glb->if_PML == false) {
+if (pt_glb->if_periodic_allsurface == false && if_PML == false) {
 	update_DE_Boundary_half();
 }
 
@@ -4537,21 +4531,21 @@ void EMdynamic_system::update_DE_RK2()
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * (nz + 1); id++) {
 			DEx_em_store(id) = DEx_em(id) + dDEx_em_rk2(id) * 0.5;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dx_PML_store(id) = Dx_PML(id) + DEx_em_t2(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * ny * (nz + 1); id++) {
 			DEy_em_store(id) = DEy_em(id) + dDEy_em_rk2(id) * 0.5;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dy_PML_store(id) = Dy_PML(id) + DEy_em_t2(id) * 0.5;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * (ny + 1) * nz; id++) {
 			DEz_em_store(id) = DEz_em(id) + dDEz_em_rk2(id) * 0.5;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dz_PML_store(id) = Dz_PML(id) + DEz_em_t2(id) * 0.5;
 		}
 	}
@@ -4563,7 +4557,7 @@ if (pt_glb->if_input_planeEM_E == true) {
 	}
 }
 
-if (pt_glb->if_periodic_allsurface == false && pt_glb->if_PML == false) {
+if (pt_glb->if_periodic_allsurface == false && if_PML == false) {
 	update_DE_Boundary_half();
 }
 
@@ -4585,21 +4579,21 @@ void EMdynamic_system::update_DE_RK3()
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * (nz + 1); id++) {
 			DEx_em_store(id) = DEx_em(id) + dDEx_em_rk3(id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dx_PML_store(id) = Dx_PML(id) + DEx_em_t3(id);
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * ny * (nz + 1); id++) {
 			DEy_em_store(id) = DEy_em(id) + dDEy_em_rk3(id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dy_PML_store(id) = Dy_PML(id) + DEy_em_t3(id);
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * (ny + 1) * nz; id++) {
 			DEz_em_store(id) = DEz_em(id) + dDEz_em_rk3(id);
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dz_PML_store(id) = Dz_PML(id) + DEz_em_t3(id);
 		}
 	}
@@ -4611,7 +4605,7 @@ if (pt_glb->if_input_planeEM_E == true) {
 	}
 }
 
-if (pt_glb->if_periodic_allsurface == false && pt_glb->if_PML == false) {
+if (pt_glb->if_periodic_allsurface == false && if_PML == false) {
 	update_DE_Boundary_full();
 }
 
@@ -4628,7 +4622,7 @@ if (pt_glb->if_periodic_allsurface == false && pt_glb->if_PML == false) {
 
 void EMdynamic_system::update_DE()
 {
-	if (pt_glb->if_periodic_allsurface == false && pt_glb->if_PML == false) {
+	if (pt_glb->if_periodic_allsurface == false && if_PML == false) {
 		transfer_pointer();
 	}
 
@@ -4637,21 +4631,21 @@ void EMdynamic_system::update_DE()
 #pragma acc loop gang vector
 		for (long id = 0; id < nx * (ny + 1) * (nz + 1); id++) {
 			DEx_em(id) = DEx_em(id) + dDEx_em_rk1(id) / 6. + dDEx_em_rk2(id) / 3. + dDEx_em_rk3(id) / 3. + dDEx_em_rk4(id) / 6.;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dx_PML(id) = Dx_PML(id) + DEx_em_t1(id) / 6. + DEx_em_t2(id) / 3. + DEx_em_t3(id) / 3. + DEx_em_t4(id) / 6.;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * ny * (nz + 1); id++) {
 			DEy_em(id) = DEy_em(id) + dDEy_em_rk1(id) / 6. + dDEy_em_rk2(id) / 3. + dDEy_em_rk3(id) / 3. + dDEy_em_rk4(id) / 6.;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dy_PML(id) = Dy_PML(id) + DEy_em_t1(id) / 6. + DEy_em_t2(id) / 3. + DEy_em_t3(id) / 3. + DEy_em_t4(id) / 6.;
 		}
 
 #pragma acc loop gang vector
 		for (long id = 0; id < (nx + 1) * (ny + 1) * nz; id++) {
 			DEz_em(id) = DEz_em(id) + dDEz_em_rk1(id) / 6. + dDEz_em_rk2(id) / 3. + dDEz_em_rk3(id) / 3. + dDEz_em_rk4(id) / 6.;
-			if (true == pt_geo->if_PML)
+			if (true == if_PML)
 				Dz_PML(id) = Dz_PML(id) + DEz_em_t1(id) / 6. + DEz_em_t2(id) / 3. + DEz_em_t3(id) / 3. + DEz_em_t4(id) / 6.;
 		}
 	}
@@ -4663,7 +4657,7 @@ void EMdynamic_system::update_DE()
 		}
 	}
 
-	if (pt_glb->if_periodic_allsurface == false && pt_glb->if_PML == false) {
+	if (pt_glb->if_periodic_allsurface == false && if_PML == false) {
 		update_DE_Boundary();
 	}
 
@@ -4673,7 +4667,7 @@ void EMdynamic_system::update_DE()
 		DEy_em_store = DEy_em;
 		DEz_em_store = DEz_em;
 
-		if (true == pt_geo->if_PML) {
+		if (true == if_PML) {
 			Dx_PML_store = Dx_PML;
 			Dy_PML_store = Dy_PML;
 			Dz_PML_store = Dz_PML;
@@ -4909,7 +4903,7 @@ void EMdynamic_system::update_Jf_input() {
 			else if (pt_glb->Jf_input_type == 7) {
 				temporal_var = (pt_glb->time_device - pt_glb->dt) * (4.0 * PI * pt_glb->Jf_input_freq);
 				temporal_var = temporal_var * temporal_var * temporal_var * (4.0 - temporal_var) * exp(-temporal_var);
-				temporal_var = temporal_var / (pt_geo->dx * pt_geo->dy * pt_geo->dz);
+				temporal_var = temporal_var / (dx * dy * dz);
 
 				if (pt_glb->Jf_input_component == 'x') {
 					DJfx(i, j, k) = temporal_var;
@@ -5064,7 +5058,7 @@ void EMdynamic_system::update_Jf_input_half() {
 			else if (pt_glb->Jf_input_type == 7) {
 				temporal_var = (pt_glb->time_device - 0.5 * pt_glb->dt) * (4.0 * PI * pt_glb->Jf_input_freq);
 				temporal_var = temporal_var * temporal_var * temporal_var * (4.0 - temporal_var) * exp(-temporal_var);
-				temporal_var = temporal_var / (pt_geo->dx * pt_geo->dy * pt_geo->dz);
+				temporal_var = temporal_var / (dx * dy * dz);
 
 				if (pt_glb->Jf_input_component == 'x') {
 					DJfx(i, j, k) = temporal_var;
@@ -5225,8 +5219,8 @@ void EMdynamic_system::update_Jf_input_full() {
 				temporal_var = temporal_var * temporal_var * temporal_var * (4.0 - temporal_var) * exp(-temporal_var);
 				// printf("update_Jf_input_full: temporal_var = %le\n", temporal_var);
 
-				temporal_var = temporal_var / (pt_geo->dx * pt_geo->dy * pt_geo->dz);
-				// printf("update_Jf_input_full: Jf_input_amp = %le, dx = %le, dy = %le, dz = %le, temporal_var = %le\n", pt_glb->Jf_input_amp, pt_geo->dx, pt_geo->dy, pt_geo->dz, temporal_var);
+				temporal_var = temporal_var / (dx * dy * dz);
+				// printf("update_Jf_input_full: Jf_input_amp = %le, dx = %le, dy = %le, dz = %le, temporal_var = %le\n", pt_glb->Jf_input_amp, dx, dy, dz, temporal_var);
 
 				if (pt_glb->Jf_input_component == 'x') {
 					DJfx(i, j, k) = temporal_var;

@@ -22,10 +22,11 @@ public:
 	class ferroelectric_system *pt_fe;
 	long int nx, ny, nz, nz21, n;
 	// nx, ny, nz will change if PML is used
-	// nx_sys, ny_sys, nz_sys will hold the mesh size without PML
-	// Subscript 'sys' indicates that the values are only applicable for the parent class/system
-	// Elastodynamics solver will need PML in the future
-	long int nx_sys, ny_sys, nz_sys, n_sys;
+	// nx_phy, ny_phy, nz_phy will hold the mesh size without PML
+	// Subscript 'phy' indicates that the values are only applicable for the parent class/system
+	// Elastodynamics solver will need PML
+	long int nx_phy, ny_phy, nz_phy, n_phy;
+	long int xS, yS, zS, xE, yE, zE;
 
 	double scalenn;
 	double dx, dy, dz;

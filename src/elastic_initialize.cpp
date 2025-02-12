@@ -1,5 +1,7 @@
 #include "elastic_system.h"
 
+#include <iostream>
+
 //void elastic_system::initialize(magnetic_system* pt_mag_in, ferroelectric_system* pt_ele_in)
 void elastic_system::initialize_host() {
 
@@ -10,6 +12,13 @@ void elastic_system::initialize_host() {
 	ny = pt_geo->ny_system;
 	nz = pt_geo->nz_system;
 	nz21 = nz / 2 + 1;
+
+	nx_phy = pt_geo->nx_phy;
+	ny_phy = pt_geo->ny_phy;
+	nz_phy = pt_geo->nz_phy;
+
+	xS = pt_geo->xS; yS = pt_geo->yS; zS = pt_geo->zS;
+	xE = pt_geo->xE; yE = pt_geo->yE; zE = pt_geo->zE;
 
 	n = nx * ny * nz;
 	scalenn = 1. / static_cast<double>(n);
@@ -48,8 +57,8 @@ void elastic_system::initialize_host() {
 	c11_1st = 0.; c44_1st = 0.; density_1st = 1.e-8;
 	for (i = 0; i < nx; i++) {
 		for (j = 0; j < ny; j++) {
-			if (pt_glb->material_cell(i, j, pt_geo->zS) != 0) {
-				mat_type = pt_glb->material_cell(i, j, pt_geo->zS);
+			if (pt_glb->material_cell(i, j, zS) != 0) {
+				mat_type = pt_glb->material_cell(i, j, zS);
 				mat = &(pt_glb->material_parameters[mat_type - 1]);
 				c11_1st = mat->c11;
 				c44_1st = mat->c44;
@@ -62,8 +71,8 @@ void elastic_system::initialize_host() {
 	c11_last = 0.; c44_last = 0.; density_last = 1.e-8;
 	for (i = 0; i < nx; i++) {
 		for (j = 0; j < ny; j++) {
-			if (pt_glb->material_cell(i, j, pt_geo->zE-1) != 0) {
-				mat_type = pt_glb->material_cell(i, j, pt_geo->zE - 1);
+			if (pt_glb->material_cell(i, j, zE-1) != 0) {
+				mat_type = pt_glb->material_cell(i, j, zE - 1);
 				mat = &(pt_glb->material_parameters[mat_type - 1]);
 				c11_last = mat->c11;
 				c44_last = mat->c44;
@@ -245,6 +254,10 @@ void elastic_system::initialize_device() {
 	material* mat;
 	double c11, c12, c44;
 
+	bool periodicX = pt_geo->periodicX;
+	bool periodicY = pt_geo->periodicY;
+	bool periodicZ = pt_geo->periodicZ;
+
 	//------------------------------------------//
 	//		Determine if stress-free surfaces	//
 	//------------------------------------------//
@@ -258,20 +271,24 @@ void elastic_system::initialize_device() {
 			j = (id - i * ny * nz) / nz;
 			k = id - i * ny * nz - j * nz;
 
-			if (i == pt_geo->xS || i == pt_geo->xE) {
-				if (pt_geo->periodicX == true) {
-					if (pt_glb->material_cell(pt_geo->xS, j, k) != 0 && pt_glb->material_cell(pt_geo->xE - 1, j, k) != 0) {
+			//printf("i=%ld, j=%ld, k=%ld (%ld, %ld, %ld and id = %ld)\n", i, j, k, nx, ny, nz, id);
+
+			stress_free_surfYZ(i, j, k) = true;
+
+			if (i == xS || i == xE) {
+				if (periodicX == true) {
+					if (pt_glb->material_cell(xS, j, k) != 0 && pt_glb->material_cell(xE - 1, j, k) != 0) {
 						stress_free_surfYZ(i, j, k) = false;
 					}
 					else {
 						stress_free_surfYZ(i, j, k) = true;
 					}
 				}
-				else if (pt_geo->periodicX == false) {
+				else if (periodicX == false) {
 					stress_free_surfYZ(i, j, k) = true;
 				}
 			}
-			else {
+			else if (i > xS && i < xE) {
 				if (pt_glb->material_cell(i - 1, j, k) != 0 && pt_glb->material_cell(i, j, k) != 0) {
 					stress_free_surfYZ(i, j, k) = false;
 				}
@@ -288,20 +305,21 @@ void elastic_system::initialize_device() {
 			j = (id - i * (ny + 1) * nz) / nz;
 			k = id - i * (ny + 1) * nz - j * nz;
 
-			if (j == pt_geo->yS || j == pt_geo->yE) {
-				if (pt_geo->periodicY == true) {
-					if (pt_glb->material_cell(i, pt_geo->yS, k) != 0 && pt_glb->material_cell(i, pt_geo->yE - 1, k) != 0) {
+			stress_free_surfXZ(i, j, k) = true;
+			if (j == yS || j == yE) {
+				if (periodicY == true) {
+					if (pt_glb->material_cell(i, yS, k) != 0 && pt_glb->material_cell(i, yE - 1, k) != 0) {
 						stress_free_surfXZ(i, j, k) = false;
 					}
 					else {
 						stress_free_surfXZ(i, j, k) = true;
 					}
 				}
-				else if (pt_geo->periodicY == false) {
+				else if (periodicY == false) {
 					stress_free_surfXZ(i, j, k) = true;
 				}
 			}
-			else {
+			else if (j > yS && j < yE) {
 				if (pt_glb->material_cell(i, j - 1, k) != 0 && pt_glb->material_cell(i, j, k) != 0) {
 					stress_free_surfXZ(i, j, k) = false;
 				}
@@ -318,20 +336,21 @@ void elastic_system::initialize_device() {
 			j = (id - i * ny * (nz + 1)) / (nz + 1);
 			k = id - i * ny * (nz + 1) - j * (nz + 1);
 
-			if (k == pt_geo->zS || k == pt_geo->zE) {
-				if (pt_geo->periodicZ == true) {
-					if (pt_glb->material_cell(i, j, pt_geo->zS) != 0 && pt_glb->material_cell(i, j, pt_geo->zE - 1) != 0) {
+			stress_free_surfXY(i, j, k) = true;
+			if (k == zS || k == zE) {
+				if (periodicZ == true) {
+					if (pt_glb->material_cell(i, j, zS) != 0 && pt_glb->material_cell(i, j, zE - 1) != 0) {
 						stress_free_surfXY(i, j, k) = false;
 					}
 					else {
 						stress_free_surfXY(i, j, k) = true;
 					}
 				}
-				else if (pt_geo->periodicZ == false) {
+				else if (periodicZ == false) {
 					stress_free_surfXY(i, j, k) = true;
 				}
 			}
-			else {
+			else if (k > zS && k < zE) {
 				if (pt_glb->material_cell(i, j, k - 1) != 0 && pt_glb->material_cell(i, j, k) != 0) {
 					stress_free_surfXY(i, j, k) = false;
 				}

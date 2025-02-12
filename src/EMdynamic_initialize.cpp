@@ -11,27 +11,35 @@ void EMdynamic_system::initialize_host(){
 
 	n = nx * ny * nz;
 
+	std::cout << "nx: " << nx << " ny: " << ny << " nz: " << nz << std::endl;
+
 	dx = pt_geo->dx;
 	dy = pt_geo->dy;
 	dz = pt_geo->dz;
+	
+	nx_phy = pt_geo->nx_phy;
+	ny_phy = pt_geo->ny_phy;
+	nz_phy = pt_geo->nz_phy;
+
+	xS = pt_geo->xS; yS = pt_geo->yS; zS = pt_geo->zS;
+	xE = pt_geo->xE; yE = pt_geo->yE; zE = pt_geo->zE;
+
+	if_PML = pt_geo->if_PML;
+	if_PML_Xs = pt_geo->if_PML_Xs; if_PML_Xe = pt_geo->if_PML_Xe;
+	if_PML_Ys = pt_geo->if_PML_Ys; if_PML_Ye = pt_geo->if_PML_Ye;
+	if_PML_Zs = pt_geo->if_PML_Zs; if_PML_Ze = pt_geo->if_PML_Ze;
+
+	periodicX_EM = pt_geo->periodicX_EM;
+	periodicY_EM = pt_geo->periodicY_EM;
+	periodicZ_EM = pt_geo->periodicZ_EM;
+
+	PML_size = pt_geo->PML_size;
 
 	planeEM_source_z = pt_geo->pt_nz_layer[0] / 5;
 
 	int i, j;
 	unsigned int mat_type;
 	material* mat;
-
-	// sqrt_er_bot11 = 1.;
-	// sqrt_er_bot12 = 0.;
-	// sqrt_er_bot13 = 0.;
-
-	// sqrt_er_bot21 = 0.;
-	// sqrt_er_bot22 = 1.;
-	// sqrt_er_bot23 = 0.;
-
-	// sqrt_er_bot31 = 0.;
-	// sqrt_er_bot32 = 0.;
-	// sqrt_er_bot33 = 1.;
 
 	sqrt_er_bot = 1.;
 
@@ -41,17 +49,7 @@ void EMdynamic_system::initialize_host(){
 				mat_type = pt_glb->material_cell(i, j, pt_geo->zS);
 				mat = &(pt_glb->material_parameters[mat_type - 1]);
 				sqrt_er_bot = sqrt(mat->r_permittivity11);
-				// sqrt_er_bot11 = sqrt(mat->r_permittivity11);
-				// sqrt_er_bot12 = sqrt(mat->r_permittivity12);
-				// sqrt_er_bot13 = sqrt(mat->r_permittivity13);
 
-				// sqrt_er_bot21 = sqrt(mat->r_permittivity21);
-				// sqrt_er_bot22 = sqrt(mat->r_permittivity22);
-				// sqrt_er_bot23 = sqrt(mat->r_permittivity23);
-
-				// sqrt_er_bot31 = sqrt(mat->r_permittivity31);
-				// sqrt_er_bot32 = sqrt(mat->r_permittivity32);
-				// sqrt_er_bot33 = sqrt(mat->r_permittivity33);
 				j = ny; i = nx;
 			}
 		}
@@ -64,17 +62,7 @@ void EMdynamic_system::initialize_host(){
 				mat_type = pt_glb->material_cell(i, j, pt_geo->zE - 1);
 				mat = &(pt_glb->material_parameters[mat_type - 1]);
 				sqrt_er_top = sqrt(mat->r_permittivity11);
-				// sqrt_er_top11 = sqrt(mat->r_permittivity11);
-				// sqrt_er_top12 = sqrt(mat->r_permittivity12);
-				// sqrt_er_top13 = sqrt(mat->r_permittivity13);
 
-				// sqrt_er_top21 = sqrt(mat->r_permittivity21);
-				// sqrt_er_top22 = sqrt(mat->r_permittivity22);
-				// sqrt_er_top23 = sqrt(mat->r_permittivity23);
-
-				// sqrt_er_top31 = sqrt(mat->r_permittivity31);
-				// sqrt_er_top32 = sqrt(mat->r_permittivity32);
-				// sqrt_er_top33 = sqrt(mat->r_permittivity33);
 				j = ny; i = nx;
 			}
 		}
@@ -85,9 +73,6 @@ void EMdynamic_system::initialize_host(){
 		Jf_ny = (pt_glb->Jfin_yf - pt_glb->Jfin_yi + 1);
 		Jf_nz = (pt_glb->Jfin_zf - pt_glb->Jfin_zi + 1);
 		Jf_n = Jf_nx * Jf_ny * Jf_nz;
-		//Jf_z1 = pt_geo->pt_nz_layer[0];
-		//Jf_z2 = pt_geo->pt_nz_layer[0]+ pt_geo->pt_nz_layer[1];
-		//Jf_thickness = static_cast<double>(pt_geo->pt_nz_layer[1]) * dz;
 	}
 
 	//Initialization
@@ -160,28 +145,24 @@ void EMdynamic_system::initialize_host(){
 	dJpx_n2_rk4.initialize(nx, ny, nz); dJpy_n2_rk4.initialize(nx, ny, nz); dJpz_n2_rk4.initialize(nx, ny, nz);
 	dJpx_n3_rk4.initialize(nx, ny, nz); dJpy_n3_rk4.initialize(nx, ny, nz); dJpz_n3_rk4.initialize(nx, ny, nz);
 
-	if (pt_glb->if_periodic_allsurface == false) {
-		DEx_em_t1.initialize(nx, ny + 1, nz + 1); DEy_em_t1.initialize(nx + 1, ny, nz + 1); DEz_em_t1.initialize(nx + 1, ny + 1, nz);
-		if (pt_glb->if_1D_ABC == false || pt_glb->if_PML == true) {
-			DEx_em_t2.initialize(nx, ny + 1, nz + 1); DEy_em_t2.initialize(nx + 1, ny, nz + 1); DEz_em_t2.initialize(nx + 1, ny + 1, nz);
-			DEx_em_t3.initialize(nx, ny + 1, nz + 1); DEy_em_t3.initialize(nx + 1, ny, nz + 1); DEz_em_t3.initialize(nx + 1, ny + 1, nz);
-			DEx_em_t4.initialize(nx, ny + 1, nz + 1); DEy_em_t4.initialize(nx + 1, ny, nz + 1); DEz_em_t4.initialize(nx + 1, ny + 1, nz);
-		}
+	DEx_em_t1.initialize(nx, ny + 1, nz + 1); DEy_em_t1.initialize(nx + 1, ny, nz + 1); DEz_em_t1.initialize(nx + 1, ny + 1, nz);
+	DEx_em_t2.initialize(nx, ny + 1, nz + 1); DEy_em_t2.initialize(nx + 1, ny, nz + 1); DEz_em_t2.initialize(nx + 1, ny + 1, nz);
+	DEx_em_t3.initialize(nx, ny + 1, nz + 1); DEy_em_t3.initialize(nx + 1, ny, nz + 1); DEz_em_t3.initialize(nx + 1, ny + 1, nz);
+	DEx_em_t4.initialize(nx, ny + 1, nz + 1); DEy_em_t4.initialize(nx + 1, ny, nz + 1); DEz_em_t4.initialize(nx + 1, ny + 1, nz);
+	
+	if (pt_geo->if_PML == true) {
+		Dx_PML.initialize(nx, ny + 1, nz + 1); Dy_PML.initialize(nx + 1, ny, nz + 1); Dz_PML.initialize(nx + 1, ny + 1, nz);
+		Dx_PML_store.initialize(nx, ny + 1, nz + 1); Dy_PML_store.initialize(nx + 1, ny, nz + 1); Dz_PML_store.initialize(nx + 1, ny + 1, nz);
 
-		if (pt_glb->if_PML == true) {
-			Dx_PML.initialize(nx, ny + 1, nz + 1); Dy_PML.initialize(nx + 1, ny, nz + 1); Dz_PML.initialize(nx + 1, ny + 1, nz);
-			Dx_PML_store.initialize(nx, ny + 1, nz + 1); Dy_PML_store.initialize(nx + 1, ny, nz + 1); Dz_PML_store.initialize(nx + 1, ny + 1, nz);
+		Bx_PML.initialize(nx + 1, ny, nz); By_PML.initialize(nx, ny + 1, nz); Bz_PML.initialize(nx, ny, nz + 1);
+		Bx_PML_store.initialize(nx + 1, ny, nz); By_PML_store.initialize(nx, ny + 1, nz); Bz_PML_store.initialize(nx, ny, nz + 1);
 
-			Bx_PML.initialize(nx + 1, ny, nz); By_PML.initialize(nx, ny + 1, nz); Bz_PML.initialize(nx, ny, nz + 1);
-			Bx_PML_store.initialize(nx + 1, ny, nz); By_PML_store.initialize(nx, ny + 1, nz); Bz_PML_store.initialize(nx, ny, nz + 1);
-
-			BHx_em_t1.initialize(nx + 1, ny, nz); BHy_em_t1.initialize(nx, ny + 1, nz); BHz_em_t1.initialize(nx, ny, nz + 1);
-			BHx_em_t2.initialize(nx + 1, ny, nz); BHy_em_t2.initialize(nx, ny + 1, nz); BHz_em_t2.initialize(nx, ny, nz + 1);
-			BHx_em_t3.initialize(nx + 1, ny, nz); BHy_em_t3.initialize(nx, ny + 1, nz); BHz_em_t3.initialize(nx, ny, nz + 1);
-			BHx_em_t4.initialize(nx + 1, ny, nz); BHy_em_t4.initialize(nx, ny + 1, nz); BHz_em_t4.initialize(nx, ny, nz + 1);
-		}
+		BHx_em_t1.initialize(nx + 1, ny, nz); BHy_em_t1.initialize(nx, ny + 1, nz); BHz_em_t1.initialize(nx, ny, nz + 1);
+		BHx_em_t2.initialize(nx + 1, ny, nz); BHy_em_t2.initialize(nx, ny + 1, nz); BHz_em_t2.initialize(nx, ny, nz + 1);
+		BHx_em_t3.initialize(nx + 1, ny, nz); BHy_em_t3.initialize(nx, ny + 1, nz); BHz_em_t3.initialize(nx, ny, nz + 1);
+		BHx_em_t4.initialize(nx + 1, ny, nz); BHy_em_t4.initialize(nx, ny + 1, nz); BHz_em_t4.initialize(nx, ny, nz + 1);
 	}
-
+	
 	sigma_x_n.initialize(nx, 1, 1); sigma_y_n.initialize(1, ny, 1); sigma_z_n.initialize(1, 1, nz);
 	kappa_x_n.initialize(nx, 1, 1); kappa_y_n.initialize(1, ny, 1); kappa_z_n.initialize(1, 1, nz);
 
@@ -370,11 +351,10 @@ void EMdynamic_system::copy_to_device() {
 #pragma acc enter data copyin(this->dJpx_n2_rk4.matrix[0:n], this->dJpy_n2_rk4.matrix[0:n], this->dJpz_n2_rk4.matrix[0:n])
 #pragma acc enter data copyin(this->dJpx_n3_rk4.matrix[0:n], this->dJpy_n3_rk4.matrix[0:n], this->dJpz_n3_rk4.matrix[0:n])
 
-	if (pt_glb->if_periodic_allsurface == false) {
 #pragma acc enter data copyin(this->DEx_em_t1)
 #pragma acc enter data copyin(this->DEy_em_t1)
 #pragma acc enter data copyin(this->DEz_em_t1)
-		if (pt_glb->if_1D_ABC == false || pt_glb->if_PML == true) {
+			
 #pragma acc enter data copyin(this->DEx_em_t2)
 #pragma acc enter data copyin(this->DEy_em_t2)
 #pragma acc enter data copyin(this->DEz_em_t2)
@@ -386,13 +366,28 @@ void EMdynamic_system::copy_to_device() {
 #pragma acc enter data copyin(this->DEx_em_t4)
 #pragma acc enter data copyin(this->DEy_em_t4)
 #pragma acc enter data copyin(this->DEz_em_t4)
-		}
 
-		if (pt_glb->if_PML == true) {	
 
+#pragma acc enter data copyin(this->DEx_em_t1.matrix[0:nx*(ny+1)*(nz+1)])
+#pragma acc enter data copyin(this->DEy_em_t1.matrix[0:(nx+1)*ny*(nz+1)])
+#pragma acc enter data copyin(this->DEz_em_t1.matrix[0:(nx+1)*(ny+1)*nz])
+
+#pragma acc enter data copyin(this->DEx_em_t2.matrix[0:nx*(ny+1)*(nz+1)])
+#pragma acc enter data copyin(this->DEy_em_t2.matrix[0:(nx+1)*ny*(nz+1)])
+#pragma acc enter data copyin(this->DEz_em_t2.matrix[0:(nx+1)*(ny+1)*nz])
+
+#pragma acc enter data copyin(this->DEx_em_t3.matrix[0:nx*(ny+1)*(nz+1)])
+#pragma acc enter data copyin(this->DEy_em_t3.matrix[0:(nx+1)*ny*(nz+1)])
+#pragma acc enter data copyin(this->DEz_em_t3.matrix[0:(nx+1)*(ny+1)*nz])
+
+#pragma acc enter data copyin(this->DEx_em_t4.matrix[0:nx*(ny+1)*(nz+1)])
+#pragma acc enter data copyin(this->DEy_em_t4.matrix[0:(nx+1)*ny*(nz+1)])
+#pragma acc enter data copyin(this->DEz_em_t4.matrix[0:(nx+1)*(ny+1)*nz])
+
+if (pt_geo->if_PML == true) {
+		
 #pragma acc enter data copyin(this->Dx_PML, this->Dy_PML, this->Dz_PML)
 #pragma acc enter data copyin(this->Dx_PML_store, this->Dy_PML_store, this->Dz_PML_store)
-
 
 #pragma acc enter data copyin(this->Bx_PML, this->By_PML, this->Bz_PML)
 #pragma acc enter data copyin(this->Bx_PML_store, this->By_PML_store, this->Bz_PML_store)
@@ -412,29 +407,6 @@ void EMdynamic_system::copy_to_device() {
 #pragma acc enter data copyin(this->BHx_em_t4)
 #pragma acc enter data copyin(this->BHy_em_t4)
 #pragma acc enter data copyin(this->BHz_em_t4)
-		}
-
-		if (pt_glb->if_PML == false)
-		{
-#pragma acc enter data copyin(this->DEx_em_t1.matrix[0:nx*(ny+1)*(nz+1)])
-#pragma acc enter data copyin(this->DEy_em_t1.matrix[0:(nx+1)*ny*(nz+1)])
-#pragma acc enter data copyin(this->DEz_em_t1.matrix[0:(nx+1)*(ny+1)*nz])
-			if (pt_glb->if_1D_ABC == false) {
-#pragma acc enter data copyin(this->DEx_em_t2.matrix[0:nx*(ny+1)*(nz+1)])
-#pragma acc enter data copyin(this->DEy_em_t2.matrix[0:(nx+1)*ny*(nz+1)])
-#pragma acc enter data copyin(this->DEz_em_t2.matrix[0:(nx+1)*(ny+1)*nz])
-
-#pragma acc enter data copyin(this->DEx_em_t3.matrix[0:nx*(ny+1)*(nz+1)])
-#pragma acc enter data copyin(this->DEy_em_t3.matrix[0:(nx+1)*ny*(nz+1)])
-#pragma acc enter data copyin(this->DEz_em_t3.matrix[0:(nx+1)*(ny+1)*nz])
-
-#pragma acc enter data copyin(this->DEx_em_t4.matrix[0:nx*(ny+1)*(nz+1)])
-#pragma acc enter data copyin(this->DEy_em_t4.matrix[0:(nx+1)*ny*(nz+1)])
-#pragma acc enter data copyin(this->DEz_em_t4.matrix[0:(nx+1)*(ny+1)*nz])
-			}
-		}
-		else
-		{
 
 #pragma acc enter data copyin(this->Dx_PML.matrix[0:nx*(ny+1)*(nz+1)])
 #pragma acc enter data copyin(this->Dy_PML.matrix[0:(nx+1)*ny*(nz+1)])
@@ -451,22 +423,6 @@ void EMdynamic_system::copy_to_device() {
 #pragma acc enter data copyin(this->Bx_PML_store.matrix[0:(nx+1)*ny*nz])
 #pragma acc enter data copyin(this->By_PML_store.matrix[0:nx*(ny+1)*nz])
 #pragma acc enter data copyin(this->Bz_PML_store.matrix[0:nx*ny*(nz+1)])
-
-#pragma acc enter data copyin(this->DEx_em_t1.matrix[0:nx*(ny+1)*(nz+1)])
-#pragma acc enter data copyin(this->DEy_em_t1.matrix[0:(nx+1)*ny*(nz+1)])
-#pragma acc enter data copyin(this->DEz_em_t1.matrix[0:(nx+1)*(ny+1)*nz])
-
-#pragma acc enter data copyin(this->DEx_em_t2.matrix[0:nx*(ny+1)*(nz+1)])
-#pragma acc enter data copyin(this->DEy_em_t2.matrix[0:(nx+1)*ny*(nz+1)])
-#pragma acc enter data copyin(this->DEz_em_t2.matrix[0:(nx+1)*(ny+1)*nz])
-
-#pragma acc enter data copyin(this->DEx_em_t3.matrix[0:nx*(ny+1)*(nz+1)])
-#pragma acc enter data copyin(this->DEy_em_t3.matrix[0:(nx+1)*ny*(nz+1)])
-#pragma acc enter data copyin(this->DEz_em_t3.matrix[0:(nx+1)*(ny+1)*nz])
-
-#pragma acc enter data copyin(this->DEx_em_t4.matrix[0:nx*(ny+1)*(nz+1)])
-#pragma acc enter data copyin(this->DEy_em_t4.matrix[0:(nx+1)*ny*(nz+1)])
-#pragma acc enter data copyin(this->DEz_em_t4.matrix[0:(nx+1)*(ny+1)*nz])
 
 #pragma acc enter data copyin(this->BHx_em_t1.matrix[0:(nx+1)*ny*nz])
 #pragma acc enter data copyin(this->BHy_em_t1.matrix[0:nx*(ny+1)*nz])
@@ -513,7 +469,6 @@ void EMdynamic_system::copy_to_device() {
 #pragma acc enter data copyin(this->kappa_y_np1.matrix[0:ny+1])
 #pragma acc enter data copyin(this->kappa_z_np1.matrix[0:nz+1])
 		}
-	}
 }
 
 void EMdynamic_system::copy_from_device() {

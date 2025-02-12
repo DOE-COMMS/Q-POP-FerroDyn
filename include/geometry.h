@@ -9,11 +9,11 @@ private:
 	long int num_periods; /*number of repeating unit in the superlattice*/
 	long int nx_work, ny_work, nz_work;
 
-private:
 	void set_geometry();
 
 public:
 	bool periodicX, periodicY, periodicZ;
+	bool periodicX_EM, periodicY_EM, periodicZ_EM;
 	long int num_layer_unit;
 	long int id_lastlayer_unit;
 	long int id_firstlayer, id_lastlayer; /*id of the first and the last layer in the superlattice*/
@@ -44,14 +44,11 @@ public:
 	long int xS, xE, yS, yE, zS, zE;
 	long int nx_phy, ny_phy, nz_phy; // Dimensions of the physical part of the computational mesh
 
-private:
 	void set_PML();
 
-public:
 	bool if_read_struct;
 	static geometry_parameters geo;
 
-public:
 	void readgeo();
 	void copy_to_device();
 	void loggeo();

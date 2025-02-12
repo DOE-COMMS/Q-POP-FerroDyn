@@ -11,6 +11,13 @@ void magnetic_system::initialize_host() {
 
 	n = nx * ny * nz;
 
+	nx_phy = pt_geo->nx_phy;
+	ny_phy = pt_geo->ny_phy;
+	nz_phy = pt_geo->nz_phy;
+
+	xS = pt_geo->xS; yS = pt_geo->yS; zS = pt_geo->zS;
+	xE = pt_geo->xE; yE = pt_geo->yE; zE = pt_geo->zE;
+
 	dx = pt_geo->dx;
 	dy = pt_geo->dy;
 	dz = pt_geo->dz;

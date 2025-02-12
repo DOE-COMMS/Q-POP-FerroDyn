@@ -68,7 +68,7 @@ bool inoutput::saveVTK_Scalar(matrix3d<double> data,
         vtkFile << "DATASET STRUCTURED_POINTS" << std::endl;
         vtkFile << "DIMENSIONS " << ny << " " << nx << " " << nz << std::endl;
         vtkFile << "ORIGIN 0 0 0" << std::endl;
-        vtkFile << "SPACING " << dy << " " << dx << " " << dz << std::endl;
+        vtkFile << "SPACING 1 1 1" << std::endl;
         vtkFile << "POINT_DATA " << nx * ny * nz << std::endl;
     }
 
@@ -78,7 +78,7 @@ bool inoutput::saveVTK_Scalar(matrix3d<double> data,
 	for (long int k = 0; k < nz; k++) {
 		for (long int j = 0; j < ny; j++) {
 			for (long int i = 0; i < nx; i++) {
-				vtkFile << data(xS + i, yS + j, zS + k) << '\n';
+				vtkFile << std::scientific << std::setprecision(7) << data(xS + i, yS + j, zS + k) << '\n';
 			}
 		}
 	}
@@ -137,7 +137,7 @@ bool inoutput::saveVTK_Scalar(matrix3d<unsigned int> data,
         vtkFile << "DATASET STRUCTURED_POINTS" << std::endl;
         vtkFile << "DIMENSIONS " << ny << " " << nx << " " << nz << std::endl;
         vtkFile << "ORIGIN 0 0 0" << std::endl;
-        vtkFile << "SPACING " << dy << " " << dx << " " << dz << std::endl;
+        vtkFile << "SPACING 1 1 1" << std::endl;
         vtkFile << "POINT_DATA " << nx * ny * nz << std::endl;
     }
 
@@ -205,7 +205,7 @@ bool inoutput::saveVTK_Vector(matrix3d<double> data1, matrix3d<double> data2, ma
         vtkFile << "DATASET STRUCTURED_POINTS" << std::endl;
         vtkFile << "DIMENSIONS " << ny << " " << nx << " " << nz << std::endl;
         vtkFile << "ORIGIN 0 0 0" << std::endl;
-        vtkFile << "SPACING " << dy << " " << dx << " " << dz << std::endl;
+        vtkFile << "SPACING 1 1 1" << std::endl;
         vtkFile << "POINT_DATA " << nx * ny * nz << std::endl;
     }
 
@@ -214,7 +214,7 @@ bool inoutput::saveVTK_Vector(matrix3d<double> data1, matrix3d<double> data2, ma
 	for (long int k = 0; k < nz; k++) {
 		for (long int j = 0; j < ny; j++) {
 			for (long int i = 0; i < nx; i++) {
-				vtkFile << std::fixed << std::setprecision(6) << data1(xS + i, yS + j, zS + k) << "\t" << data2(xS + i, yS + j, zS + k) << "\t" << data3(xS + i, yS + j, zS + k) << '\n';
+				vtkFile << std::scientific << std::setprecision(7) << data1(xS + i, yS + j, zS + k) << "\t" << data2(xS + i, yS + j, zS + k) << "\t" << data3(xS + i, yS + j, zS + k) << '\n';
 			}
 		}
 	}
@@ -232,9 +232,9 @@ void inoutput::input_m(magnetic_system* mag) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inx >> iny >> inz;
-			mag->mx_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			mag->my_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			mag->mz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			mag->mx_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			mag->my_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			mag->mz_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	file.close();
@@ -251,13 +251,13 @@ void inoutput::input_AFMm(magnetic_system* mag) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inx1 >> iny1 >> inz1 >> inx2 >> iny2 >> inz2;
-			mag->mx_AFM1_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx1;
-			mag->my_AFM1_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny1;
-			mag->mz_AFM1_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz1;
+			mag->mx_AFM1_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx1;
+			mag->my_AFM1_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny1;
+			mag->mz_AFM1_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz1;
 
-			mag->mx_AFM2_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx2;
-			mag->my_AFM2_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny2;
-			mag->mz_AFM2_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz2;
+			mag->mx_AFM2_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx2;
+			mag->my_AFM2_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny2;
+			mag->mz_AFM2_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz2;
 		}
 	}
 	file.close();
@@ -274,9 +274,9 @@ void inoutput::input_Hstat(magnetic_system* mag) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inx >> iny >> inz;
-			mag->Hx_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			mag->Hy_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			mag->Hz_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			mag->Hx_stat(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			mag->Hy_stat(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			mag->Hz_stat(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	file.close();
@@ -293,9 +293,13 @@ void inoutput::input_pandq(ferroelectric_system* fe) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			filep >> x >> y >> z >> inx >> iny >> inz;
-			fe->px_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			fe->py_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			fe->pz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+
+			if (x <= pt_geo->nx_phy && y <= pt_geo->ny_phy && z <= pt_geo->nz_phy) {
+
+				fe->px_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+				fe->py_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+				fe->pz_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
+			}
 		}
 	}
 	filep.close();
@@ -305,9 +309,9 @@ void inoutput::input_pandq(ferroelectric_system* fe) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			fileq >> x >> y >> z >> inx >> iny >> inz;
-			fe->qx_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			fe->qy_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			fe->qz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			fe->qx_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			fe->qy_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			fe->qz_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	fileq.close();
@@ -324,9 +328,9 @@ void inoutput::input_Estat(ferroelectric_system* fe) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inx >> iny >> inz;
-			fe->Ex_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			fe->Ey_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			fe->Ez_stat(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			fe->Ex_stat(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			fe->Ey_stat(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			fe->Ez_stat(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	file.close();
@@ -344,7 +348,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * (ny + 1) * (nz + 1); i++)
 		{
 			fileEx >> x >> y >> z >> inn;
-			em->DEx_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
+			em->DEx_em(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inn;
 		}
 	}
 	fileEx.close();
@@ -354,7 +358,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < (nx + 1) * ny * (nz + 1); i++)
 		{
 			fileEy >> x >> y >> z >> inn;
-			em->DEy_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
+			em->DEy_em(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inn;
 		}
 	}
 	fileEy.close();
@@ -364,7 +368,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < (nx + 1) * (ny + 1) * nz; i++)
 		{
 			fileEz >> x >> y >> z >> inn;
-			em->DEz_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
+			em->DEz_em(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inn;
 		}
 	}
 	fileEz.close();
@@ -374,7 +378,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < (nx + 1) * ny * nz; i++)
 		{
 			fileHx >> x >> y >> z >> inn;
-			em->DHx_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
+			em->DHx_em(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inn;
 		}
 	}
 	fileHx.close();
@@ -384,7 +388,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * (ny + 1) * nz; i++)
 		{
 			fileHy >> x >> y >> z >> inn;
-			em->DHy_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
+			em->DHy_em(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inn;
 		}
 	}
 	fileHy.close();
@@ -394,7 +398,7 @@ void inoutput::input_em_Yee(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * ny * (nz + 1); i++)
 		{
 			fileHz >> x >> y >> z >> inn;
-			em->DHz_em(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inn;
+			em->DHz_em(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inn;
 		}
 	}
 	fileHz.close();
@@ -411,9 +415,9 @@ void inoutput::input_uandv(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			fileu >> x >> y >> z >> inx >> iny >> inz;
-			elasto->Dux_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			elasto->Duy_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			elasto->Duz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			elasto->Dux_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			elasto->Duy_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			elasto->Duz_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	fileu.close();
@@ -423,9 +427,9 @@ void inoutput::input_uandv(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			filev >> x >> y >> z >> inx >> iny >> inz;
-			elasto->vx_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			elasto->vy_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			elasto->vz_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			elasto->vx_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			elasto->vy_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			elasto->vz_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	filev.close();
@@ -442,9 +446,9 @@ void inoutput::input_elastoforce(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			filef >> x >> y >> z >> inx >> iny >> inz;
-			elasto->force_x_store(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			elasto->force_y_store(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			elasto->force_z_store(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			elasto->force_x_store(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			elasto->force_y_store(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			elasto->force_z_store(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	filef.close();
@@ -461,12 +465,12 @@ void inoutput::input_straint0(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inxx >> inyy >> inzz >> inyz >> inxz >> inxy;
-			elasto->exxt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxx;
-			elasto->eyyt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inyy;
-			elasto->ezzt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inzz;
-			elasto->eyzt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inyz;
-			elasto->exzt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxz;
-			elasto->exyt0_glb(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxy;
+			elasto->exxt0_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inxx;
+			elasto->eyyt0_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inyy;
+			elasto->ezzt0_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inzz;
+			elasto->eyzt0_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inyz;
+			elasto->exzt0_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inxz;
+			elasto->exyt0_glb(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inxy;
 		}
 	}
 	file.close();
@@ -483,12 +487,12 @@ void inoutput::input_eigenstraint0(elastic_system* elasto) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> inxx >> inyy >> inzz >> inyz >> inxz >> inxy;
-			elasto->exx0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxx;
-			elasto->eyy0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inyy;
-			elasto->ezz0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inzz;
-			elasto->eyz0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inyz;
-			elasto->exz0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxz;
-			elasto->exy0t0_crt(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inxy;
+			elasto->exx0t0_crt(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inxx;
+			elasto->eyy0t0_crt(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inyy;
+			elasto->ezz0t0_crt(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inzz;
+			elasto->eyz0t0_crt(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inyz;
+			elasto->exz0t0_crt(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inxz;
+			elasto->exy0t0_crt(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inxy;
 		}
 	}
 	file.close();
@@ -505,9 +509,9 @@ void inoutput::input_Jp(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file1 >> x >> y >> z >> inx >> iny >> inz;
-			em->Jpx_n1(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			em->Jpy_n1(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			em->Jpz_n1(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			em->Jpx_n1(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			em->Jpy_n1(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			em->Jpz_n1(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	file1.close();
@@ -517,9 +521,9 @@ void inoutput::input_Jp(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file2 >> x >> y >> z >> inx >> iny >> inz;
-			em->Jpx_n2(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			em->Jpy_n2(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			em->Jpz_n2(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			em->Jpx_n2(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			em->Jpy_n2(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			em->Jpz_n2(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	file2.close();
@@ -529,9 +533,9 @@ void inoutput::input_Jp(EMdynamic_system* em) {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file3 >> x >> y >> z >> inx >> iny >> inz;
-			em->Jpx_n3(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inx;
-			em->Jpy_n3(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = iny;
-			em->Jpz_n3(pt_glb->xS + x - 1, pt_glb->yS + y - 1, pt_glb->zS + z - 1) = inz;
+			em->Jpx_n3(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inx;
+			em->Jpy_n3(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = iny;
+			em->Jpz_n3(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = inz;
 		}
 	}
 	file3.close();
@@ -615,6 +619,8 @@ void inoutput::output_Eem(unsigned long long int& nstep, EMdynamic_system* pt_em
 		nstep,
 		pt_geo->xS, pt_geo->yS, pt_geo->zS,
 		pt_geo->xE, pt_geo->yE, pt_geo->zE,
+		// 0, 0, 0,
+		// nx, ny, nz,
 		pt_geo->dx, pt_geo->dy, pt_geo->dz,
 		"Eem", "Eem", 0);
 }
@@ -719,31 +725,64 @@ void inoutput::output_em_onecell(unsigned long long int& nstep, EMdynamic_system
 }
 
 void inoutput::output_strain(unsigned long long int& nstep, elastic_system* pt_elasto) {
-	std::string filename = "strain." + std::to_string(nstep) + ".dat";
 
-	FILE* pt_file;
-	pt_file = fopen(filename.c_str(), "w");
-
-	double exx, eyy, ezz, eyz, exz, exy;
+	matrix3d<double> exx, eyy, ezz, eyz, exz, exy;
+	exx.initialize(nx, ny, nz);
+	eyy.initialize(nx, ny, nz);
+	ezz.initialize(nx, ny, nz);
+	eyz.initialize(nx, ny, nz);
+	exz.initialize(nx, ny, nz);
+	exy.initialize(nx, ny, nz);
 
 	for (long int i = 0; i < nx; i++) {
 		for (long int j = 0; j < ny; j++) {
 			for (long int k = 0; k < nz; k++) {
 
-				exx = pt_elasto->exxt0_glb(i, j, k) + pt_elasto->Dexx_glb(i, j, k);
-				eyy = pt_elasto->eyyt0_glb(i, j, k) + pt_elasto->Deyy_glb(i, j, k);
-				ezz = pt_elasto->ezzt0_glb(i, j, k) + pt_elasto->Dezz_glb(i, j, k);
-				eyz = pt_elasto->eyzt0_glb(i, j, k) + pt_elasto->Deyz_glb(i, j, k);
-				exz = pt_elasto->exzt0_glb(i, j, k) + pt_elasto->Dexz_glb(i, j, k);
-				exy = pt_elasto->exyt0_glb(i, j, k) + pt_elasto->Dexy_glb(i, j, k);
-
-				fprintf(pt_file, "%ld  %ld  %ld  %.7e  %.7e  %.7e  %.7e  %.7e  %.7e\n", \
-					i + 1, j + 1, k + 1, exx, eyy, ezz, eyz, exz, exy);
+				exx(i, j, k) = pt_elasto->exxt0_glb(i, j, k) + pt_elasto->Dexx_glb(i, j, k);
+				eyy(i, j, k) = pt_elasto->eyyt0_glb(i, j, k) + pt_elasto->Deyy_glb(i, j, k);
+				ezz(i, j, k) = pt_elasto->ezzt0_glb(i, j, k) + pt_elasto->Dezz_glb(i, j, k);
+				eyz(i, j, k) = pt_elasto->eyzt0_glb(i, j, k) + pt_elasto->Deyz_glb(i, j, k);
+				exz(i, j, k) = pt_elasto->exzt0_glb(i, j, k) + pt_elasto->Dexz_glb(i, j, k);
+				exy(i, j, k) = pt_elasto->exyt0_glb(i, j, k) + pt_elasto->Dexy_glb(i, j, k);
 			}
 		}
 	}
 
-	fclose(pt_file);
+	saveVTK_Scalar(exx, nstep, \
+		pt_geo->xS, pt_geo->yS, pt_geo->zS, \
+		pt_geo->xE, pt_geo->yE, pt_geo->zE, \
+		pt_geo->dx, pt_geo->dy, pt_geo->dz, \
+		"strain", "exx", 0);
+
+	saveVTK_Scalar(eyy, nstep, \
+		pt_geo->xS, pt_geo->yS, pt_geo->zS, \
+		pt_geo->xE, pt_geo->yE, pt_geo->zE, \
+		pt_geo->dx, pt_geo->dy, pt_geo->dz, \
+		"strain", "eyy", 1);
+
+	saveVTK_Scalar(ezz, nstep, \
+		pt_geo->xS, pt_geo->yS, pt_geo->zS, \
+		pt_geo->xE, pt_geo->yE, pt_geo->zE, \
+		pt_geo->dx, pt_geo->dy, pt_geo->dz, \
+		"strain", "ezz", 1);
+
+	saveVTK_Scalar(eyz, nstep, \
+		pt_geo->xS, pt_geo->yS, pt_geo->zS, \
+		pt_geo->xE, pt_geo->yE, pt_geo->zE, \
+		pt_geo->dx, pt_geo->dy, pt_geo->dz, \
+		"strain", "eyz", 1);
+
+	saveVTK_Scalar(exz, nstep, \
+		pt_geo->xS, pt_geo->yS, pt_geo->zS, \
+		pt_geo->xE, pt_geo->yE, pt_geo->zE, \
+		pt_geo->dx, pt_geo->dy, pt_geo->dz, \
+		"strain", "exz", 1);
+
+	saveVTK_Scalar(exy, nstep, \
+		pt_geo->xS, pt_geo->yS, pt_geo->zS, \
+		pt_geo->xE, pt_geo->yE, pt_geo->zE, \
+		pt_geo->dx, pt_geo->dy, pt_geo->dz, \
+		"strain", "exy", 1);
 }
 
 void inoutput::output_straint0(unsigned long long int& nstep, elastic_system* pt_elasto) {

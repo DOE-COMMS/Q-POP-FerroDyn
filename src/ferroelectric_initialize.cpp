@@ -14,9 +14,16 @@ void ferroelectric_system::initialize_host() {
 	nz = pt_geo->nz_system;
 
 	n = nx * ny * nz;
-	nz21 = nz / 2 + 1;
+nz21 = nz / 2 + 1;
 	scalenn = 1. / static_cast<double>(n);
 
+	nx_phy = pt_geo->nx_phy;
+	ny_phy = pt_geo->ny_phy;
+	nz_phy = pt_geo->nz_phy;
+
+	xS = pt_geo->xS; yS = pt_geo->yS; zS = pt_geo->zS;
+	xE = pt_geo->xE; yE = pt_geo->yE; zE = pt_geo->zE;
+	
 	dx = pt_geo->dx;
 	dy = pt_geo->dy;
 	dz = pt_geo->dz;

@@ -1,12 +1,12 @@
 NVCC = nvc++
 
 INCFLAGS =  -I./include
-CFLAGS = -acc -Wall -O3 -fast -gpu=cc80,cuda11.5
+CFLAGS = -acc -Wall -fast -gpu=cc80,cuda11.5
 
 MATHLIB = -cudalib=cufft,curand
 
 SOURCES := $(wildcard src/*.cpp)
-HEADERS := $(wildcard src/*.h)
+HEADERS := $(wildcard include/*.h)
 OBJECTS := $(patsubst %.cpp, %.o, $(SOURCES))
 MAIN    := src/main.o
 

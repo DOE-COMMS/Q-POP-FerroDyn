@@ -26,6 +26,9 @@ int main() {
 	// read simulation setting
 	_GLB.read_global();
 	_GLB.copy_to_device();
+	
+	_GEO.loggeo();
+	_GLB.log_global();
 
 	// set system size
 	_IO.get_dimension(_GEO.nx_system, _GEO.ny_system, _GEO.nz_system, &(geometry_parameters::geo), &(global_parameters::glb));
@@ -44,9 +47,6 @@ int main() {
 	mag.initialize_host(/*&elasto, &em*/);
 	elasto.initialize_host(/*&mag, &fe*/);
 	em.initialize_host(/*&mag, &fe*/);
-
-	_GEO.loggeo();
-	_GLB.log_global();
 
 	_IO.output_matcell(nstep);
 

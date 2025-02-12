@@ -179,7 +179,7 @@ public:
 	unsigned int Jf_input_type;
 	unsigned long Jfin_xi, Jfin_yi, Jfin_zi;
 	unsigned long Jfin_xf, Jfin_yf, Jfin_zf;
-	char Jf_input_component;
+	char Jf_input_component = 'x';
 	double Jf_input_amp, Jf_input_freq;
 	unsigned long num_Jf_cycles;
 	double Jf_rotate_xy;

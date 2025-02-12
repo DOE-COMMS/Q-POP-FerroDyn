@@ -34,20 +34,6 @@ void geometry_parameters::set_geometry() {
 		std::cout << "Layer thickness sums to " << nz_work << ", which exceeds length of the system nz=" << nz_system << std::endl;
 		exit(1);
 	}
-
-	set_PML();
-
-	idxi_work = static_cast<long int>((nx_system - nx_work) / 2) + 1;
-	idxf_work = idxi_work + nx_work - 1;
-	idyi_work = static_cast<long int>((ny_system - ny_work) / 2) + 1;
-	idyf_work = idyi_work + ny_work - 1;
-	//idzi_work = static_cast<long int>((nz_system - nz_work) / 2) + 1;
-	//idzf_work = idzi_work + nz_work - 1;
-	idzi_work = (if_PML_Zs? PML_size : 0) + 1;
-	idzf_work = idzi_work + nz_work - 1;
-
-	idxi_work = idxi_work - 1; idyi_work = idyi_work - 1; idzi_work = idzi_work - 1;
-	idxf_work = idxf_work - 1; idyf_work = idyf_work - 1; idzf_work = idzf_work - 1;
 }
 
 void geometry_parameters::set_PML()
@@ -55,7 +41,7 @@ void geometry_parameters::set_PML()
 	if (if_PML == false)
 	{
 		PML_size = 0;
-		PML_materialType = 0;
+		PML_materialType = 1;
 
 		if_PML_Xs = false;
 		if_PML_Xe = false;
@@ -63,6 +49,10 @@ void geometry_parameters::set_PML()
 		if_PML_Ye = false;
 		if_PML_Zs = false;
 		if_PML_Ze = false;
+
+		periodicX_EM = periodicX;
+		periodicY_EM = periodicY;
+		periodicZ_EM = periodicZ;
 
 		xS = 0;
 		xE = nx_system;
@@ -72,30 +62,25 @@ void geometry_parameters::set_PML()
 
 		zS = 0;
 		zE = nz_system;
+
+		nx_phy = nx_system;
+		ny_phy = ny_system;
+		nz_phy = nz_system;
+
+		idxi_work = static_cast<long int>((nx_system - nx_work) / 2) + 1;
+		idxf_work = idxi_work + nx_work - 1;
+		idyi_work = static_cast<long int>((ny_system - ny_work) / 2) + 1;
+		idyf_work = idyi_work + ny_work - 1;
+		//idzi_work = static_cast<long int>((nz_system - nz_work) / 2) + 1;
+		//idzf_work = idzi_work + nz_work - 1;
+		idzi_work = 1;
+		idzf_work = idzi_work + nz_work - 1;
+
+		idxi_work = idxi_work - 1; idyi_work = idyi_work - 1; idzi_work = idzi_work - 1;
+		idxf_work = idxf_work - 1; idyf_work = idyf_work - 1; idzf_work = idzf_work - 1;
 	}
 	else
 	{
-		if (periodicX && (if_PML_Xs || if_PML_Xe))
-		{
-			std::cout << "Cannot have PML and periodicity both in X direction. Defaulting to periodic." << std::endl;
-			if_PML_Xs = false;
-			if_PML_Xe = false;
-		}
-
-		if (periodicY && (if_PML_Ys || if_PML_Ye))
-		{
-			std::cout << "Cannot have PML and periodicity both in Y direction. Defaulting to periodic." << std::endl;
-			if_PML_Ys = false;
-			if_PML_Ye = false;
-		}
-
-		if (periodicZ && (if_PML_Zs || if_PML_Ze))
-		{
-			std::cout << "Cannot have PML and periodicity both in Z direction. Defaulting to periodic." << std::endl;
-			if_PML_Zs = false;
-			if_PML_Ze = false;
-		}
-
 		if (if_PML_Xs == false && if_PML_Xe == false \
 			&& if_PML_Ys == false && if_PML_Ye == false \
 			&& if_PML_Zs == false && if_PML_Ze == false)
@@ -103,22 +88,37 @@ void geometry_parameters::set_PML()
 			if_PML = false;
 		}
 
-		if (if_PML_Xs || if_PML_Xe)
-		{
+		if (if_PML_Xs || if_PML_Xe){
 			if_PML_Xs = true;
 			if_PML_Xe = true;
+			periodicX_EM = false;
+		}
+		else {
+			if_PML_Xs = false;
+			if_PML_Xe = false;
+			periodicX_EM = periodicX;
 		}
 
-		if (if_PML_Ys || if_PML_Ye)
-		{
+		if (if_PML_Ys || if_PML_Ye){
 			if_PML_Ys = true;
 			if_PML_Ye = true;
+			periodicY_EM = false;
+		}
+		else {
+			if_PML_Ys = false;
+			if_PML_Ye = false;
+			periodicY_EM = periodicY;
 		}
 
-		if (if_PML_Zs || if_PML_Ze)
-		{
+		if (if_PML_Zs || if_PML_Ze) {
 			if_PML_Zs = true;
 			if_PML_Ze = true;
+			periodicZ_EM = false;
+		}
+		else {
+			if_PML_Zs = false;
+			if_PML_Ze = false;
+			periodicZ_EM = periodicZ;
 		}
 
 		xS = (if_PML_Xs ? PML_size : 0);
@@ -130,6 +130,10 @@ void geometry_parameters::set_PML()
 		zS = (if_PML_Zs ? PML_size : 0);
 		zE = (if_PML_Zs ? nz_system + PML_size : nz_system);
 
+		nx_phy = nx_system;
+		ny_phy = ny_system;
+		nz_phy = nz_system;
+		
 		if (if_PML_Xs)
 			nx_system += PML_size;
 		if (if_PML_Xe)
@@ -144,11 +148,18 @@ void geometry_parameters::set_PML()
 			nz_system += PML_size;
 		if (if_PML_Ze)
 			nz_system += PML_size;
-	}
 
-	nx_phy = nx_system - (if_PML_Xs ? PML_size : 0) - (if_PML_Xe ? PML_size : 0);
-	ny_phy = ny_system - (if_PML_Ys ? PML_size : 0) - (if_PML_Ye ? PML_size : 0);
-	nz_phy = nz_system - (if_PML_Zs ? PML_size : 0) - (if_PML_Ze ? PML_size : 0);
+		idxi_work = static_cast<long int>((nx_system - nx_work) / 2) + 1;
+		idxf_work = idxi_work + nx_work - 1;
+		idyi_work = static_cast<long int>((ny_system - ny_work) / 2) + 1;
+		idyf_work = idyi_work + ny_work - 1;
+
+		idzi_work = (if_PML_Zs ? PML_size : 0) + 1;
+		idzf_work = idzi_work + nz_work - 1;
+
+		idxi_work = idxi_work - 1; idyi_work = idyi_work - 1; idzi_work = idzi_work - 1;
+		idxf_work = idxf_work - 1; idyf_work = idyf_work - 1; idzf_work = idzf_work - 1;
+	}
 }
 
 void geometry_parameters::copy_to_device() {

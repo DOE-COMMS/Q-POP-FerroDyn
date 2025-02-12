@@ -904,36 +904,60 @@ void geometry_parameters::readgeo() {
 					if (varValues[0] == "TRUE") if_PML = true;
 					else if (varValues[0] == "FALSE") if_PML = false;
 				}
-				else if (varName == "PML_DIRECTIONS" && if_PML) {
-					if (varValues[0] == "TRUE") if_PML_Xs = true;
-					else if (varValues[0] == "FALSE") if_PML_Xs = false;
+				else if (varName == "PML_DIRECTIONS") {
+					if (true == if_PML) {
 
-					if (varValues[1] == "TRUE") if_PML_Xe = true;
-					else if (varValues[1] == "FALSE") if_PML_Xe = false;
+						if (varValues[0] == "TRUE") if_PML_Xs = true;
+						else if (varValues[0] == "FALSE") if_PML_Xs = false;
 
-					if (varValues[2] == "TRUE") if_PML_Ys = true;
-					else if (varValues[2] == "FALSE") if_PML_Ys = false;
+						if (varValues[1] == "TRUE") if_PML_Xe = true;
+						else if (varValues[1] == "FALSE") if_PML_Xe = false;
 
-					if (varValues[3] == "TRUE") if_PML_Ye = true;
-					else if (varValues[3] == "FALSE") if_PML_Ye = false;
+						if (varValues[2] == "TRUE") if_PML_Ys = true;
+						else if (varValues[2] == "FALSE") if_PML_Ys = false;
 
-					if (varValues[4] == "TRUE") if_PML_Zs = true;
-					else if (varValues[4] == "FALSE") if_PML_Zs = false;
+						if (varValues[3] == "TRUE") if_PML_Ye = true;
+						else if (varValues[3] == "FALSE") if_PML_Ye = false;
 
-					if (varValues[5] == "TRUE") if_PML_Ze = true;
-					else if (varValues[5] == "FALSE") if_PML_Ze = false;
+						if (varValues[4] == "TRUE") if_PML_Zs = true;
+						else if (varValues[4] == "FALSE") if_PML_Zs = false;
+
+						if (varValues[5] == "TRUE") if_PML_Ze = true;
+						else if (varValues[5] == "FALSE") if_PML_Ze = false;
+					}
+					else {
+						if_PML_Xs = false;
+						if_PML_Xe = false;
+						if_PML_Ys = false;
+						if_PML_Ye = false;
+						if_PML_Zs = false;
+						if_PML_Ze = false;
+					}
 				}
-				else if (varName == "PML_SIZE" && if_PML) {
-					PML_size = std::stoi(varValues[0]);
+				
+				else if (varName == "PML_SIZE") {
+					if (true == if_PML)
+						PML_size = std::stoi(varValues[0]);
+					else
+						PML_size = 0;
 				}
-				else if (varName == "PML_MATERIAL_TYPE" && if_PML) {
-					PML_materialType = std::stoi(varValues[0]);
+				else if (varName == "PML_MATERIAL_TYPE") {
+					if (true == if_PML)
+						PML_materialType = std::stoi(varValues[0]);
+					else
+						PML_materialType = 0;
 				}
-				else if (varName == "PML_KAPPA_MAX" && if_PML) {
-					kappaMax = std::stod(varValues[0]);
+				else if (varName == "PML_KAPPA_MAX") {
+					if (true == if_PML)
+						kappaMax = std::stod(varValues[0]);
+					else
+						kappaMax = 0;
 				}
-				else if (varName == "PML_M" && if_PML) {
-					PML_m = std::stod(varValues[0]);
+				else if (varName == "PML_M") {
+					if (true == if_PML)
+						PML_m = std::stod(varValues[0]);
+					else
+						PML_m = 0;
 				}
 			}
 		}
@@ -995,7 +1019,7 @@ void global_parameters::read_struct() {
 		for (unsigned long i = 0; i < nx * ny * nz; i++)
 		{
 			file >> x >> y >> z >> id;
-			material_cell(x - 1, y - 1, z - 1) = id;
+			material_cell(pt_geo->xS + x - 1, pt_geo->yS + y - 1, pt_geo->zS + z - 1) = id;
 		}
 	}
 	file.close();
@@ -1123,26 +1147,12 @@ void global_parameters::log_global() {
 	logFile << "if_PEC_Z: " << std::boolalpha << if_PEC_Z << std::endl;
 	logFile << "weighting_factor_fourth_Liao: " << weighting_factor_fourth_Liao << std::endl;
 
-	logFile << "if_PML: " << std::boolalpha << if_PML << std::endl;
-	logFile << "if_PML_Xs: " << std::boolalpha << if_PML_Xs << std::endl;
-	logFile << "if_PML_Xe: " << std::boolalpha << if_PML_Xe << std::endl;
-	logFile << "if_PML_Ys: " << std::boolalpha << if_PML_Ys << std::endl;
-	logFile << "if_PML_Ye: " << std::boolalpha << if_PML_Ye << std::endl;
-	logFile << "if_PML_Zs: " << std::boolalpha << if_PML_Zs << std::endl;
-	logFile << "if_PML_Ze: " << std::boolalpha << if_PML_Ze << std::endl;
-	logFile << "PML_size: " << PML_size << std::endl;
 	logFile << "sigmaMax: " << sigmaMax << std::endl;
 	logFile << "kappaMax: " << kappaMax << std::endl;
 	logFile << "PML_d: " << PML_d << std::endl;
 	logFile << "PML_m: " << PML_m << std::endl;
 	logFile << "eta0: " << eta0 << std::endl;
 	logFile << "maxReflErr: " << maxReflErr << std::endl;
-	logFile << "xS: " << xS << std::endl;
-	logFile << "xE: " << xE << std::endl;
-	logFile << "yS: " << yS << std::endl;
-	logFile << "yE: " << yE << std::endl;
-	logFile << "zS: " << zS << std::endl;
-	logFile << "zE: " << zE << std::endl;
 
 	logFile << "if_flexo: " << std::boolalpha << if_flexo << std::endl;
 
@@ -1227,6 +1237,7 @@ void global_parameters::log_global() {
 }
 
 void geometry_parameters::loggeo() {
+
 	std::ofstream logFile("geometry_parameters.log");
 	if (!logFile.is_open()) {
 		std::cerr << "Unable to open geometry log file." << std::endl;

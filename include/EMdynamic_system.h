@@ -21,10 +21,12 @@ public:
 	class ferroelectric_system *pt_fe;
 	long int nx, ny, nz, n;
 	// nx, ny, nz will change if PML is used
-	// nx_sys, ny_sys, nz_sys will hold the mesh size without PML
-	// Subscript 'sys' indicates that the values are only applicable for the parent class/system
-	// EM Dynamics needs PML
-	long int nx_sys, ny_sys, nz_sys, n_sys;
+	// nx_phy, ny_phy, nz_phy will hold the mesh size without PML
+	// Subscript 'phy' indicates that the values are only applicable for the parent class/system
+	long int nx_phy, ny_phy, nz_phy, PML_size;
+	long int xS, yS, zS, xE, yE, zE;
+	bool if_PML, if_PML_Xs, if_PML_Xe, if_PML_Ys, if_PML_Ye, if_PML_Zs, if_PML_Ze;
+	bool periodicX_EM, periodicY_EM, periodicZ_EM;
 
 	double dx, dy, dz;
 

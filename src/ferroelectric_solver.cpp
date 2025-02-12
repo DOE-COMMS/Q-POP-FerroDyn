@@ -21,10 +21,10 @@ void ferroelectric_system::get_laplacian_p_local\
 		px_bwd = px_center; py_bwd = py_center; pz_bwd = pz_center;
 	}
 	else if (FE_surfYZ(i, j, k) == false) {
-		if (i == pt_geo->xS) {
-			px_bwd = px_glb_store(pt_geo->xE - 1, j, k);
-			py_bwd = py_glb_store(pt_geo->xE - 1, j, k);
-			pz_bwd = pz_glb_store(pt_geo->xE - 1, j, k);
+		if (i == xS) {
+			px_bwd = px_glb_store (xE - 1, j, k);
+			py_bwd = py_glb_store (xE - 1, j, k);
+			pz_bwd = pz_glb_store (xE - 1, j, k);
 		}
 		else {
 			px_bwd = px_glb_store(i - 1, j, k);
@@ -37,10 +37,10 @@ void ferroelectric_system::get_laplacian_p_local\
 		px_fwd = px_center; py_fwd = py_center; pz_fwd = pz_center;
 	}
 	else if (FE_surfYZ(i + 1, j, k) == false) {
-		if (i == pt_geo->xE - 1) {
-			px_fwd = px_glb_store(pt_geo->xS, j, k);
-			py_fwd = py_glb_store(pt_geo->xS, j, k);
-			pz_fwd = pz_glb_store(pt_geo->xS, j, k);
+		if (i == xE - 1) {
+			px_fwd = px_glb_store (xS, j, k);
+			py_fwd = py_glb_store (xS, j, k);
+			pz_fwd = pz_glb_store (xS, j, k);
 		}
 		else {
 			px_fwd = px_glb_store(i + 1, j, k);
@@ -59,10 +59,10 @@ void ferroelectric_system::get_laplacian_p_local\
 		px_bwd = px_center; py_bwd = py_center; pz_bwd = pz_center;
 	}
 	else if (FE_surfXZ(i, j, k) == false) {
-		if (j == pt_geo->yS) {
-			px_bwd = px_glb_store(i, pt_geo->yE - 1, k);
-			py_bwd = py_glb_store(i, pt_geo->yE - 1, k);
-			pz_bwd = pz_glb_store(i, pt_geo->yE - 1, k);
+		if (j == yS) {
+			px_bwd = px_glb_store(i, yE - 1, k);
+			py_bwd = py_glb_store(i, yE - 1, k);
+			pz_bwd = pz_glb_store(i, yE - 1, k);
 		}
 		else {
 			px_bwd = px_glb_store(i, j - 1, k);
@@ -75,10 +75,10 @@ void ferroelectric_system::get_laplacian_p_local\
 		px_fwd = px_center; py_fwd = py_center; pz_fwd = pz_center;
 	}
 	else if (FE_surfXZ(i, j + 1, k) == false) {
-		if (j == pt_geo->yE - 1) {
-			px_fwd = px_glb_store(i, pt_geo->yS, k);
-			py_fwd = py_glb_store(i, pt_geo->yS, k);
-			pz_fwd = pz_glb_store(i, pt_geo->yS, k);
+		if (j == yE - 1) {
+			px_fwd = px_glb_store(i, yS, k);
+			py_fwd = py_glb_store(i, yS, k);
+			pz_fwd = pz_glb_store(i, yS, k);
 		}
 		else {
 			px_fwd = px_glb_store(i, j + 1, k);
@@ -97,10 +97,10 @@ void ferroelectric_system::get_laplacian_p_local\
 		px_bwd = px_center; py_bwd = py_center; pz_bwd = pz_center;
 	}
 	else if (FE_surfXY(i, j, k) == false) {
-		if (k == pt_geo->zS) {
-			px_bwd = px_glb_store(i, j, pt_geo->zE - 1);
-			py_bwd = py_glb_store(i, j, pt_geo->zE - 1);
-			pz_bwd = pz_glb_store(i, j, pt_geo->zE - 1);
+		if (k == zS) {
+			px_bwd = px_glb_store(i, j, zE - 1);
+			py_bwd = py_glb_store(i, j, zE - 1);
+			pz_bwd = pz_glb_store(i, j, zE - 1);
 		}
 		else {
 			px_bwd = px_glb_store(i, j, k - 1);
@@ -113,10 +113,10 @@ void ferroelectric_system::get_laplacian_p_local\
 		px_fwd = px_center; py_fwd = py_center; pz_fwd = pz_center;
 	}
 	else if (FE_surfXY(i, j, k + 1) == false) {
-		if (k == pt_geo->zE - 1) {
-			px_fwd = px_glb_store(i, j, pt_geo->zS);
-			py_fwd = py_glb_store(i, j, pt_geo->zS);
-			pz_fwd = pz_glb_store(i, j, pt_geo->zS);
+		if (k == zE - 1) {
+			px_fwd = px_glb_store(i, j, zS);
+			py_fwd = py_glb_store(i, j, zS);
+			pz_fwd = pz_glb_store(i, j, zS);
 		}
 		else {
 			px_fwd = px_glb_store(i, j, k + 1);
@@ -157,10 +157,10 @@ void ferroelectric_system::get_p_gradient() {
 					pz_bwd = pz_glb_store(id);
 				}
 				else if (FE_surfYZ(i, j, k) == false) {
-					if (i == pt_geo->xS) {
-						px_bwd = px_glb_store(pt_geo->xE - 1, j, k);
-						py_bwd = py_glb_store(pt_geo->xE - 1, j, k);
-						pz_bwd = pz_glb_store(pt_geo->xE - 1, j, k);
+					if (i == xS) {
+						px_bwd = px_glb_store (xE - 1, j, k);
+						py_bwd = py_glb_store (xE - 1, j, k);
+						pz_bwd = pz_glb_store (xE - 1, j, k);
 					}
 					else {
 						px_bwd = px_glb_store(i - 1, j, k);
@@ -175,10 +175,10 @@ void ferroelectric_system::get_p_gradient() {
 					pz_fwd = pz_glb_store(id);
 				}
 				else if (FE_surfYZ(i + 1, j, k) == false) {
-					if (i == pt_geo->xE - 1) {
-						px_fwd = px_glb_store(pt_geo->xS, j, k);
-						py_fwd = py_glb_store(pt_geo->xS, j, k);
-						pz_fwd = pz_glb_store(pt_geo->xS, j, k);
+					if (i == xE - 1) {
+						px_fwd = px_glb_store (xS, j, k);
+						py_fwd = py_glb_store (xS, j, k);
+						pz_fwd = pz_glb_store (xS, j, k);
 					}
 					else {
 						px_fwd = px_glb_store(i + 1, j, k);
@@ -199,10 +199,10 @@ void ferroelectric_system::get_p_gradient() {
 					pz_bwd = pz_glb_store(id);
 				}
 				else if (FE_surfXZ(i, j, k) == false) {
-					if (j == pt_geo->yS) {
-						px_bwd = px_glb_store(i, pt_geo->yE - 1, k);
-						py_bwd = py_glb_store(i, pt_geo->yE - 1, k);
-						pz_bwd = pz_glb_store(i, pt_geo->yE - 1, k);
+					if (j == yS) {
+						px_bwd = px_glb_store(i, yE - 1, k);
+						py_bwd = py_glb_store(i, yE - 1, k);
+						pz_bwd = pz_glb_store(i, yE - 1, k);
 					}
 					else {
 						px_bwd = px_glb_store(i, j - 1, k);
@@ -217,10 +217,10 @@ void ferroelectric_system::get_p_gradient() {
 					pz_fwd = pz_glb_store(id);
 				}
 				else if (FE_surfXZ(i, j + 1, k) == false) {
-					if (j == pt_geo->yE - 1) {
-						px_fwd = px_glb_store(i, pt_geo->yS, k);
-						py_fwd = py_glb_store(i, pt_geo->yS, k);
-						pz_fwd = pz_glb_store(i, pt_geo->yS, k);
+					if (j == yE - 1) {
+						px_fwd = px_glb_store(i, yS, k);
+						py_fwd = py_glb_store(i, yS, k);
+						pz_fwd = pz_glb_store(i, yS, k);
 					}
 					else {
 						px_fwd = px_glb_store(i, j + 1, k);
@@ -241,10 +241,10 @@ void ferroelectric_system::get_p_gradient() {
 					pz_bwd = pz_glb_store(id);
 				}
 				else if (FE_surfXY(i, j, k) == false) {
-					if (k == pt_geo->zS) {
-						px_bwd = px_glb_store(i, j, pt_geo->zE - 1);
-						py_bwd = py_glb_store(i, j, pt_geo->zE - 1);
-						pz_bwd = pz_glb_store(i, j, pt_geo->zE - 1);
+					if (k == zS) {
+						px_bwd = px_glb_store(i, j, zE - 1);
+						py_bwd = py_glb_store(i, j, zE - 1);
+						pz_bwd = pz_glb_store(i, j, zE - 1);
 					}
 					else {
 						px_bwd = px_glb_store(i, j, k - 1);
@@ -259,10 +259,10 @@ void ferroelectric_system::get_p_gradient() {
 					pz_fwd = pz_glb_store(id);
 				}
 				else if (FE_surfXY(i, j, k + 1) == false) {
-					if (k == pt_geo->zE - 1) {
-						px_fwd = px_glb_store(i, j, pt_geo->zS);
-						py_fwd = py_glb_store(i, j, pt_geo->zS);
-						pz_fwd = pz_glb_store(i, j, pt_geo->zS);
+					if (k == zE - 1) {
+						px_fwd = px_glb_store(i, j, zS);
+						py_fwd = py_glb_store(i, j, zS);
+						pz_fwd = pz_glb_store(i, j, zS);
 					}
 					else {
 						px_fwd = px_glb_store(i, j, k + 1);
@@ -347,7 +347,8 @@ void ferroelectric_system::get_dq_RK1() {
 	dezzdx, dezzdy, dezzdz,\
 	deyzdx, deyzdy, deyzdz,\
 	dexzdx, dexzdy, dexzdz,\
-	dexydx, dexydy, dexydz)
+	dexydx, dexydy, dexydz,\
+	)
 		for (long int id = 0; id < n; id++) {
 			i = id / (ny * nz);
 			j = (id - i * (ny * nz)) / nz;

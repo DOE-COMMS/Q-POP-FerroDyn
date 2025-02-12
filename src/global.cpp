@@ -9,6 +9,10 @@ void global_parameters::set_global() {
 	bool if_spinsource_i, if_spinsource_f;
 	double norm_dm;
 
+	if (false == if_EMdynamic) pt_geo->if_PML = false;
+
+	pt_geo->set_PML();
+	
 	nx = pt_geo->nx_system;
 	ny = pt_geo->ny_system;
 	nz = pt_geo->nz_system;
@@ -23,68 +27,52 @@ void global_parameters::set_global() {
 	dy = pt_geo->dy;
 	dz = pt_geo->dz;
 
-	if_PML = pt_geo->if_PML;
-	if_PML_Xs = pt_geo->if_PML_Xs;
-	if_PML_Xe = pt_geo->if_PML_Xe;
-	if_PML_Ys = pt_geo->if_PML_Ys;
-	if_PML_Ye = pt_geo->if_PML_Ye;
-	if_PML_Zs = pt_geo->if_PML_Zs;
-	if_PML_Ze = pt_geo->if_PML_Ze;
+	if (pt_geo->if_PML) {
+		kappaMax = pt_geo->kappaMax;
+		PML_m = pt_geo->PML_m;
 
-	xS = pt_geo->xS;
-	xE = pt_geo->xE;
-	yS = pt_geo->yS;
-	yE = pt_geo->yE;
-	zS = pt_geo->zS;
-	zE = pt_geo->zE;
+		if (pt_geo->PML_materialType > 0 && pt_geo->PML_materialType < num_materials)
+		{
+			mat = &(material_parameters[pt_geo->PML_materialType - 1]);
+			PML_er11 = mat->r_permittivity11;
+			PML_er22 = mat->r_permittivity22;
+			PML_er33 = mat->r_permittivity33;
+		}
+		else
+		{
+			PML_er11 = 1.;
+			PML_er22 = 1.;
+			PML_er33 = 1.;
+		}
 
-	PML_size = pt_geo->PML_size;
-	PML_materialType = pt_geo->PML_materialType;
-	
-	kappaMax = pt_geo->kappaMax;
-	PML_m = pt_geo->PML_m;
+		eta0 = sqrt(mu0 / e0 * ((PML_er11 + PML_er22 + PML_er33) / 3.0));
+		maxReflErr = exp(-16);
 
-	if (PML_materialType > 0 && PML_materialType < num_materials)
-	{
-		mat = &(material_parameters[PML_materialType - 1]);
-		PML_er11 = mat->r_permittivity11;
-		PML_er22 = mat->r_permittivity22;
-		PML_er33 = mat->r_permittivity33;
-	}
-	else
-	{
-		PML_er11 = 1.;
-		PML_er22 = 1.;
-		PML_er33 = 1.;
-	}
-	
-	eta0 = sqrt(mu0 / e0 * ((PML_er11 + PML_er22 + PML_er33) / 3.0));
-	maxReflErr = exp(-16);
+		if (pt_geo->PML_size != 0)
+			sigmaMax = -(PML_m + 1.0) * log(maxReflErr) / (2.0 * pt_geo->PML_size * eta0 * (dx + dy + dz) / 3.0);
+		else
+			sigmaMax = 0.0;
 
-	if (PML_size != 0)
-		sigmaMax = -(PML_m + 1.0) * log(maxReflErr) / (2.0 * PML_size * eta0 * (dx + dy + dz)/3.0);
-	else
-		sigmaMax = 0.0;
-	
-	if (pt_geo->if_PML_Xs)
-	{
-		Jfin_xi += pt_geo->PML_size;
-		Jfin_xf += pt_geo->PML_size;
+		if (pt_geo->if_PML_Xs)
+		{
+			Jfin_xi += pt_geo->PML_size;
+			Jfin_xf += pt_geo->PML_size;
+		}
+
+		if (pt_geo->if_PML_Ys)
+		{
+			Jfin_yi += pt_geo->PML_size;
+			Jfin_yf += pt_geo->PML_size;
+		}
+
+		if (pt_geo->if_PML_Zs)
+		{
+			Jfin_zi += pt_geo->PML_size;
+			Jfin_zf += pt_geo->PML_size;
+		}
 	}
 
-	if (pt_geo->if_PML_Ys)
-	{
-		Jfin_yi += pt_geo->PML_size;
-		Jfin_yf += pt_geo->PML_size;
-	}
-
-	if (pt_geo->if_PML_Zs)
-	{
-		Jfin_zi += pt_geo->PML_size;
-		Jfin_zf += pt_geo->PML_size;
-	}
-		
-		Hext[0] = 0.; Hext[1] = 0.; Hext[2] = 0.;
+	Hext[0] = 0.; Hext[1] = 0.; Hext[2] = 0.;
 	Eext[0] = 0.; Eext[1] = 0.; Eext[2] = 0.;
 
 	//---------Designate Material Type for each layer-----------//
@@ -178,12 +166,10 @@ void global_parameters::set_global() {
 	if_periodic_allsurface = false;
 	if (pt_geo->periodicX == true && pt_geo->periodicY == true && pt_geo->periodicZ == true) {
 		if_periodic_allsurface = true;
-		//pt_geo->if_PML = false;
-		//if_PML = false;
 	}
 
 	/* Prioritize PML over ABC */
-	if (if_PML == true)
+	if (pt_geo->if_PML == true && if_EMdynamic == true)
 	{
 		if_1D_ABC = false;
 		if_1D_ABC_ELAST_onlytop = false;
@@ -191,9 +177,9 @@ void global_parameters::set_global() {
 	}
 
 	//---------Initialization for surface free charge density----------//
-	if(if_PML_Zs) {
-		free_charge_nzi += PML_size;
-		free_charge_nzf += PML_size;
+	if(pt_geo->if_PML_Zs && pt_geo->if_PML) {
+		free_charge_nzi += pt_geo->PML_size;
+		free_charge_nzf += pt_geo->PML_size;
 	}
 	free_charge_surfaces = new double[nz + 1];
 	free_charge_cells = new double[nz];
@@ -231,11 +217,11 @@ void global_parameters::set_global() {
 		id_zf = pt_geo->idzi_work - 1;
 		for (unsigned int id = 0; id < pt_geo->num_layer; id++) {
 			id_zi = id_zf + 1; id_zf = id_zi + pt_geo->pt_nz_layer[id] - 1;
-			mat_type = material_cell(if_PML_Xs?PML_size:0, if_PML_Ys?PML_size:0, id_zi);
+			mat_type = material_cell(pt_geo->if_PML_Xs? pt_geo->PML_size:0, pt_geo->if_PML_Ys? pt_geo->PML_size:0, id_zi);
 			mat = &(material_parameters[(mat_type)-1]);
 			if (mat->if_spin_pump == true) {
-				if (id_zi != (if_PML_Zs?PML_size:0)) {
-					mat_typei = material_cell(if_PML_Xs?PML_size:0, if_PML_Ys?PML_size:0, id_zi - 1);
+				if (id_zi != (pt_geo->if_PML_Zs? pt_geo->PML_size:0)) {
+					mat_typei = material_cell(pt_geo->if_PML_Xs? pt_geo->PML_size:0, pt_geo->if_PML_Ys? pt_geo->PML_size:0, id_zi - 1);
 					if (mat_typei != 0) {
 						mati = &(material_parameters[(mat_typei)-1]);
 						if (mati->if_FM == true || mati->if_AFM == true) {
@@ -253,8 +239,8 @@ void global_parameters::set_global() {
 					if_spinsource_i = false;
 				}
 
-				if (id_zf != nz - (if_PML_Ze?PML_size+1:1)) {
-					mat_typef = material_cell(if_PML_Xs?PML_size:0, if_PML_Ys?PML_size:0, id_zf + 1);
+				if (id_zf != nz - (pt_geo->if_PML_Ze? pt_geo->PML_size+1:1)) {
+					mat_typef = material_cell(pt_geo->if_PML_Xs? pt_geo->PML_size:0, pt_geo->if_PML_Ys? pt_geo->PML_size:0, id_zf + 1);
 					if (mat_typef != 0) {
 						matf = &(material_parameters[(mat_typef)-1]);
 						if (matf->if_FM == true || matf->if_AFM == true) {
@@ -367,7 +353,6 @@ void global_parameters::set_global() {
 			}
 		}
 	}
-
 }
 
 void global_parameters::check_material(material& mat) {
@@ -408,6 +393,7 @@ void global_parameters::check_material(material& mat) {
 
 		mat.F11 = 0.; mat.F12 = 0.; mat.F44 = 0.;
 	}
+
 	mat.comp_n1 = mat.comp_n1 / (mat.comp_n1 + mat.comp_n2 + mat.comp_n3);
 	mat.comp_n2 = mat.comp_n2 / (mat.comp_n1 + mat.comp_n2 + mat.comp_n3);
 	mat.comp_n3 = mat.comp_n3 / (mat.comp_n1 + mat.comp_n2 + mat.comp_n3);
